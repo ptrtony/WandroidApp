@@ -14,7 +14,6 @@ class RetrofitFactory private constructor(){
             RetrofitFactory()
         }
     }
-
     private val retrofit:Retrofit
     private val interceptor:Interceptor
     init {

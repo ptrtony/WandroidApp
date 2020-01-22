@@ -10,13 +10,13 @@ public class RegisterResp {
      * collectIds : []
      * email :
      * icon :
-     * id : 42519
-     * nickname : cjq1993
+     * id : 42539
+     * nickname : cjq123
      * password :
-     * publicName : cjq1993
+     * publicName : cjq123
      * token :
      * type : 0
-     * username : cjq1993
+     * username : cjq123
      */
 
     public boolean admin;
@@ -31,4 +31,5 @@ public class RegisterResp {
     public String username;
     public List<?> chapterTops;
     public List<?> collectIds;
+
 }

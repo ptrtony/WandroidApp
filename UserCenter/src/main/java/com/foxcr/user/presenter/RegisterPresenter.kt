@@ -1,37 +1,34 @@
 package com.foxcr.user.presenter
 
 import android.annotation.SuppressLint
+import com.foxcr.base.ext.ioToUI
 import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.base.rx.AndroidSchedulers
-import com.foxcr.base.rx.BaseException
 import com.foxcr.user.presenter.view.RegisterView
 import com.foxcr.user.service.impl.UserServiceImpl
-import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class RegisterPresenter : BasePresenter<RegisterView>() {
+class RegisterPresenter @Inject constructor(): BasePresenter<RegisterView>() {
+    @Inject
+    lateinit var userRegister:UserServiceImpl
     @SuppressLint("CheckResult")
     fun register(username:String, password:String, repassword:String){
         /*
             业务逻辑
          */
         mView.showLoading()
-        val userRegister = UserServiceImpl()
         userRegister.register(username,password,repassword)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .ioToUI()
+            .compose(lifecycleProvider.bindToLifecycle())
             .subscribe({
                 mView.hideLoading()
-                if (null!=it){
-                    mView.onRegisterResult(it)
+                if (it.errorCode == 0){
+                    mView.onRegisterResult(it.data)
+                }else{
+                    mView.onErrorMsg(it.errorMsg)
                 }
             },{
                 mView.hideLoading()
-                if (it is BaseException){
-                    mView.onErrorMsg(it.errorMsg)
-                }else {
-                    mView.onErrorMsg(it.message.toString())
-                }
+                mView.onErrorMsg(it.message.toString())
             })
-
     }
 }

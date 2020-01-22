@@ -20,12 +20,11 @@ class LoadingDialog constructor(context: Context):Dialog(context,R.style.Loading
         setCanceledOnTouchOutside(false)
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.layout_loading_dialog,null)
-
         setContentView(view)
         mLoadingImage = view.findViewById(R.id.mLoadingIv)
     }
 
-    override fun show() {
+    fun showDialog() {
         super.show()
         val animation = AnimationUtils.loadAnimation(context,R.anim.anim_loading)
         animation.interpolator = LinearInterpolator()
@@ -34,9 +33,8 @@ class LoadingDialog constructor(context: Context):Dialog(context,R.style.Loading
     }
 
 
-    override fun cancel() {
+     fun cancelDialog() {
         super.cancel()
-        mLoadingImage.clearAnimation()
     }
 
 

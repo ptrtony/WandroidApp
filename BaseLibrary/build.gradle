@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
@@ -24,7 +25,6 @@ android {
     }
 
 
-
 }
 
 dependencies {
@@ -35,9 +35,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    api "io.reactivex:rxkotlin:1.0.0"
-    api "io.reactivex:rxandroid:1.2.1"
-    api "io.reactivex.rxjava2:rxjava:2.2.8"
+    api "io.reactivex.rxjava2:rxjava:2.2.12"
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
     api "com.squareup.retrofit2:retrofit:2.5.0"
     api "com.squareup.retrofit2:converter-gson:2.5.0"
     api "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
@@ -45,4 +45,9 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:3.14.1"
     api "com.google.code.gson:gson:2.8.5"
     api "com.squareup.okhttp3:logging-interceptor:3.11.0"
+    api "com.google.dagger:dagger:${dagger2_version}"
+    kapt "com.google.dagger:dagger-compiler:${dagger2_version}"
+    api 'com.trello.rxlifecycle3:rxlifecycle:3.1.0'
+    api 'com.trello.rxlifecycle3:rxlifecycle-kotlin:3.1.0'
+    api 'com.trello.rxlifecycle3:rxlifecycle-components:3.1.0'
 }
