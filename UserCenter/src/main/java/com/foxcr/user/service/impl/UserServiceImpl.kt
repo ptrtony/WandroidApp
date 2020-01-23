@@ -1,6 +1,5 @@
 package com.foxcr.user.service.impl
-
-import com.foxcr.base.data.protocal.BaseResp
+import com.foxcr.user.data.protocal.LoginResp
 import com.foxcr.user.data.protocal.RegisterResp
 import com.foxcr.user.data.repository.UserRepository
 import com.foxcr.user.service.UserService
@@ -15,8 +14,12 @@ class UserServiceImpl @Inject constructor():UserService {
         username: String,
         password: String,
         repassword: String
-    ): Observable<BaseResp<RegisterResp>> {
+    ): Observable<RegisterResp> {
         return userRepository.register(username, password, repassword)
+    }
+
+    override fun login(username: String, password: String): Observable<LoginResp> {
+        return userRepository.login(username,password)
     }
 
 

@@ -3,10 +3,10 @@
     package="com.foxcr.user">
 
     <application>
+        <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity
             android:name=".ui.activity.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

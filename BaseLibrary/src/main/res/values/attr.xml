@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HeaderBar">
+        <attr name="isShowBack" format="boolean"/>
+        <attr name="titleText" format="string"/>
+        <attr name="rightText" format="string"/>
+    </declare-styleable>
+</resources>

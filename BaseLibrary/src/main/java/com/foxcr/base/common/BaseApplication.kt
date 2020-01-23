@@ -1,6 +1,8 @@
 package com.foxcr.base.common
 
 import android.app.Application
+import android.os.Debug
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.injection.component.AppComponent
 import com.foxcr.base.injection.component.DaggerAppComponent
 import com.foxcr.base.injection.module.AppModule
@@ -11,6 +13,9 @@ class BaseApplication :Application(){
     override fun onCreate() {
         super.onCreate()
         ToastUtils.init(this)
+        ARouter.openLog()
+        ARouter.openDebug()
+        ARouter.init(this)
         initApplicationInjection()
     }
 

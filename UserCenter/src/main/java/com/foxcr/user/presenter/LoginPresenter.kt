@@ -4,35 +4,38 @@ import android.annotation.SuppressLint
 import com.foxcr.base.ext.ioToUI
 import com.foxcr.base.ext.netException
 import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.user.presenter.view.RegisterView
+import com.foxcr.user.presenter.view.LoginView
 import com.foxcr.user.service.impl.UserServiceImpl
 import javax.inject.Inject
 
-class RegisterPresenter @Inject constructor() : BasePresenter<RegisterView>() {
+class LoginPresenter @Inject constructor():BasePresenter<LoginView>(){
 
     @Inject
-    lateinit var userRegister: UserServiceImpl
+    lateinit var userService: UserServiceImpl
 
     @SuppressLint("CheckResult")
-    fun register(username: String, password: String, repassword: String) {
-
-        if (!checkNetWork()) {
+    fun login(username:String, password:String){
+        if (!checkNetWork()){
             return
         }
 
-        /*
-            业务逻辑
-         */
         mView.showLoading()
-        userRegister.register(username, password, repassword)
-            .ioToUI()
+        /*
+            登录
+         */
+        userService.login(username, password)
             .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
             .subscribe({
-                mView.hideLoading()
-                mView.onRegisterResult(it)
-            }, {
+                if (null != it){
+                    mView.hideLoading()
+                    mView.onLoginResult(it)
+                }
+            },{
                 mView.hideLoading()
                 it.netException(mView)
             })
+
+
     }
 }

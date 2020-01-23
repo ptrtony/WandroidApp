@@ -27,7 +27,6 @@ class NetWorkUtil {
          * @param context
          * @return
          */
-        @JvmStatic
         fun isNetworkAvailable(context: Context): Boolean {
             val manager = context.applicationContext.getSystemService(
                     Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -52,7 +51,6 @@ class NetWorkUtil {
          *
          * @return
          */
-        @JvmStatic
         fun getLocalIpAddress(): String {
             var ret = ""
             try {
@@ -79,7 +77,6 @@ class NetWorkUtil {
          *
          * @return
          */
-        @JvmStatic
         private fun pingNetWork(): Boolean {
             var result = false
             var httpUrl: HttpURLConnection? = null
@@ -104,7 +101,6 @@ class NetWorkUtil {
          * @param context
          * @return boolean
          */
-        @JvmStatic
         fun is3G(context: Context): Boolean {
             val connectivityManager = context
                     .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -118,7 +114,6 @@ class NetWorkUtil {
          * @param context
          * @return boolean
          */
-        @JvmStatic
         fun isWifi(context: Context): Boolean {
             val connectivityManager = context
                     .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -132,7 +127,6 @@ class NetWorkUtil {
          * @param context
          * @return boolean
          */
-        @JvmStatic
         fun is2G(context: Context): Boolean {
             val connectivityManager = context
                     .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -145,7 +139,7 @@ class NetWorkUtil {
         /**
          * is wifi on
          */
-        @JvmStatic
+
         fun isWifiEnabled(context: Context): Boolean {
             val mgrConn = context
                     .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ui.activity.RegisterActivity">
+    tools:context=".ui.activity.LoginActivity">
 
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->
@@ -26,9 +26,8 @@
     <com.foxcr.base.widgets.HeaderBar
         android:id="@+id/mTitleBarHb"
         style="@style/MatchWrap"
-        app:isShowBack="false"
-        app:titleText="注册"
-        app:rightText="登录"/>
+        app:isShowBack="true"
+        app:titleText="登陆"/>
 
 
 
@@ -44,18 +43,11 @@
         android:layout_height="wrap_content"
         android:hint="请输入密码"/>
 
-    <EditText
-        android:id="@+id/mRePwdEtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请重新输入密码"/>
-
-
     <Button
-        android:id="@+id/mRegisterBtn"
+        android:id="@+id/mLoginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="注册"
+        android:text="登录"
         android:textColor="@color/common_white"/>
 </LinearLayout>
