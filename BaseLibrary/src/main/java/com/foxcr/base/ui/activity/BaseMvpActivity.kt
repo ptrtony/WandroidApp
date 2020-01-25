@@ -1,10 +1,4 @@
 package com.foxcr.base.ui.activity
-import android.os.Bundle
-import com.foxcr.base.common.BaseApplication
-import com.foxcr.base.injection.component.ActivityComponent
-import com.foxcr.base.injection.component.DaggerActivityComponent
-import com.foxcr.base.injection.module.ActivityModule
-import com.foxcr.base.injection.module.LifecycleProvideModule
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.base.presenter.view.BaseView
 import com.foxcr.base.widgets.LoadingDialog

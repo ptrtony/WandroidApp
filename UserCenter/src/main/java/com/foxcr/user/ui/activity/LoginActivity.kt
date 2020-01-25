@@ -1,6 +1,8 @@
 package com.foxcr.user.ui.activity
 
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.foxcr.base.ext.enable
 import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.ToastUtils
@@ -11,9 +13,18 @@ import com.foxcr.user.injection.module.UserRegisterModule
 import com.foxcr.user.presenter.LoginPresenter
 import com.foxcr.user.presenter.view.LoginView
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.mPwdEtn
+import kotlinx.android.synthetic.main.activity_login.mTitleBarHb
+import kotlinx.android.synthetic.main.activity_login.mUserNameEtn
+import kotlinx.android.synthetic.main.activity_register.*
 
+
+/**
+ * 登录
+ */
 @Route(path = "/userCenter/login")
 class LoginActivity : BaseMvpActivity<LoginPresenter>(),LoginView {
+    private var backgroundColors:IntArray = intArrayOf(R.drawable.common_button_enable_bg,R.drawable.common_button_disenable_bg)
     override fun initActivityComponent() {
         DaggerUserLoginComponent.builder()
             .activityComponent(activityComponent)
@@ -26,12 +37,17 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(),LoginView {
     override fun resLayoutId(): Int = R.layout.activity_login
 
     override fun initView() {
+        mRegisterBtn.setBackgroundResource(R.drawable.common_button_disenable_bg)
+        mLoginBtn.enable(mUserNameEtn,backgroundColors){ isEnable() }
+        mLoginBtn.enable(mPwdEtn,backgroundColors){ isEnable() }
         mLoginBtn.onClick {
             mPresenter.login(mUserNameEtn.text.toString().trim(),
                 mPwdEtn.text.toString().trim())
         }
         mTitleBarHb.onBackClickListener { finish() }
-
+        mTitleBarHb.onRightClickListener {
+            ARouter.getInstance().build("/userCenter/login")
+            .navigation() }
     }
 
     override fun onLoginResult(loginResp: LoginResp) {
@@ -42,5 +58,10 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(),LoginView {
         errorMsg?.let {
             ToastUtils.showToast(it)
         }
+    }
+
+    private fun isEnable():Boolean{
+        return mUserNameEtn.text.toString().trim().isNotEmpty()
+                && mPwdEtn.text.toString().trim().isNotEmpty()
     }
 }

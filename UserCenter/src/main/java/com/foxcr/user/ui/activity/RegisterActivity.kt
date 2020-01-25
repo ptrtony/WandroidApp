@@ -3,6 +3,7 @@ package com.foxcr.user.ui.activity
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
+import com.foxcr.base.ext.enable
 import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.ToastUtils
@@ -14,10 +15,15 @@ import com.foxcr.user.presenter.RegisterPresenter
 import com.foxcr.user.presenter.view.RegisterView
 import kotlinx.android.synthetic.main.activity_register.*
 
+
+/**
+ * 注册
+ */
 @Route(path = "/userCenter/register")
 class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
 
     private var pressTime: Long = 0L
+    private var backgroundColors:IntArray = intArrayOf(R.drawable.common_button_enable_bg,R.drawable.common_button_disenable_bg)
     override fun onRegisterResult(registerResp: RegisterResp) {
         ToastUtils.showToast("注册成功")
     }
@@ -29,6 +35,11 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
     }
 
     override fun initView() {
+        mRegisterBtn.setBackgroundResource(R.drawable.common_button_disenable_bg)
+        mRegisterBtn.enable(mUserNameEtn,backgroundColors) {isEnable()}
+        mRegisterBtn.enable(mPwdEtn,backgroundColors) {isEnable()}
+        mRegisterBtn.enable(mRePwdEtn,backgroundColors) {isEnable()}
+
         mRegisterBtn.onClick {
             mPresenter.register(
                 mUserNameEtn.text.toString().trim(),
@@ -36,12 +47,6 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
                 mRePwdEtn.text.toString().trim()
             )
         }
-
-        mTitleBarHb.onRightClickListener{
-            ARouter.getInstance().build("/userCenter/login")
-                .navigation()
-        }
-
 
     }
 
@@ -67,6 +72,13 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
         } else {
             AppManager.instance.exitApp(this)
         }
+    }
+
+
+    private fun isEnable():Boolean{
+        return mUserNameEtn.text.toString().trim().isNotEmpty()
+                && mPwdEtn.text.toString().trim().isNotEmpty()
+                && mRePwdEtn.text.toString().trim().isNotEmpty()
     }
 
 }

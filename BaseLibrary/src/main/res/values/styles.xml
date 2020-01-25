@@ -100,5 +100,9 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="MatchMatch.Vertical">
+        <item name="android:orientation">vertical</item>
+    </style>
+
 
 </resources>
