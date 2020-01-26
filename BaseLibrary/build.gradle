@@ -57,6 +57,9 @@ dependencies {
     api 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     api 'com.youth.banner:banner:2.0.0-alpha' //预览版
     api "androidx.viewpager2:viewpager2:1.0.0"
+
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 }
 
 kapt {

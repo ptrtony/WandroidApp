@@ -10,7 +10,7 @@
     <com.foxcr.base.widgets.HeaderBar
         android:id="@+id/mTitleBarHb"
         style="@style/MatchWrap"
-        app:isShowBack="true"
+        app:isShowBack="false"
         app:titleText="登录"
         app:rightText="注册"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,7 +24,6 @@
         app:layout_constraintTop_toTopOf="@+id/mUserNameEtn"
         app:layout_constraintBottom_toBottomOf="@+id/mUserNameEtn"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/common_margin_small"
         android:layout_marginStart="@dimen/common_margin" />
 
     <TextView
@@ -52,7 +51,7 @@
         android:textColor="@color/text_light_dark"
         android:textColorHint="@color/text_dark"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="@dimen/common_padding"
+        android:padding="@dimen/common_padding_small"
         android:background="@drawable/common_edittext_border_bg"
         app:layout_constraintTop_toBottomOf="@+id/mTitleBarHb"
         android:layout_marginTop="50dp"
@@ -80,6 +79,7 @@
         android:layout_marginStart="@dimen/common_margin_small"
         app:layout_constraintTop_toTopOf="@+id/mPwdIv"
         app:layout_constraintBottom_toBottomOf="@+id/mPwdIv"/>
+
     <EditText
         android:id="@+id/mPwdEtn"
         android:layout_width="0dp"
@@ -92,7 +92,7 @@
         app:layout_constraintStart_toEndOf="@+id/mPwdTv"
         android:background="@drawable/common_edittext_border_bg"
         app:layout_constraintTop_toBottomOf="@+id/mUserNameEtn"
-        android:padding="@dimen/common_padding"
+        android:padding="@dimen/common_padding_small"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/common_margin"
         android:layout_marginStart="@dimen/common_margin_small"/>

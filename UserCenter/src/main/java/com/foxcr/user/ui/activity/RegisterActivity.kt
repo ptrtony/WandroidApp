@@ -22,19 +22,17 @@ import kotlinx.android.synthetic.main.activity_register.*
 @Route(path = "/userCenter/register")
 class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
 
-    private var pressTime: Long = 0L
     private var backgroundColors:IntArray = intArrayOf(R.drawable.common_button_enable_bg,R.drawable.common_button_disenable_bg)
     override fun onRegisterResult(registerResp: RegisterResp) {
         ToastUtils.showToast("注册成功")
     }
 
     override fun onErrorMsg(errorMsg: String?) {
-        if (errorMsg != null) {
-            ToastUtils.showToast(errorMsg)
-        }
+        if (errorMsg != null) { ToastUtils.showToast(errorMsg) }
     }
 
     override fun initView() {
+        mTitleBarHb.onBackClickListener { finish() }
         mRegisterBtn.setBackgroundResource(R.drawable.common_button_disenable_bg)
         mRegisterBtn.enable(mUserNameEtn,backgroundColors) {isEnable()}
         mRegisterBtn.enable(mPwdEtn,backgroundColors) {isEnable()}
@@ -47,6 +45,7 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
                 mRePwdEtn.text.toString().trim()
             )
         }
+
 
     }
 
@@ -63,16 +62,6 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
     }
 
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val time = System.currentTimeMillis()
-        if (time - pressTime > 2000) {
-            ToastUtils.showToast("再按一次退出")
-            pressTime = time
-        } else {
-            AppManager.instance.exitApp(this)
-        }
-    }
 
 
     private fun isEnable():Boolean{
