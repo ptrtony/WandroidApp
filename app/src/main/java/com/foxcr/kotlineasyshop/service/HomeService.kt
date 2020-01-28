@@ -29,4 +29,13 @@ interface HomeService {
      */
     fun homeUserNetAddress():Observable<List<HomeOfenNetResp>>
 
+    /**
+     * 最新项目tab (首页的第二个tab)
+     */
+    fun homeArticleProjectList(page:Int):Observable<HomeArticleProjectListResp>
+
+    /**
+     * 广场列表数据
+     */
+    fun homeSquareUserArticleList(page: Int):Observable<HomeSquareUserArticleListResp>
 }

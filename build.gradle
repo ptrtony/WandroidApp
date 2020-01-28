@@ -4,7 +4,7 @@ buildscript {
     ext.kotlin_version = '1.3.61'
     ext.dagger2_version = '2.11'
     ext.rx_lifecycle_version = '1.0'
-    ext.minSdk_Version = '24'
+    ext.minSdk_Version = '17'
     repositories {
         google()
         jcenter()

@@ -11,24 +11,30 @@ class BottomNavigationBar @JvmOverloads constructor(context: Context,attributeSe
 
     init {
         //首页
-        val homeItem = BottomNavigationItem(R.mipmap.iv_main_bottom_navigation_home,resources.getString(R.string.nav_bar_home))
+        val homeItem = BottomNavigationItem(R.mipmap.iv_main_bottom_navigation_home,resources.getString(
+            R.string.nav_bar_home))
             .setInactiveIconResource(R.mipmap.iv_main_bottom_navigation_home_normal)
-            .setActiveColor(R.color.text_light_dark)
-            .setInActiveColor(R.color.text_normal)
+            .setActiveColor(R.color.text_normal)
+            .setInActiveColor(R.color.common_blue)
+
 
 
         //我的
-        val mineItem = BottomNavigationItem(R.mipmap.iv_main_bottom_navigation_home_normal,resources.getString(R.string.nav_bar_mine))
-            .setInactiveIconResource(R.mipmap.iv_main_bottom_navigation_mine)
-            .setActiveColor(R.color.text_light_dark)
-            .setInActiveColor(R.color.text_normal)
+        val mineItem = BottomNavigationItem(R.mipmap.iv_main_bottom_navigation_mine,resources.getString(R.string.nav_bar_mine))
+            .setInactiveIconResource(R.mipmap.iv_main_bottom_navigation_mine_normal)
+            .setActiveColor(R.color.text_normal)
+            .setInActiveColor(R.color.common_blue)
+
         setMode(MODE_FIXED)
         setBackgroundStyle(BACKGROUND_STYLE_STATIC)
         setBarBackgroundColor(R.color.common_white)
-
         addItem(homeItem)
             .addItem(mineItem)
             .setFirstSelectedPosition(0)
             .initialise()
     }
+
+
+
+
 }

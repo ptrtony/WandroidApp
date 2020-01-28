@@ -18,12 +18,13 @@ class HomeBannerAdapter constructor(datas:List<HomeBannerResp>) :BannerAdapter<H
         return BannerViewHolder(view)
     }
 
+
+
     override fun onBindView(holder: BannerViewHolder, data: HomeBannerResp, position: Int, size: Int
     ) {
         GlideUtils.loadImage(data.url,holder.bannerImage)
         holder.bannerTitle.text = data.title
     }
-
 
     inner class BannerViewHolder constructor(rootView: View) : RecyclerView.ViewHolder(rootView){
         val bannerImage:ImageView = rootView.findViewById(R.id.mHomeBannerIv)

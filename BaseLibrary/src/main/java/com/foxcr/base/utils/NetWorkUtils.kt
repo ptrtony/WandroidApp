@@ -13,7 +13,7 @@ import java.net.URL
 /**
  * Created by chenxz on 2018/4/21.
  */
-class NetWorkUtil {
+class NetWorkUtils {
     companion object {
 
         var NET_CNNT_BAIDU_OK = 1 // NetworkAvailable

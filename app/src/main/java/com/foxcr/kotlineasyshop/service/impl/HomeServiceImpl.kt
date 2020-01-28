@@ -31,4 +31,12 @@ class HomeServiceImpl @Inject constructor(): HomeService {
     override fun homeUserNetAddress(): Observable<List<HomeOfenNetResp>> {
         return homeRepository.ofenNetAddress()
     }
+
+    override fun homeArticleProjectList(page: Int): Observable<HomeArticleProjectListResp> {
+        return homeRepository.homeArticleProjectList(page)
+    }
+
+    override fun homeSquareUserArticleList(page: Int): Observable<HomeSquareUserArticleListResp> {
+        return homeRepository.homeSquareUserArticleProjectList(page)
+    }
 }

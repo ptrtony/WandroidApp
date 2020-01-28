@@ -18,8 +18,8 @@ interface HomeApi {
     /**
      * 首页文章列表
      */
-    @GET("article/list/{curPage}/json")
-    fun homeArticleList(@Path("curPage")page:Int):Observable<BaseResp<HomeArticleListResp>>
+    @GET("article/list/{page}/json")
+    fun homeArticleList(@Path("page")page:Int):Observable<BaseResp<HomeArticleListResp>>
 
     /**
      * 置顶文章
@@ -40,5 +40,16 @@ interface HomeApi {
     @GET("friend/json")
     fun homeUserNetAddress():Observable<BaseResp<List<HomeOfenNetResp>>>
 
+    /**
+     * 最新项目tab (首页的第二个tab)
+     */
+    @GET("article/listproject/{page}/json")
+    fun homeArticleProjectList(@Path("page")page:Int):Observable<BaseResp<HomeArticleProjectListResp>>
+
+    /**
+     * 广场列表数据
+     */
+    @GET("user_article/list/{page}/json")
+    fun homeSquareUserArticleList(@Path("page")page:Int):Observable<BaseResp<HomeSquareUserArticleListResp>>
 
 }

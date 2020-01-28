@@ -53,5 +53,22 @@ class HomeRepository @Inject constructor(){
             .convert()
     }
 
+    /**
+     * 最新项目tab (首页的第二个tab)
+     */
+    fun homeArticleProjectList(page:Int):Observable<HomeArticleProjectListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .homeArticleProjectList(page)
+            .convert()
+    }
+
+    /**
+     * 广场列表数据
+     */
+    fun homeSquareUserArticleProjectList(page: Int):Observable<HomeSquareUserArticleListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .homeSquareUserArticleList(page)
+            .convert()
+    }
 
 }

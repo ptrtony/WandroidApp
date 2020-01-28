@@ -15,7 +15,7 @@ import com.foxcr.base.widgets.LoadingDialog
 import javax.inject.Inject
 
 open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseView {
-    lateinit var activityComponent:ActivityComponent
+
     private val mLoadingDialog:LoadingDialog by lazy {
 
         LoadingDialog(activity?.applicationContext!!)
@@ -40,34 +40,9 @@ open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseVie
     lateinit var mPresenter:T
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(resLayoutId(),null)
-    }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initActivityComponent()
-        injectComponent()
-        initView()
-    }
-
-
-
-    abstract fun initView()
-
-    abstract fun injectComponent()
-
-    @LayoutRes
-    abstract fun resLayoutId():Int
 
     private fun initActivityComponent() {
-        activityComponent = DaggerActivityComponent.builder().appComponent((activity?.applicationContext as BaseApplication).appComponent)
-            .activityModule(ActivityModule(activity!!)).lifecycleProvideModule(LifecycleProvideModule(this)).build()
     }
 
     override fun onDestroy() {

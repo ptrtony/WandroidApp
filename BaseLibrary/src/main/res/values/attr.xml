@@ -5,4 +5,41 @@
         <attr name="titleText" format="string"/>
         <attr name="rightText" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="TabLayout">
+        <attr name="indicatorStartColor" format="color|reference"/>
+        <attr name="indicatorEndColor" format="color|reference"/>
+        <attr name="indicatorMarginStart" format="dimension|reference"/>
+        <attr name="indicatorMarginEnd" format="dimension|reference"/>
+        <attr name="indicatorMarginBottom" format="dimension|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="BottomNavigationBar">
+        <attr name="bnbElevation" format="dimension" />
+        <attr name="bnbActiveColor" format="color" />
+        <attr name="bnbInactiveColor" format="color" />
+        <attr name="bnbBackgroundColor" format="color" />
+        <attr name="bnbAnimationDuration" format="integer" />
+        <attr name="bnbMode" format="enum">
+            <enum name="mode_default" value="0" />
+            <enum name="mode_fixed" value="1" />
+            <enum name="mode_shifting" value="2" />
+            <enum name="mode_fixed_no_title" value="3" />
+            <enum name="mode_shifting_no_title" value="4" />
+        </attr>
+        <attr name="bnbBackgroundStyle" format="enum">
+            <enum name="background_style_default" value="0" />
+            <enum name="background_style_static" value="1" />
+            <enum name="background_style_ripple" value="2" />
+        </attr>
+        <attr name="bnbAutoHideEnabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="AutoSizeRadioButton">
+        <attr name="largeSize" format="dimension"/>
+        <attr name="smallSize" format="dimension"/>
+        <attr name="autoTextColor" format="color"/>
+        <attr name="isLargeSize" format="boolean"/>
+    </declare-styleable>
+
 </resources>

@@ -1,8 +1,10 @@
 package com.foxcr.user.ui.activity
 
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
+import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.ext.enable
 import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
@@ -59,7 +61,14 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     }
 
     override fun onLoginResult(loginResp: LoginResp) {
-
+        ARouter.getInstance()
+            .build("/app/main")
+            .navigation(this,object:EasyNavigationCallback(){
+                override fun onArrival(postcard: Postcard?) {
+                    super.onArrival(postcard)
+                    finish()
+                }
+            })
     }
 
     override fun onErrorMsg(errorMsg: String?) {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/common_margin"
+    android:paddingBottom="@dimen/common_margin"
+    android:background="@color/common_white">
+
+    <TextView
+        android:id="@+id/mTitleTv"
+        style="@style/WrapWrap"
+        android:layout_marginStart="@dimen/common_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="@dimen/text_big_size"
+        android:textColor="@color/common_blue"
+        android:text="每日一问 2019年终致辞 支持编辑啦"
+        />
+
+    <TextView
+        android:id="@+id/mAuthorTv"
+        style="@style/WrapWrap"
+        app:layout_constraintTop_toBottomOf="@+id/mTitleTv"
+        app:layout_constraintStart_toStartOf="@+id/mTitleTv"
+        android:layout_marginTop="@dimen/common_margin_small"
+        android:textSize="@dimen/text_middle_size"
+        android:textColor="@color/text_light_dark"
+        android:text="safjhajsfha"
+        />
+
+    <TextView
+        android:id="@+id/mCategoryTv"
+        style="@style/WrapWrap"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mAuthorTv"
+        app:layout_constraintStart_toEndOf="@+id/mAuthorTv"
+        android:layout_marginStart="@dimen/common_margin"
+        android:textSize="@dimen/text_middle_size"
+        android:textColor="@color/text_light_dark"
+        android:text="afhajksfa"/>
+
+    <TextView
+        android:id="@+id/mTimeTv"
+        style="@style/WrapWrap"
+        app:layout_constraintStart_toEndOf="@+id/mCategoryTv"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mCategoryTv"
+        android:text="2019-02-01"
+        android:layout_marginStart="@dimen/common_margin"
+        android:textColor="@color/text_normal"/>
+
+
+    <ImageView
+        android:id="@+id/mLikeIv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/icon_no_like"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/common_margin"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

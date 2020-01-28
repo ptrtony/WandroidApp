@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout android:id="@+id/mHomeSmartRefresh"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.core.widget.NestedScrollView
+        style="@style/MatchMatch"
+        android:scrollbars="none">
+        <LinearLayout
+            style="@style/MatchMatch.Vertical">
+            <com.youth.banner.Banner
+                android:id="@+id/mHomeBanner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+            <RadioGroup
+                android:id="@+id/mHomeNewArticleRg"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+                <com.foxcr.base.widgets.AutoSizeRadioButton
+                    android:id="@+id/mHomeNewBlogRb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_large_size"
+                    app:isLargeSize="true"
+                    app:largeSize="@dimen/text_large_size"
+                    app:autoTextColor="@color/text_light_dark"
+                    android:textColor="@color/text_light_dark"
+                    android:textStyle="bold"
+                    android:text="最新博文"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:button="@null"/>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="@dimen/common_margin_small"
+                    android:background="@color/common_divider"/>
+                <com.foxcr.base.widgets.AutoSizeRadioButton
+                    android:id="@+id/mHomeNewProjectRb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_large_size"
+                    android:textColor="@color/text_dark"
+                    app:autoTextColor="@color/text_dark"
+                    app:smallSize="@dimen/text_small_size"
+                    android:text="最新项目"
+                    app:isLargeSize="false"
+                    android:layout_marginStart="@dimen/common_margin_small"
+                    android:textStyle="bold"
+                    android:button="@null"/>
 
+            </RadioGroup>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mHomeArticleListRl"
+                style="@style/MatchMatch"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <com.youth.banner.Banner
-        android:id="@+id/mHomeBanner"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
-
-
-
-</LinearLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

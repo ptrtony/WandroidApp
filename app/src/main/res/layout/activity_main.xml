@@ -4,7 +4,7 @@
     style="@style/MatchMatch.Vertical"
     tools:context=".ui.activity.MainActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/mHomeVg"
         style="@style/MatchAuto"/>
 
