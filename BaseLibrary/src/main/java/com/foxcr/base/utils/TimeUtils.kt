@@ -182,10 +182,11 @@ object TimeUtils {
     fun stampToDate(s: String): String? {
         val res: String
         val simpleDateFormat =
-            SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            SimpleDateFormat("yyyy-MM-dd HH:mm")
         val lt: Long = s.toLong()
         val date = Date(lt)
         res = simpleDateFormat.format(date)
         return res
     }
+
 }

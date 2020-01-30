@@ -4,10 +4,12 @@ import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
+import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.ext.enable
 import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
+import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.user.R
 import com.foxcr.user.data.protocal.LoginResp
@@ -19,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.mPwdEtn
 import kotlinx.android.synthetic.main.activity_login.mTitleBarHb
 import kotlinx.android.synthetic.main.activity_login.mUserNameEtn
-import kotlinx.android.synthetic.main.activity_register.*
 
 
 /**
@@ -27,8 +28,6 @@ import kotlinx.android.synthetic.main.activity_register.*
  */
 @Route(path = "/userCenter/login")
 class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
-
-    private var pressTime: Long = 0L
     private var backgroundColors: IntArray =
         intArrayOf(R.drawable.common_button_enable_bg, R.drawable.common_button_disenable_bg)
 
@@ -55,12 +54,17 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
         }
         mTitleBarHb.onBackClickListener { finish() }
         mTitleBarHb.onRightClickListener {
-            ARouter.getInstance().build("/userCenter/register")
+            ARouter.
+                getInstance().
+                build("/userCenter/register")
+                .greenChannel()
                 .navigation()
         }
     }
 
     override fun onLoginResult(loginResp: LoginResp) {
+        SPUtil.putString(BaseConstant.LOGINUSERNAME,loginResp.username)
+        SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,loginResp.password)
         ARouter.getInstance()
             .build("/app/main")
             .navigation(this,object:EasyNavigationCallback(){
@@ -83,14 +87,4 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     }
 
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val time = System.currentTimeMillis()
-        if (time - pressTime > 2000) {
-            ToastUtils.showToast("再按一次退出")
-            pressTime = time
-        } else {
-            AppManager.instance.exitApp(this)
-        }
-    }
 }

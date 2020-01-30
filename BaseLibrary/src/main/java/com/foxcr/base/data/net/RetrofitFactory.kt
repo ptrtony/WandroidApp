@@ -1,7 +1,9 @@
 package com.foxcr.base.data.net
 import com.foxcr.base.common.BaseConstant
+import com.foxcr.base.utils.SPUtil
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -19,10 +21,23 @@ class RetrofitFactory private constructor(){
     init {
         interceptor = Interceptor {
             chain ->
-            val request = chain.request().newBuilder()
-                .addHeader("Content-Type","application/json")
-                .addHeader("charset","utf-8")
-                .build()
+            val loginUsername = SPUtil.getString(BaseConstant.LOGINUSERNAME,"")
+            val loginUserPassword = SPUtil.getString(BaseConstant.LOGINUSERPASSWORD,"")
+            val request: Request
+            request = if (loginUserPassword.isNullOrEmpty() && loginUsername.isNullOrEmpty()){
+                chain.request().newBuilder()
+                    .addHeader("Content-Type","application/json")
+                    .addHeader("charset","utf-8")
+                    .build()
+            }else{
+                chain.request().newBuilder()
+                    .addHeader("Content-Type","application/json")
+                    .addHeader("charset","utf-8")
+                    .addHeader(BaseConstant.COOKIE,"loginUserName=${loginUsername}")
+                    .addHeader(BaseConstant.COOKIE,"loginUserPassword=${loginUserPassword}")
+                    .build()
+            }
+
             chain.proceed(request)
         }
 

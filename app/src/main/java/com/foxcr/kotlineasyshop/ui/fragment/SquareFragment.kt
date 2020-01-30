@@ -47,6 +47,7 @@ class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, On
         if (page == 0){
             homeSquareUserArticleAdapter.setNewData(squareUserArticleDatas)
             mSquareSrl.finishRefresh()
+            mSquareSrl.setEnableRefresh(false)
         }else{
             homeSquareUserArticleAdapter.addData(squareUserArticleDatas)
             mSquareSrl.finishLoadMore()

@@ -1,11 +1,15 @@
 package com.foxcr.user.ui.activity
 
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
+import com.foxcr.base.common.BaseConstant
+import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.ext.enable
 import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
+import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.user.R
 import com.foxcr.user.data.protocal.RegisterResp
@@ -24,7 +28,16 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
 
     private var backgroundColors:IntArray = intArrayOf(R.drawable.common_button_enable_bg,R.drawable.common_button_disenable_bg)
     override fun onRegisterResult(registerResp: RegisterResp) {
-        ToastUtils.showToast("注册成功")
+        SPUtil.putString(BaseConstant.LOGINUSERNAME,registerResp.username)
+        SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,registerResp.password)
+        ARouter.getInstance()
+            .build("/app/main")
+            .navigation(this,object:EasyNavigationCallback(){
+                override fun onArrival(postcard: Postcard?) {
+                    super.onArrival(postcard)
+                    finish()
+                }
+            })
     }
 
     override fun onErrorMsg(errorMsg: String?) {

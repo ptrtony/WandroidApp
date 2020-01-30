@@ -25,7 +25,8 @@ import com.youth.banner.util.BannerUtils
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeView,
-    RadioGroup.OnCheckedChangeListener {
+    RadioGroup.OnCheckedChangeListener, HomeArticleListAdapter.OnLikeClickListener,
+    HomeArticleProjectListAdapter.OnClickListener {
     lateinit var homeBannerAdapter: HomeBannerAdapter
     lateinit var homeArticleListAdapter: HomeArticleListAdapter
     private lateinit var homeArticleProjectListAdapter: HomeArticleProjectListAdapter
@@ -41,8 +42,10 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
         mHomeSmartRefresh.setEnableRefresh(false)
         mHomeSmartRefresh.setOnLoadMoreListener(this)
         mHomeNewArticleRg.setOnCheckedChangeListener(this)
+
         mPresenter.mView = this
         mPresenter.getHomeNetData()
+
         homeBannerAdapter = HomeBannerAdapter(bannerDatas)
         homeArticleListAdapter = HomeArticleListAdapter(homeArticleDatas)
         homeArticleProjectListAdapter = HomeArticleProjectListAdapter(homeArticleProjectDatas)
@@ -55,8 +58,8 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
 
         mHomeArticleListRl.layoutManager = LinearLayoutManager(activity, VERTICAL, false)
         mHomeArticleListRl.adapter = homeArticleListAdapter
-
-
+        homeArticleListAdapter.setOnLikeClickListener(this)
+        homeArticleProjectListAdapter.setOnClickListener(this)
     }
 
     override fun onStart() {
@@ -139,5 +142,17 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
                 mPresenter.homeArticleProjectList(page)
             }
         }
+    }
+
+    override fun onLikeClick(position: Int, collect: Boolean) {
+
+    }
+
+    override fun onProjectLikeClick(position: Int, collect: Boolean) {
+
+    }
+
+    override fun onCheckAsProjectClick() {
+
     }
 }

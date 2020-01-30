@@ -1,14 +1,12 @@
 package com.foxcr.kotlineasyshop.adapter
 
-import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.foxcr.base.utils.TimeUtils
+import com.foxcr.base.utils.GlideUtils
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
 
 class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeArticleProjectListResp.DatasBean>) :
@@ -19,54 +17,46 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
     ) {
 
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
+        val mHomeArticleProjectIv: ImageView = view.findViewById(R.id.mHomeArticleProjectIv)
         val mTitleTv: TextView = view.findViewById(R.id.mTitleTv)
+        val mContentTv: TextView = view.findViewById(R.id.mContentTv)
+        val mArticlePublishTimeTv: TextView = view.findViewById(R.id.mArticlePublishTimeTv)
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
-        val mCategoryTv: TextView = view.findViewById(R.id.mCategoryTv)
-        val mTimeTv: TextView = view.findViewById(R.id.mTimeTv)
+        val mCheckAsProjectTv: TextView = view.findViewById(R.id.mCheckAsProjectTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
     }
 
-    override fun convert(helper: ArticleListViewHolder, item: HomeArticleProjectListResp.DatasBean) {
+    override fun convert(
+        helper: ArticleListViewHolder,
+        item: HomeArticleProjectListResp.DatasBean
+    ) {
+        GlideUtils.loadImage(item.envelopePic, helper.mHomeArticleProjectIv)
         helper.mTitleTv.text = item.title
-        if (item.author.isNotEmpty()){
-            val authorHtml = StringBuilder()
-                .append("<font color='#666666'>")
-                .append("作者: ")
-                .append("<font/>")
-                .append(item.author)
-            helper.mAuthorTv.text = Html.fromHtml(authorHtml.toString())
-            helper.mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext,item.publishTime)}"
-        }else{
-            helper.mAuthorTv.text = "分享人 :${item.shareUser}"
-            helper.mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext,item.shareDate)}"
-        }
-        val categoryHtml = StringBuilder().append("<font color='#666666'>")
-            .append("分类: ")
-            .append("<font/>")
-            .append(item.superChapterName)
-            .append("/")
-            .append(item.chapterName)
-        helper.mCategoryTv.text = Html.fromHtml(categoryHtml.toString())
-        if (item.collect){
+        helper.mContentTv.text = item.desc
+        helper.mArticlePublishTimeTv.text = item.niceDate
+        helper.mAuthorTv.text = item.author
+        helper.mCheckAsProjectTv.text = "查看同类项目"
+        if (item.collect) {
             helper.mLikeIv.setImageResource(R.mipmap.icon_like)
         }else{
             helper.mLikeIv.setImageResource(R.mipmap.icon_no_like)
         }
-
         helper.mLikeIv.setOnClickListener {
-            onLikeClickListener?.onLikeClick(getParentPosition(item),!item.collect)
+            onLikeClickListener?.onProjectLikeClick(getParentPosition(item), !item.collect)
         }
-
-
+        helper.mCheckAsProjectTv.setOnClickListener {
+            onLikeClickListener?.onCheckAsProjectClick()
+        }
     }
 
-    private var onLikeClickListener:OnLikeClickListener?=null
+    private var onLikeClickListener: OnClickListener? = null
 
-    fun setOnLikeClickListener(onLikeClickListener:OnLikeClickListener){
+    fun setOnClickListener(onClickListener: OnClickListener) {
         this.onLikeClickListener = onLikeClickListener
     }
 
-    interface OnLikeClickListener{
-        fun onLikeClick(position:Int,collect:Boolean)
+    interface OnClickListener {
+        fun onProjectLikeClick(position: Int, collect: Boolean)
+        fun onCheckAsProjectClick()
     }
 }

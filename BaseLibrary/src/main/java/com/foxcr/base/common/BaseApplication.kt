@@ -1,6 +1,7 @@
 package com.foxcr.base.common
 
 import android.app.Application
+import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.R
 import com.foxcr.base.injection.component.AppComponent
@@ -12,6 +13,7 @@ import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 class BaseApplication :Application(){
+
     init {
         //设置全局的Header构建器
         //SmartRefreshLayout 初始化
@@ -33,10 +35,15 @@ class BaseApplication :Application(){
         ARouter.openDebug()
         ARouter.init(this)
         initApplicationInjection()
+        context = this
 
     }
 
     private fun initApplicationInjection() {
         appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+    }
+
+    companion object{
+        lateinit var context:Context
     }
 }

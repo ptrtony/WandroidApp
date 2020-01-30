@@ -15,11 +15,16 @@ class MainFragment : BaseMvpFragment<BasePresenter<BaseView>>(){
     private var tabTexts = arrayListOf("首页","广场","导航","问答","体系","项目","公众号","项目分类","工具")
     private var fragments:MutableList<Fragment> = mutableListOf()
     lateinit var mainFragmentAdapter:MainFragmentAdapter
-
     override fun initView(view:View) {
         fragments.add(HomeFragment())
         fragments.add(SquareFragment())
-
+        fragments.add(NavigationFragment())
+        fragments.add(QuestionAnswersFragment())
+        fragments.add(SystemFragment())
+        fragments.add(ProjectFragment())
+        fragments.add(PublicNumberFragment())
+        fragments.add(ProjectCategoryFragment())
+        fragments.add(ToolsFragment())
         mainFragmentAdapter = MainFragmentAdapter(childFragmentManager,fragments)
         mHomeTab.addTab(mHomeTab.newTab().setText(tabTexts[0]))
         mHomeTab.addTab(mHomeTab.newTab().setText(tabTexts[1]))
@@ -36,6 +41,7 @@ class MainFragment : BaseMvpFragment<BasePresenter<BaseView>>(){
             override fun onTabUnselected(tab: TabLayout.Tab) {
             }
             override fun onTabSelected(tab: TabLayout.Tab) {
+
                 mMainVp2.currentItem = tab.position
             }
 
