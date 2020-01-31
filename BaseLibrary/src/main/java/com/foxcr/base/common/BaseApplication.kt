@@ -21,11 +21,13 @@ class BaseApplication :Application(){
             MaterialHeader(context).apply {
                 setShowBezierWave(true)
                 setColorSchemeResources(R.color.common_blue)
+//                setBackgroundColor(resources.getColor(R.color.common_white))
             }
         }
         SmartRefreshLayout.setDefaultRefreshFooterCreator{ context, layout ->
             UniClassicsFooter(context).setDrawableSize(20f)
         }
+
     }
     lateinit var appComponent:AppComponent
     override fun onCreate() {

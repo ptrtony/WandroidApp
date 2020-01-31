@@ -3,14 +3,19 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.utils.DisplayUtils
+import com.foxcr.base.widgets.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.HomeSquareUserArticleAdapter
 import com.foxcr.kotlineasyshop.data.protocal.HomeSquareUserArticleListResp
+import com.foxcr.kotlineasyshop.injection.component.DaggerSquareComponent
+import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.SquarePresenter
 import com.foxcr.kotlineasyshop.presenter.view.SquareView
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_square.*
 
 class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, OnRefreshListener,SquareView {
@@ -20,14 +25,20 @@ class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, On
     override fun resLayoutId(): Int = R.layout.fragment_square
 
     override fun injectComponent() {
-
+        DaggerSquareComponent.builder().activityComponent(activityComponent)
+            .homeModule(HomeModule()).build().inject(this)
     }
     override fun initView(view: View) {
+        mPresenter.mView = this
         mSquareSrl.autoRefresh()
         mSquareSrl.setOnLoadMoreListener(this)
         mSquareSrl.setOnRefreshListener(this)
         mSquareRv.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         homeSquareUserArticleAdapter = HomeSquareUserArticleAdapter(squareUserArticleDatas)
+        mSquareRv.addItemDecoration(
+            RecycleViewDivider(context,LinearLayoutManager.HORIZONTAL,
+                DisplayUtils.dp2px(1f),resources.getColor(R.color.common_divider), DisplayUtils.dp2px(15f))
+        )
         mSquareRv.adapter = homeSquareUserArticleAdapter
     }
 

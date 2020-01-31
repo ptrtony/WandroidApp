@@ -22,7 +22,6 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
         val mContentTv: TextView = view.findViewById(R.id.mContentTv)
         val mArticlePublishTimeTv: TextView = view.findViewById(R.id.mArticlePublishTimeTv)
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
-        val mCheckAsProjectTv: TextView = view.findViewById(R.id.mCheckAsProjectTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
     }
 
@@ -35,7 +34,6 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
         helper.mContentTv.text = item.desc
         helper.mArticlePublishTimeTv.text = item.niceDate
         helper.mAuthorTv.text = item.author
-        helper.mCheckAsProjectTv.text = "查看同类项目"
         if (item.collect) {
             helper.mLikeIv.setImageResource(R.mipmap.icon_like)
         }else{
@@ -44,19 +42,15 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
         helper.mLikeIv.setOnClickListener {
             onLikeClickListener?.onProjectLikeClick(getParentPosition(item), !item.collect)
         }
-        helper.mCheckAsProjectTv.setOnClickListener {
-            onLikeClickListener?.onCheckAsProjectClick()
-        }
     }
 
     private var onLikeClickListener: OnClickListener? = null
 
     fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onLikeClickListener = onLikeClickListener
+        this.onLikeClickListener = onClickListener
     }
 
     interface OnClickListener {
         fun onProjectLikeClick(position: Int, collect: Boolean)
-        fun onCheckAsProjectClick()
     }
 }

@@ -10,12 +10,12 @@ import com.foxcr.base.utils.TimeUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
 
+
+/**
+ * HomeArticleListResp.DatasBean
+ */
 class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleListResp.DatasBean>) :
-    BaseQuickAdapter<HomeArticleListResp.DatasBean,
-            HomeArticleListAdapter.ArticleListViewHolder>(
-        R.layout.item_home_article,
-        articleDatas
-    ) {
+    BaseQuickAdapter<HomeArticleListResp.DatasBean, HomeArticleListAdapter.ArticleListViewHolder>(R.layout.item_home_article,articleDatas) {
 
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
         val mTitleTv: TextView = view.findViewById(R.id.mTitleTv)
@@ -26,6 +26,7 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
     }
 
     override fun convert(helper: ArticleListViewHolder, item: HomeArticleListResp.DatasBean) {
+
         helper.mTitleTv.text = item.title
         if (item.author.isNotEmpty()){
             val authorHtml = StringBuilder()
@@ -66,4 +67,5 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
     interface OnLikeClickListener{
         fun onLikeClick(position:Int,collect:Boolean)
     }
+
 }

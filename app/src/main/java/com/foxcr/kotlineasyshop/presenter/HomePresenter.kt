@@ -16,15 +16,13 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
     lateinit var homeServiceImpl: HomeServiceImpl
 
     fun getHomeNetData(){
-        mView.showLoading()
         GlobalScope.launch(Dispatchers.Main){
             mergeHomeRequest()
-            mView.hideLoading()
        }
 
     }
 
-    suspend fun mergeHomeRequest(){
+    private suspend fun mergeHomeRequest(){
         withContext(Dispatchers.IO){
             homeBanner()
         }
@@ -33,6 +31,9 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
             homeArticleList(0)
         }
 
+        withContext(Dispatchers.IO){
+            homeArticleProjectList(0)
+        }
     }
     /**
      * 首页banner

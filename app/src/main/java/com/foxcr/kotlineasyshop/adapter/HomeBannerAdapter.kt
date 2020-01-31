@@ -11,27 +11,30 @@ import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeBannerResp
 import com.youth.banner.adapter.BannerAdapter
 
-class HomeBannerAdapter constructor(datas:List<HomeBannerResp>) :BannerAdapter<HomeBannerResp, HomeBannerAdapter.BannerViewHolder>(datas){
+class HomeBannerAdapter constructor(datas: List<HomeBannerResp>) :
+    BannerAdapter<HomeBannerResp, HomeBannerAdapter.BannerViewHolder>(datas) {
 
     override fun onCreateHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_home_banner,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_home_banner, parent, false)
         return BannerViewHolder(view)
     }
 
+    override fun getItemCount(): Int {
+        return if (mDatas.size == 0) 0 else mDatas.size
+    }
 
 
-    override fun onBindView(holder: BannerViewHolder, data: HomeBannerResp, position: Int, size: Int
+    override fun onBindView(
+        holder: BannerViewHolder, data: HomeBannerResp, position: Int, size: Int
     ) {
-        GlideUtils.loadImage(data.url,holder.bannerImage)
+        GlideUtils.loadImage(data.url, holder.bannerImage)
         holder.bannerTitle.text = data.title
     }
 
-    inner class BannerViewHolder constructor(rootView: View) : RecyclerView.ViewHolder(rootView){
-        val bannerImage:ImageView = rootView.findViewById(R.id.mHomeBannerIv)
-        val bannerTitle:TextView = rootView.findViewById(R.id.mHomeBannerTitleTv)
-        init {
-            bannerImage.scaleType = ImageView.ScaleType.CENTER_CROP
-        }
+    inner class BannerViewHolder constructor(rootView: View) : RecyclerView.ViewHolder(rootView) {
+        val bannerImage: ImageView = rootView.findViewById(R.id.mHomeBannerIv)
+        val bannerTitle: TextView = rootView.findViewById(R.id.mHomeBannerTitleTv)
     }
 
 }

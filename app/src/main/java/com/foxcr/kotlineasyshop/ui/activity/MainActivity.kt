@@ -3,12 +3,13 @@ package com.foxcr.kotlineasyshop.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.foxcr.base.common.AppManager
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.adapter.MainFragmentAdapter
+import com.foxcr.kotlineasyshop.adapter.MainAdapter
 import com.foxcr.kotlineasyshop.ui.fragment.MainFragment
 import com.foxcr.kotlineasyshop.ui.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 @Route(path = "/app/main")
 class MainActivity : AppCompatActivity() {
     private var pressTime: Long = 0L
-    private lateinit var mainPagerAdapter: MainFragmentAdapter
+    private lateinit var mainPagerAdapter: MainAdapter
     private val fragments = mutableListOf<Fragment>()
     private lateinit var mainFragment: MainFragment
     private lateinit var mineFragment: MineFragment
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         mineFragment = MineFragment()
         fragments.add(mainFragment)
         fragments.add(mineFragment)
-        mainPagerAdapter = MainFragmentAdapter(supportFragmentManager, fragments)
+        mainPagerAdapter = MainAdapter(supportFragmentManager, fragments)
         mHomeVg.adapter = mainPagerAdapter
         mHomeVg.currentItem = 0
         mHomeVg.offscreenPageLimit = fragments.size
@@ -44,6 +45,25 @@ class MainActivity : AppCompatActivity() {
 
                     1 -> mHomeVg.currentItem = 1
                 }
+            }
+
+        })
+
+        mHomeVg.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                mHomeBNB.selectTab(position)
             }
 
         })

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="@dimen/common_margin"
     android:paddingBottom="@dimen/common_margin"
     android:background="@color/common_white">
@@ -26,7 +25,7 @@
         style="@style/WrapWrap"
         app:layout_constraintTop_toBottomOf="@+id/mTitleTv"
         app:layout_constraintStart_toStartOf="@+id/mTitleTv"
-        android:layout_marginTop="@dimen/common_margin"
+        android:layout_marginTop="@dimen/common_margin_middle"
         android:textSize="@dimen/text_middle_size"
         android:textColor="@color/text_light_dark"
         android:text="safjhajsfha"
@@ -35,14 +34,12 @@
     <TextView
         android:id="@+id/mCategoryTv"
         style="@style/WrapWrap"
-        app:layout_constraintStart_toStartOf="@+id/mAuthorTv"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mAuthorTv"
         app:layout_constraintStart_toEndOf="@+id/mAuthorTv"
-        app:layout_constraintTop_toBottomOf="@+id/mAuthorTv"
+        android:layout_marginStart="@dimen/common_margin"
         android:textSize="@dimen/text_middle_size"
         android:textColor="@color/text_light_dark"
-        tools:text="hsfhajshfaksfajh"
-        android:text=""
-        android:layout_marginTop="@dimen/common_margin"/>
+        android:text=""/>
 
     <TextView
         android:id="@+id/mTimeTv"
