@@ -40,17 +40,39 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
             helper.mLikeIv.setImageResource(R.mipmap.icon_no_like)
         }
         helper.mLikeIv.setOnClickListener {
-            onLikeClickListener?.onProjectLikeClick(getParentPosition(item), !item.collect)
+            onLikeListener?.apply {
+                if (item.collect) {
+                    helper.mLikeIv.setImageResource(R.mipmap.icon_no_like)
+                    if (item.originId == 0 || item.originId == null) {
+                        item.originId = -1
+                    }
+                    cancelCollectClick(item.id, item.originId)
+
+                } else {
+                    helper.mLikeIv.setImageResource(R.mipmap.icon_like)
+                    if (item.link.isNullOrEmpty()) {
+                        onLikeInNetClick(helper.mLikeIv,item.id)
+                    }else{
+                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
+                    }
+                }
+                item.collect = !item.collect
+                notifyItemInserted(getParentPosition(item))
+            }
+
+
         }
     }
 
-    private var onLikeClickListener: OnClickListener? = null
+    private var onLikeListener: OnLikeClickListener? = null
 
-    fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onLikeClickListener = onClickListener
+    fun setOnLikeClickListener(onLikeClickListener: OnLikeClickListener) {
+        onLikeListener = onLikeClickListener
     }
 
-    interface OnClickListener {
-        fun onProjectLikeClick(position: Int, collect: Boolean)
+    interface OnLikeClickListener {
+        fun onLikeInNetClick(view:View,id: Int)
+        fun onLikeOutNetClick(view:View,title: String, author: String, link: String)
+        fun cancelCollectClick(id: Int, originId: Int)
     }
 }

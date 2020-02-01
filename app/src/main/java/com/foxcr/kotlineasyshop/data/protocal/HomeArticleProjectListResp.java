@@ -89,6 +89,7 @@ public class HomeArticleProjectListResp {
         public int visible;
         public int zan;
         public List<TagsBean> tags;
+        public int originId;
 
         public static class TagsBean {
             /**

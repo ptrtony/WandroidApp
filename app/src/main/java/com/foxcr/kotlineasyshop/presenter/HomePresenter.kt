@@ -27,42 +27,45 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
             homeBanner()
         }
 
-        withContext(Dispatchers.IO){
-            homeArticleList(0)
-        }
-
-        withContext(Dispatchers.IO){
-            homeArticleProjectList(0)
-        }
+//        withContext(Dispatchers.IO){
+//            homeArticleList(0)
+//        }
+//
+//        withContext(Dispatchers.IO){
+//            homeArticleProjectList(0)
+//        }
     }
     /**
      * 首页banner
      */
     fun homeBanner(){
         homeServiceImpl.homeBanner()
+            .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
-            .subscribe {
+            .subscribe({
                 mView.homeBanner(it)
-            }
+            },{
+                mView.onError(it.message.toString())
+            })
     }
-    /**
-     * 首页文章列表
-     */
-    fun homeArticleList(page:Int){
-        homeServiceImpl.homeArticleList(page)
-            .ioToUI()
-            .subscribe {
-                mView.homeArticleList(it)
-            }
-    }
-
-    fun homeArticleProjectList(page:Int){
-        homeServiceImpl.homeArticleProjectList(page)
-            .ioToUI()
-            .subscribe {
-                mView.homeArticleProjectList(it)
-            }
-    }
+//    /**
+//     * 首页文章列表
+//     */
+//    fun homeArticleList(page:Int){
+//        homeServiceImpl.homeArticleList(page)
+//            .ioToUI()
+//            .subscribe {
+//                mView.homeArticleList(it)
+//            }
+//    }
+//
+//    fun homeArticleProjectList(page:Int){
+//        homeServiceImpl.homeArticleProjectList(page)
+//            .ioToUI()
+//            .subscribe {
+//                mView.homeArticleProjectList(it)
+//            }
+//    }
 //    /**
 //     * 置顶文章
 //     */

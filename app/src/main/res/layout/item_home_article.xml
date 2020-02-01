@@ -59,9 +59,9 @@
         android:id="@+id/mLikeIv"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@mipmap/icon_no_like"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/common_margin"/>
+        android:src="@mipmap/icon_no_like"
+        android:layout_marginEnd="@dimen/common_margin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,4 +22,12 @@
     <color name="text_normal">#666666</color>
     <color name="transparent">#00000000</color>
 
+    <color name="color_E91E63">#E91E63</color>
+    <color name="color_673AB7">#673AB7</color>
+    <color name="color_3F51B5">#3F51B5</color>
+    <color name="color_2196F3">#2196F3</color>
+    <color name="color_009688">#009688</color>
+    <color name="color_FF9800">#FF9800</color>
+    <color name="color_FF5722">#FF5722</color>
+    <color name="color_795548">#795548</color>
 </resources>

@@ -46,7 +46,7 @@ class MainFragment : BaseMvpFragment<BasePresenter<BaseView>>() {
         mMainVp2?.run {
             adapter = mainAdapter
             offscreenPageLimit = tabTexts.size
-            setCurrentItem(0,false)
+            currentItem = 0
         }
 
     }

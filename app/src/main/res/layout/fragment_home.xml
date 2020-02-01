@@ -55,23 +55,9 @@
             </RadioGroup>
 
             <FrameLayout
+                android:id="@+id/mFrameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mArticleListRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mProjectListRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"/>
-
-            </FrameLayout>
-
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

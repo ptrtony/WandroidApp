@@ -9,15 +9,15 @@ interface HomeView :BaseView{
      * 首页banner
      */
     fun homeBanner(banners:List<HomeBannerResp>)
-    /**
-     * 首页文章列表
-     */
-    fun homeArticleList(homeArticleListResp: HomeArticleListResp)
-
-    /**
-     * 最新项目tab (首页的第二个tab)
-     */
-    fun homeArticleProjectList(homeArticleProjectListResp: HomeArticleProjectListResp)
+//    /**
+//     * 首页文章列表
+//     */
+//    fun homeArticleList(homeArticleListResp: HomeArticleListResp)
+//
+//    /**
+//     * 最新项目tab (首页的第二个tab)
+//     */
+//    fun homeArticleProjectList(homeArticleProjectListResp: HomeArticleProjectListResp)
 //    /**
 //     * 置顶文章
 //     */

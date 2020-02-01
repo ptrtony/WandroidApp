@@ -1,21 +1,17 @@
 package com.foxcr.base.ui.fragment
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.content.Context
+import android.graphics.PixelFormat
+import android.view.Gravity
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import com.foxcr.base.common.BaseApplication
-import com.foxcr.base.injection.component.ActivityComponent
-import com.foxcr.base.injection.component.DaggerActivityComponent
-import com.foxcr.base.injection.module.ActivityModule
-import com.foxcr.base.injection.module.LifecycleProvideModule
+import android.view.WindowManager
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.base.presenter.view.BaseView
 import com.foxcr.base.widgets.LoadingDialog
+import com.foxcr.base.widgets.LoveLayout
 import javax.inject.Inject
 
 open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseView {
-
+    lateinit var mLoveView:LoveLayout
     private val mLoadingDialog:LoadingDialog by lazy {
 
         LoadingDialog(activity?.applicationContext!!)
@@ -30,6 +26,22 @@ open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseVie
         if (mLoadingDialog.isShowing){
             mLoadingDialog.cancelDialog()
         }
+    }
+
+    fun initLoveLayout(){
+        mLoveView = LoveLayout(context,null)
+        val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val layoutParams = WindowManager.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_APPLICATION,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            PixelFormat.TRANSLUCENT)
+        layoutParams.gravity = Gravity.TOP
+        layoutParams.x = 0
+        layoutParams.y = 0
+        windowManager.addView(mLoveView,layoutParams)
     }
 
     override fun onError(errorMsg:String) {
@@ -51,4 +63,5 @@ open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseVie
         }
         super.onDestroy()
     }
+
 }
