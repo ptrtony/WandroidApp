@@ -3,6 +3,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import com.foxcr.base.common.DefaultTextWatcher
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.data.protocal.BaseResp
 import com.foxcr.base.presenter.view.BaseView
 import com.foxcr.base.rx.BaseException

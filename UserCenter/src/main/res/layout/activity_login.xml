@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/common_white"
     tools:context=".ui.activity.LoginActivity">
 
     <com.foxcr.base.widgets.HeaderBar
         android:id="@+id/mTitleBarHb"
         style="@style/MatchWrap"
-        app:isShowBack="false"
+        app:isShowBack="true"
         app:titleText="登录"
         app:rightText="注册"
         app:layout_constraintTop_toTopOf="parent"

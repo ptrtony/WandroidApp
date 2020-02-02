@@ -3,9 +3,13 @@ package com.foxcr.kotlineasyshop.adapter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.utils.GlideUtils
+import com.foxcr.base.utils.SPUtil
+import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
 
@@ -23,23 +27,32 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
         val mArticlePublishTimeTv: TextView = view.findViewById(R.id.mArticlePublishTimeTv)
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
+
+        fun dataBinding(item: HomeArticleProjectListResp.DatasBean){
+            GlideUtils.loadImage(item.envelopePic, mHomeArticleProjectIv)
+            mTitleTv.text = item.title
+            mContentTv.text = item.desc
+            mArticlePublishTimeTv.text = item.niceDate
+            mAuthorTv.text = item.author
+            if (item.collect) {
+                mLikeIv.setImageResource(R.mipmap.icon_like)
+            }else{
+                mLikeIv.setImageResource(R.mipmap.icon_no_like)
+            }
+        }
     }
 
     override fun convert(
         helper: ArticleListViewHolder,
         item: HomeArticleProjectListResp.DatasBean
     ) {
-        GlideUtils.loadImage(item.envelopePic, helper.mHomeArticleProjectIv)
-        helper.mTitleTv.text = item.title
-        helper.mContentTv.text = item.desc
-        helper.mArticlePublishTimeTv.text = item.niceDate
-        helper.mAuthorTv.text = item.author
-        if (item.collect) {
-            helper.mLikeIv.setImageResource(R.mipmap.icon_like)
-        }else{
-            helper.mLikeIv.setImageResource(R.mipmap.icon_no_like)
-        }
+        helper.dataBinding(item)
         helper.mLikeIv.setOnClickListener {
+            if (SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()|| SPUtil.getString(
+                    BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty()){
+                ARouter.getInstance().build("/userCenter/login").greenChannel().navigation()
+                return@setOnClickListener
+            }
             onLikeListener?.apply {
                 if (item.collect) {
                     helper.mLikeIv.setImageResource(R.mipmap.icon_no_like)
@@ -57,7 +70,6 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
                     }
                 }
                 item.collect = !item.collect
-                notifyItemInserted(getParentPosition(item))
             }
 
 
@@ -70,9 +82,4 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
         onLikeListener = onLikeClickListener
     }
 
-    interface OnLikeClickListener {
-        fun onLikeInNetClick(view:View,id: Int)
-        fun onLikeOutNetClick(view:View,title: String, author: String, link: String)
-        fun cancelCollectClick(id: Int, originId: Int)
-    }
 }

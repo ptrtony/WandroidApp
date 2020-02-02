@@ -4,6 +4,8 @@
         <attr name="isShowBack" format="boolean"/>
         <attr name="titleText" format="string"/>
         <attr name="rightText" format="string"/>
+        <attr name="backIcon" format="reference"/>
+        <attr name="headBackground" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="TabLayout">

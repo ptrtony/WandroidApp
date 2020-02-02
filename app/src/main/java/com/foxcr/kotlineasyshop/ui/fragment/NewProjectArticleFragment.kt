@@ -2,14 +2,18 @@ package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpFragment
 import com.foxcr.base.utils.DisplayUtils
+import com.foxcr.base.utils.ToastUtils
+import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWPROJECT
 import com.foxcr.base.widgets.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.HomeArticleProjectListAdapter
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
+import com.foxcr.kotlineasyshop.data.protocal.NoResponseResult
 import com.foxcr.kotlineasyshop.injection.component.DaggerNewProjectArticleComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.NewProjectArticlePresenter
@@ -17,7 +21,7 @@ import com.foxcr.kotlineasyshop.presenter.view.NewProjectArticleView
 import kotlinx.android.synthetic.main.fragment_new_project_article.*
 
 class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),NewProjectArticleView,
-    HomeArticleProjectListAdapter.OnLikeClickListener {
+    OnLikeClickListener {
     private var projectDatas :  MutableList<HomeArticleProjectListResp.DatasBean> = mutableListOf()
     private val mAdapter: HomeArticleProjectListAdapter by lazy {
         HomeArticleProjectListAdapter(projectDatas)
@@ -45,6 +49,7 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
         )
         mNewProjectArticleRv.adapter = mAdapter
         mAdapter.setOnLikeClickListener(this)
+        initLoveLayout()
     }
 
     fun getNewProjectArticleList(page:Int){
@@ -58,28 +63,30 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
             if (homeArticleProjectListResp.datas.size <= 0) return
             projectDatas.addAll(homeArticleProjectListResp.datas)
             mAdapter.setNewData(projectDatas)
-            if (onRefreshOrLoadMoreListener!=null){
-                onRefreshOrLoadMoreListener?.finishRefresh()
-            }
+            onRefreshOrLoadMoreListener?.finishRefresh()
 
         } else {
             projectDatas.addAll(homeArticleProjectListResp.datas)
             mAdapter.addData(projectDatas)
         }
         page = homeArticleProjectListResp.curPage
-        if (onRefreshOrLoadMoreListener!=null){
-            onRefreshOrLoadMoreListener?.loadPage(page,NEWPROJECT)
-        }
+        onRefreshOrLoadMoreListener?.loadPage(page,NEWPROJECT)
         if (page < homeArticleProjectListResp.pageCount) {
-            if (onRefreshOrLoadMoreListener!=null){
-                onRefreshOrLoadMoreListener?.finishLoadMore()
-            }
+            onRefreshOrLoadMoreListener?.finishLoadMore()
         } else {
-            if (onRefreshOrLoadMoreListener!=null){
-                onRefreshOrLoadMoreListener?.enableLoadMore(false)
-                onRefreshOrLoadMoreListener?.finishLoadMore()
+            onRefreshOrLoadMoreListener?.apply {
+                enableLoadMore(false)
+                finishLoadMore()
             }
         }
+    }
+
+    override fun onCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
+        ToastUtils.showToast("收藏成功")
+    }
+
+    override fun onUnCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
+        ToastUtils.showToast("取消收藏")
     }
 
     fun setOnRefreshOrLoadMoreListener(onRefreshOrLoadMoreListener: OnRefreshOrLoadMoreListener){
@@ -89,14 +96,20 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
     private var onRefreshOrLoadMoreListener: OnRefreshOrLoadMoreListener?=null
 
     override fun onLikeInNetClick(view: View, id: Int) {
-
+        val locations = IntArray(2)
+        view.getLocationOnScreen(locations)
+        mLoveView.addLoveView(view,locations)
+        mPresenter.collectInStandArticle(id)
     }
 
     override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
-
+        val locations = IntArray(2)
+        view.getLocationOnScreen(locations)
+        mLoveView.addLoveView(view,locations)
+        mPresenter.collectOutStandArticle(title,author, link)
     }
 
     override fun cancelCollectClick(id: Int, originId: Int) {
-
+        mPresenter.uncollectArticle(id, originId)
     }
 }

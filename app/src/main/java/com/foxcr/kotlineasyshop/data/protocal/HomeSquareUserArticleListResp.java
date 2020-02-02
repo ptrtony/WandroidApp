@@ -89,6 +89,7 @@ public class HomeSquareUserArticleListResp {
         public int visible;
         public int zan;
         public List<?> tags;
+        public int originId;
 
 
     }

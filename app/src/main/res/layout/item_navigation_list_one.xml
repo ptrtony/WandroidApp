@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:id="@+id/mNavigationListOneTv"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:textSize="@dimen/text_middle_size"
+    android:textColor="@color/text_light_dark"
+    android:text="常用网站"
+    android:textStyle="bold"
+    android:gravity="center_vertical"
+    android:background="@color/common_white"
+    android:paddingStart="@dimen/common_margin"/>

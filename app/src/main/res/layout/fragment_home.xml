@@ -29,6 +29,7 @@
                     android:layout_marginStart="@dimen/common_margin"
                     android:button="@null"
                     android:text="最新博文"
+                    android:gravity="center"
                     android:textColor="@color/common_blue"
                     android:textSize="@dimen/text_large_size"
                     android:textStyle="bold" />
@@ -48,6 +49,7 @@
                     android:layout_marginStart="@dimen/common_margin_small"
                     android:button="@null"
                     android:text="最新项目"
+                    android:gravity="center"
                     android:textColor="@color/text_light_dark"
                     android:textSize="@dimen/text_large_size"
                     android:textStyle="bold" />

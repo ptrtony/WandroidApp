@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mTagTv"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/text_small_size"
+    android:text="问答"
+    android:background="@drawable/selector_tag_selected"
+    android:paddingStart="@dimen/common_margin_middle"
+    android:paddingEnd="@dimen/common_margin_middle"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"/>

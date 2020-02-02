@@ -1,6 +1,7 @@
 package com.foxcr.base.ui.activity
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.base.presenter.view.BaseView
+import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.LoadingDialog
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ open abstract class BaseMvpActivity<T:BasePresenter<*>> : BaseActivity(),BaseVie
     }
 
     override fun onError(errorMsg:String) {
-
+        ToastUtils.showToast(errorMsg)
     }
 
     @Inject

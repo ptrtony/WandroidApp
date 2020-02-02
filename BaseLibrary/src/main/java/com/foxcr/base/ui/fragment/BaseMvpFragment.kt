@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.base.presenter.view.BaseView
+import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.LoadingDialog
 import com.foxcr.base.widgets.LoveLayout
 import javax.inject.Inject
@@ -13,8 +14,7 @@ import javax.inject.Inject
 open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseView {
     lateinit var mLoveView:LoveLayout
     private val mLoadingDialog:LoadingDialog by lazy {
-
-        LoadingDialog(activity?.applicationContext!!)
+        LoadingDialog(activity!!)
     }
     override fun showLoading() {
         if (!mLoadingDialog.isShowing){
@@ -45,7 +45,7 @@ open abstract class BaseMvpFragment<T:BasePresenter<*>> : BaseFragment(),BaseVie
     }
 
     override fun onError(errorMsg:String) {
-
+        if (!(errorMsg == null || errorMsg == "null")) ToastUtils.showToast(errorMsg)
     }
 
     @Inject

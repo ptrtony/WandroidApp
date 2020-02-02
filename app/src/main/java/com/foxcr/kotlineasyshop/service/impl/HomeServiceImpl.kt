@@ -1,5 +1,6 @@
 package com.foxcr.kotlineasyshop.service.impl
 
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.kotlineasyshop.data.protocal.*
 import com.foxcr.kotlineasyshop.data.repository.HomeRepository
 import com.foxcr.kotlineasyshop.service.HomeService
@@ -39,4 +40,30 @@ class HomeServiceImpl @Inject constructor(): HomeService {
     override fun homeSquareUserArticleList(page: Int): Observable<HomeSquareUserArticleListResp> {
         return homeRepository.homeSquareUserArticleProjectList(page)
     }
+
+    override fun collectInStackArticle(id: Int): Observable<BaseNoneResponseResult> {
+        return homeRepository.collectInStandArticle(id)
+    }
+
+    override fun collectOutStackArticle(
+        title: String,
+        author: String,
+        link: String
+    ): Observable<BaseNoneResponseResult> {
+        return homeRepository.collectOutStandArticle(title, author, link)
+    }
+
+    override fun uncollectArticle(id: Int, originId: Int): Observable<BaseNoneResponseResult> {
+        return homeRepository.uncollectArticle(id, originId)
+    }
+
+    override fun getNavigationData(): Observable<List<HomeNavigationResp>> {
+        return homeRepository.getNavigationData()
+    }
+
+    override fun getQuestAnswerData(page: Int): Observable<HomeRequestAnswerListResp> {
+        return homeRepository.getQuestAnswerListData(page)
+    }
+
+
 }

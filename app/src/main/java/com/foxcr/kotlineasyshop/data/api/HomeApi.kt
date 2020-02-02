@@ -1,5 +1,6 @@
 package com.foxcr.kotlineasyshop.data.api
 
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.data.protocal.BaseResp
 import com.foxcr.kotlineasyshop.data.protocal.*
 import io.reactivex.Observable
@@ -61,7 +62,7 @@ interface HomeApi {
      * 收藏站内文章
      */
     @POST("lg/collect/{id}/json")
-    fun collectInAddressArticle(@Path("id") id: Int): Observable<BaseResp<NoResponseResult>>
+    fun collectInAddressArticle(@Path("id") id: Int): Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
      * 收藏站外文章
@@ -70,10 +71,10 @@ interface HomeApi {
     @FormUrlEncoded
     fun collectOutAddressArticle(@Field("title")title:String
                                  ,@Field("author")author:String
-                                 ,@Field("link")link:String):Observable<BaseResp<NoResponseResult>>
+                                 ,@Field("link")link:String):Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
-     * 取消收藏文章列表
+     * 取消收藏文章
      */
     @POST("lg/uncollect_originId/{id}/json")
     fun uncollectArticleList(@Path("id")id:Int):Observable<BaseResp<UncollectArticleListResp>>
@@ -83,33 +84,43 @@ interface HomeApi {
      */
     @POST("lg/uncollect/{id}/json")
     @FormUrlEncoded
-    fun userUncollectArticle(@Path("id")id:Int,@Field("originId")originId:Int):Observable<BaseResp<Any>>
+    fun userUncollectArticle(@Path("id")id:Int,@Field("originId")originId:Int):Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
      * 收藏网站列表
      */
     @GET("lg/collect/usertools/json")
-    fun collectUserTools():Observable<BaseResp<Any>>
+    fun collectUserTools():Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
      * 收藏网址
      */
     @POST("lg/collect/addtool/json")
-    fun collectAddTools():Observable<BaseResp<Any>>
+    fun collectAddTools():Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
      * 编辑收藏网站
      */
     @POST("lg/collect/updatetool/json")
     @FormUrlEncoded
-    fun collectUpdateTool(@Field("id")id:Int,@Field("name")name:String,@Field("link")link:String):Observable<BaseResp<Any>>
+    fun collectUpdateTool(@Field("id")id:Int,@Field("name")name:String,@Field("link")link:String):Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
      * 删除收藏网站
      */
     @POST("lg/collect/deletetool/json")
     @FormUrlEncoded
-    fun collectDeleteTool(@Field("id")id:Int):Observable<BaseResp<Any>>
+    fun collectDeleteTool(@Field("id")id:Int):Observable<BaseResp<BaseNoneResponseResult>>
 
+    /**
+     * 导航数据
+     */
+    @GET("navi/json")
+    fun getNavigationData():Observable<BaseResp<List<HomeNavigationResp>>>
 
+    /**
+     * 问答列表
+     */
+    @GET("wenda/list/{pageId}/json ")
+    fun getRequestAnswerListData(@Path("pageId")page:Int):Observable<BaseResp<HomeRequestAnswerListResp>>
 }

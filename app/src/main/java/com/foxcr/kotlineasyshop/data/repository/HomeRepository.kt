@@ -1,10 +1,12 @@
 package com.foxcr.kotlineasyshop.data.repository
 
 import com.foxcr.base.data.net.RetrofitFactory
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.convert
 import com.foxcr.kotlineasyshop.data.api.HomeApi
 import com.foxcr.kotlineasyshop.data.protocal.*
 import io.reactivex.Observable
+import java.util.*
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(){
@@ -68,6 +70,51 @@ class HomeRepository @Inject constructor(){
     fun homeSquareUserArticleProjectList(page: Int):Observable<HomeSquareUserArticleListResp>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .homeSquareUserArticleList(page)
+            .convert()
+    }
+
+    /**
+     * 收藏站内文章
+     */
+    fun collectInStandArticle(id:Int):Observable<BaseNoneResponseResult>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .collectInAddressArticle(id)
+            .convert()
+    }
+
+    /**
+     * 收藏站外文章
+     */
+    fun collectOutStandArticle(title:String,author:String,link:String):Observable<BaseNoneResponseResult>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .collectOutAddressArticle(title, author, link)
+            .convert()
+    }
+
+    /**
+     * 取消收藏的文章
+     */
+    fun uncollectArticle(id:Int,originId:Int):Observable<BaseNoneResponseResult>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .userUncollectArticle(id,originId)
+            .convert()
+    }
+
+    /**
+     * 导航数据
+     */
+    fun getNavigationData():Observable<List<HomeNavigationResp>>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getNavigationData()
+            .convert()
+    }
+
+    /**
+     * 问答列表
+     */
+    fun getQuestAnswerListData(page:Int):Observable<HomeRequestAnswerListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getRequestAnswerListData(page)
             .convert()
     }
 

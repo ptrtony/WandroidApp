@@ -15,7 +15,7 @@ import com.foxcr.kotlineasyshop.ui.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-@Route(path = "/app/main")
+@Route(path = "/easyshop/main")
 class MainActivity : AppCompatActivity() {
     private var pressTime: Long = 0L
     private lateinit var mainPagerAdapter: MainAdapter

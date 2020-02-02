@@ -1,6 +1,8 @@
 package com.foxcr.base.widgets
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -14,29 +16,34 @@ class HeaderBar @JvmOverloads constructor(
     private var isShowBack = true
     private var titleText: String? = null
     private var rightText: String? = null
+    private var backIcon: Drawable? = null
+    private var background: Int? = null
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.HeaderBar)
-        isShowBack = typedArray.getBoolean(R.styleable.HeaderBar_isShowBack,true)
+        isShowBack = typedArray.getBoolean(R.styleable.HeaderBar_isShowBack, true)
         titleText = typedArray.getString(R.styleable.HeaderBar_titleText)
         rightText = typedArray.getString(R.styleable.HeaderBar_rightText)
+        backIcon = typedArray.getDrawable(R.styleable.HeaderBar_backIcon)
+        background = typedArray.getColor(R.styleable.HeaderBar_headBackground,Color.parseColor("#03a9f4"))
         typedArray.recycle()
-
         initView()
     }
 
     private fun initView() {
-        View.inflate(context,R.layout.layout_header_bar,this)
+        View.inflate(context, R.layout.layout_header_bar, this)
         mLeftIv.visibility = if (isShowBack) View.VISIBLE else View.GONE
         titleText?.let { mTitleTv.text = it }
         rightText?.let { mRightTv.text = it }
+        backIcon?.let { mLeftIv.setImageDrawable(it) }
+        background?.let { mHeaderBarRl.setBackgroundColor(it) }
     }
 
     /**
      * 点击右边文字
      */
-    fun onRightClickListener(method:()->Unit){
-        mRightTv.setOnClickListener{
+    fun onRightClickListener(method: () -> Unit) {
+        mRightTv.setOnClickListener {
             method()
         }
     }
@@ -44,8 +51,8 @@ class HeaderBar @JvmOverloads constructor(
     /**
      * 点击回退键
      */
-    fun onBackClickListener(method:()->Unit){
-        mLeftIv.setOnClickListener{
+    fun onBackClickListener(method: () -> Unit) {
+        mLeftIv.setOnClickListener {
             method()
         }
     }

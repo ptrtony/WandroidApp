@@ -3,7 +3,6 @@ package com.foxcr.user.ui.activity
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.foxcr.base.common.AppManager
 import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.ext.enable
@@ -47,6 +46,8 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
         mLoginBtn.enable(mUserNameEtn, backgroundColors) { isEnable() }
         mLoginBtn.enable(mPwdEtn, backgroundColors) { isEnable() }
         mLoginBtn.onClick {
+            SPUtil.putString(BaseConstant.LOGINUSERNAME,"")
+            SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,"")
             mPresenter.login(
                 mUserNameEtn.text.toString().trim(),
                 mPwdEtn.text.toString().trim()
@@ -63,10 +64,11 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     }
 
     override fun onLoginResult(loginResp: LoginResp) {
-        SPUtil.putString(BaseConstant.LOGINUSERNAME,loginResp.username)
-        SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,loginResp.password)
+        SPUtil.putString(BaseConstant.LOGINUSERNAME,mUserNameEtn.text.toString().trim())
+        SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,mPwdEtn.text.toString().trim())
         ARouter.getInstance()
-            .build("/app/main")
+            .build("/easyshop/main")
+            .greenChannel()
             .navigation(this,object:EasyNavigationCallback(){
                 override fun onArrival(postcard: Postcard?) {
                     super.onArrival(postcard)
