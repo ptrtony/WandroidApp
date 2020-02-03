@@ -2,8 +2,10 @@ package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
@@ -26,8 +28,10 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
     private val mAdapter: HomeArticleListAdapter by lazy {
         HomeArticleListAdapter(articleDatas)
     }
-    private var page: Int = 0
+    private var page: Int = 1
 
+
+    private lateinit var mNewBlogArticleRv:RecyclerView
     override fun resLayoutId(): Int = R.layout.fragment_new_blog_article
 
     override fun injectComponent() {
@@ -36,22 +40,26 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
     }
 
     override fun initView(view: View) {
+        mNewBlogArticleRv = view.findViewById(R.id.mNewBlogArticleRv)
         mPresenter.mView = this
         //首页最新博文列表
-        mNewBlogArticleRv.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mNewBlogArticleRv.addItemDecoration(
-            RecycleViewDivider(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                DisplayUtils.dp2px(1f),
-                resources.getColor(R.color.common_divider),
-                DisplayUtils.dp2px(15f)
+        mNewBlogArticleRv.apply {
+            layoutManager =
+                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                RecycleViewDivider(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),
+                    resources.getColor(R.color.common_divider),
+                    DisplayUtils.dp2px(15f)
+                )
             )
-        )
-        mNewBlogArticleRv.adapter = mAdapter
-        mAdapter.setOnLikeClickListener(this)
+            adapter = mAdapter
 
+        }
+
+        mAdapter.setOnLikeClickListener(this)
         initLoveLayout()
 
     }
@@ -63,7 +71,7 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
     }
 
     override fun onNewBlogArticleListResult(homeArticleListResp: HomeArticleListResp) {
-        if (page == 0) {
+        if (page == 1) {
             articleDatas.clear()
             if (homeArticleListResp.datas.size <= 0) return
             articleDatas.addAll(homeArticleListResp.datas)
@@ -75,11 +83,11 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
             articleDatas.addAll(homeArticleListResp.datas)
             mAdapter.addData(articleDatas)
         }
-        page = homeArticleListResp.curPage
+        page ++
 
         onRefreshLoadMoreListener?.loadPage(page, NEWBLOGTYPE)
 
-        if (page < homeArticleListResp.pageCount) {
+        if (page <= homeArticleListResp.pageCount) {
 
             onRefreshLoadMoreListener?.finishLoadMore()
 
@@ -122,4 +130,7 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
     override fun onUnCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
         ToastUtils.showToast("取消收藏")
     }
+
+
+
 }

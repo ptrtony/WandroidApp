@@ -3,30 +3,32 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.GlideUtils
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWBLOGTYPE
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWPROJECT
+import com.foxcr.base.widgets.slideview.SlidingPlayViewWithDot
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeBannerResp
 import com.foxcr.kotlineasyshop.injection.component.DaggerHomeComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.HomePresenter
 import com.foxcr.kotlineasyshop.presenter.view.HomeView
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeView,
+class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, HomeView,
     RadioGroup.OnCheckedChangeListener, OnRefreshListener, OnRefreshOrLoadMoreListener {
-    private var projectPage: Int = 0
-    private var articlePage: Int = 0
+    private var projectPage: Int = 1
+    private var articlePage: Int = 1
     private var bannerDatas: MutableList<HomeBannerResp> = mutableListOf()
     private lateinit var mInflater: LayoutInflater
     private var isCheckArticle = true
@@ -38,14 +40,27 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
         NewProjectArticleFragment()
     }
 
+    private lateinit var mHomeSmartRefresh:SmartRefreshLayout
+    private lateinit var mHomeNewArticleRg:RadioGroup
+    private lateinit var mHomeBanner: SlidingPlayViewWithDot
+    private lateinit var mHomeNewBlogRb:RadioButton
+    private lateinit var mHomeNewProjectRb:RadioButton
     override fun resLayoutId(): Int = R.layout.fragment_home
 
 
     override fun initView(view: View) {
         mInflater = LayoutInflater.from(context)
-        mHomeSmartRefresh.setOnLoadMoreListener(this)
-        mHomeSmartRefresh.setOnRefreshListener(this)
-        mHomeSmartRefresh.autoRefresh()
+
+        mHomeSmartRefresh = view.findViewById(R.id.mHomeSmartRefresh)
+        mHomeNewArticleRg = view.findViewById(R.id.mHomeNewArticleRg)
+        mHomeBanner = view.findViewById(R.id.mHomeBanner)
+        mHomeNewBlogRb = view.findViewById(R.id.mHomeNewBlogRb)
+        mHomeNewProjectRb = view.findViewById(R.id.mHomeNewProjectRb)
+
+        mHomeSmartRefresh.apply {
+            setOnLoadMoreListener(this@HomeFragment)
+            setOnRefreshListener(this@HomeFragment)
+        }
         mHomeNewArticleRg.setOnCheckedChangeListener(this)
         newBlogArticleFragment.setOnRefreshOrLoadMoreListener(this)
         newProjectArticleFragment.setOnRefreshOrLoadMoreListener(this)
@@ -56,6 +71,8 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
             .addToBackStack(null)
             .commit()
     }
+
+
 
     override fun onStop() {
         super.onStop()
@@ -141,8 +158,8 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
     }
 
     private fun refreshData(){
-        projectPage = 0
-        articlePage = 0
+        projectPage = 1
+        articlePage = 1
         if (isCheckArticle){
             newBlogArticleFragment.getNewBlogArticleList(articlePage)
         }else{
@@ -172,6 +189,10 @@ class HomeFragment : BaseMvpFragment<HomePresenter>(), OnLoadMoreListener, HomeV
         } else if (type == NEWBLOGTYPE) {
             articlePage = page
         }
+    }
+
+    override fun onFragmentFirstVisible() {
+        mHomeSmartRefresh.autoRefresh()
     }
 
 

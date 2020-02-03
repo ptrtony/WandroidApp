@@ -64,4 +64,14 @@ interface HomeService {
      * 问答数据
      */
     fun getQuestAnswerData(page:Int):Observable<HomeRequestAnswerListResp>
+
+    /**
+     * 知识体系 二级
+     */
+    fun getKnowledgeSystemData():Observable<List<HomeKnowledgeSystemResp>>
+
+    /**
+     * 知识体系
+     */
+    fun getKnowledgeSystemListData(page:Int,cid:Int):Observable<HomeKnowledgeSystemListResp>
 }

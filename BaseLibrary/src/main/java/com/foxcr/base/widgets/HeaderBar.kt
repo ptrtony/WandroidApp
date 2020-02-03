@@ -18,6 +18,8 @@ class HeaderBar @JvmOverloads constructor(
     private var rightText: String? = null
     private var backIcon: Drawable? = null
     private var background: Int? = null
+    private var rightIcon: Drawable? = null
+    private var titleTextColor: Int? = null
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.HeaderBar)
@@ -25,7 +27,10 @@ class HeaderBar @JvmOverloads constructor(
         titleText = typedArray.getString(R.styleable.HeaderBar_titleText)
         rightText = typedArray.getString(R.styleable.HeaderBar_rightText)
         backIcon = typedArray.getDrawable(R.styleable.HeaderBar_backIcon)
-        background = typedArray.getColor(R.styleable.HeaderBar_headBackground,Color.parseColor("#03a9f4"))
+        background =
+            typedArray.getColor(R.styleable.HeaderBar_headBackground, Color.parseColor("#03a9f4"))
+        rightIcon = typedArray.getDrawable(R.styleable.HeaderBar_rightIcon)
+        titleTextColor = typedArray.getColor(R.styleable.HeaderBar_titleTextColor,Color.parseColor("#FFFFFF"))
         typedArray.recycle()
         initView()
     }
@@ -37,6 +42,8 @@ class HeaderBar @JvmOverloads constructor(
         rightText?.let { mRightTv.text = it }
         backIcon?.let { mLeftIv.setImageDrawable(it) }
         background?.let { mHeaderBarRl.setBackgroundColor(it) }
+        titleTextColor?.let { mTitleTv.setTextColor(it) }
+        rightIcon?.let { mRightIv.setImageDrawable(it) }
     }
 
     /**
@@ -44,6 +51,15 @@ class HeaderBar @JvmOverloads constructor(
      */
     fun onRightClickListener(method: () -> Unit) {
         mRightTv.setOnClickListener {
+            method()
+        }
+    }
+
+    /**
+     * 点击右边的图片
+     */
+    fun onRightIconClickListener(method: () -> Unit) {
+        mRightIv.setOnClickListener {
             method()
         }
     }
@@ -57,5 +73,11 @@ class HeaderBar @JvmOverloads constructor(
         }
     }
 
+    /**
+     * 设置标题的文字
+     */
+    fun setCenterText(title: String) {
+        mTitleTv.text = title
+    }
 
 }

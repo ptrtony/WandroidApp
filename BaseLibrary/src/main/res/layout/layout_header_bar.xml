@@ -26,5 +26,17 @@
         android:paddingRight="@dimen/common_padding"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/common_white"/>
+        android:textColor="@color/common_white"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/mRightIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        android:padding="5dp"
+        android:layout_marginEnd="@dimen/common_margin"/>
+
 </RelativeLayout>

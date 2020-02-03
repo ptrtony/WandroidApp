@@ -111,29 +111,4 @@ class HomeQuestAnswerAdapter constructor(datas:List<HomeRequestAnswerListResp.Da
     }
 
 
-    class QuestAnswerTagAdapter constructor(context: Context,var datas:MutableList<HomeRequestAnswerListResp.DatasBean.TagsBean>): TagAdapter<HomeRequestAnswerListResp.DatasBean.TagsBean>(datas){
-        private val mInflater:LayoutInflater = LayoutInflater.from(context)
-
-        fun setNewData(data: MutableList<HomeRequestAnswerListResp.DatasBean.TagsBean>?) {
-            this.datas = data ?: mutableListOf()
-            notifyDataChanged()
-        }
-
-        fun addData(data: MutableList<HomeRequestAnswerListResp.DatasBean.TagsBean>) {
-            datas.addAll(data)
-            notifyDataChanged()
-        }
-
-        override fun getView(
-            parent: FlowLayout,
-            position: Int,
-            t: HomeRequestAnswerListResp.DatasBean.TagsBean
-        ): View {
-            val view = mInflater.inflate(R.layout.item_text,parent,false)
-            val text:TextView = view.findViewById(R.id.mTagTv)
-            text.text = t.name
-            return view
-        }
-
-    }
 }

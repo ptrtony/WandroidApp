@@ -1,12 +1,10 @@
 package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.View
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
-import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.base.presenter.view.BaseView
-import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
@@ -18,36 +16,40 @@ import com.foxcr.kotlineasyshop.injection.component.DaggerQuestionAnswersCompone
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.QuestAnswerPresenter
 import com.foxcr.kotlineasyshop.presenter.view.QuestAnswerView
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_question_answers.*
 
-class QuestionAnswersFragment : BaseMvpFragment<QuestAnswerPresenter>(),QuestAnswerView,
+class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),QuestAnswerView,
     OnRefreshListener, OnLoadMoreListener, OnLikeClickListener {
     private var datas:MutableList<HomeRequestAnswerListResp.DatasBean> = mutableListOf()
     private val mQuestAnswerAdapter:HomeQuestAnswerAdapter by lazy {
         HomeQuestAnswerAdapter(datas)
     }
-    private var page:Int = 0
+    private var page:Int = 1
     override fun resLayoutId(): Int = R.layout.fragment_question_answers
 
+    private lateinit var mQuestAnswerSmartRefresh : SmartRefreshLayout
+    private lateinit var mQuestAnswerRl:RecyclerView
     override fun injectComponent() {
         DaggerQuestionAnswersComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
     }
 
     override fun initView(view: View) {
+        mQuestAnswerSmartRefresh = view.findViewById(R.id.mQuestAnswerSmartRefresh)
+        mQuestAnswerRl = view.findViewById(R.id.mQuestAnswerRl)
         mPresenter.mView = this
-        mQuestAnswerSmartRefresh?.apply {
+        mQuestAnswerSmartRefresh.apply {
             setEnableRefresh(true)
             setEnableLoadMore(true)
             setOnRefreshListener(this@QuestionAnswersFragment)
             setOnLoadMoreListener(this@QuestionAnswersFragment)
-            autoRefresh()
         }
 
-        mQuestAnswerRl?.apply {
+        mQuestAnswerRl.apply {
             layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
             addItemDecoration(
                 RecycleViewDivider(
@@ -67,7 +69,7 @@ class QuestionAnswersFragment : BaseMvpFragment<QuestAnswerPresenter>(),QuestAns
     }
 
     override fun onQuestAnswerResult(homeRequestAnswerListResp: HomeRequestAnswerListResp) {
-        if (page == 0){
+        if (page == 1){
             datas.clear()
             datas.addAll(homeRequestAnswerListResp.datas)
             mQuestAnswerAdapter.setNewData(datas)
@@ -99,7 +101,7 @@ class QuestionAnswersFragment : BaseMvpFragment<QuestAnswerPresenter>(),QuestAns
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 0
+        page = 1
         mPresenter.getQuestAnswerData(page)
     }
 
@@ -123,6 +125,10 @@ class QuestionAnswersFragment : BaseMvpFragment<QuestAnswerPresenter>(),QuestAns
 
     override fun cancelCollectClick(id: Int, originId: Int) {
         mPresenter.uncollectArticle(id, originId)
+    }
+
+    override fun onFragmentFirstVisible() {
+        mQuestAnswerSmartRefresh.autoRefresh()
     }
 
 }

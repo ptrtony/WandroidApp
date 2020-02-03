@@ -17,9 +17,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mLikeIv"
         android:textSize="@dimen/text_big_size"
-        android:textColor="@color/common_blue"
+        android:textColor="@color/text_light_dark"
         android:text="每日一问 2019年终致辞 支持编辑啦"
-        />
+        android:textStyle="bold"/>
 
 
     <com.zhy.view.flowlayout.TagFlowLayout

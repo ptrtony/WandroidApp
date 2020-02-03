@@ -17,6 +17,8 @@ import com.foxcr.base.utils.TimeUtils
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
+import com.foxcr.kotlineasyshop.data.protocal.HomeRequestAnswerListResp
+import com.zhy.view.flowlayout.TagFlowLayout
 
 
 /**
@@ -27,6 +29,10 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
         R.layout.item_home_article,
         articleDatas
     ) {
+    private var mTagData : MutableList<HomeArticleListResp.DatasBean.TagsBean> = mutableListOf()
+    private val mTagAdapter:HomeArticleTagAdapter by lazy {
+        HomeArticleTagAdapter(mContext,mTagData)
+    }
 
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
         val mTitleTv: TextView = view.findViewById(R.id.mTitleTv)
@@ -34,7 +40,7 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
         val mCategoryTv: TextView = view.findViewById(R.id.mCategoryTv)
         val mTimeTv: TextView = view.findViewById(R.id.mTimeTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
-
+        val mTagFlowL:TagFlowLayout = view.findViewById(R.id.mTagFlowL)
         @SuppressLint("SetTextI18n")
         fun dataBinding(mContext: Context, item: HomeArticleListResp.DatasBean){
             mTitleTv.text = item.title
@@ -69,6 +75,10 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
     override fun convert(helper: ArticleListViewHolder, item: HomeArticleListResp.DatasBean) {
 
         helper.dataBinding(mContext,item)
+        helper.mTagFlowL.adapter = mTagAdapter
+        mTagData.clear()
+        mTagData.addAll(item.tags)
+        mTagAdapter.setNewData(mTagData)
         helper.mLikeIv.setOnClickListener {
             if (SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()||SPUtil.getString(BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty()){
                 ARouter.getInstance().build("/userCenter/login").greenChannel().navigation()

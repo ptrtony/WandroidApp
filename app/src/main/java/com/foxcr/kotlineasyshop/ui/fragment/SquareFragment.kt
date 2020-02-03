@@ -2,8 +2,9 @@ package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
-import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
@@ -15,16 +16,22 @@ import com.foxcr.kotlineasyshop.injection.component.DaggerSquareComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.SquarePresenter
 import com.foxcr.kotlineasyshop.presenter.view.SquareView
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_square.*
 
-class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, OnRefreshListener,SquareView,
+class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListener, OnRefreshListener,SquareView,
     OnLikeClickListener {
-    private lateinit var homeSquareUserArticleAdapter:HomeSquareUserArticleAdapter
     private var squareUserArticleDatas:MutableList<HomeSquareUserArticleListResp.DatasBean> = mutableListOf()
-    private var page:Int = 0
+    private val homeSquareUserArticleAdapter:HomeSquareUserArticleAdapter by lazy {
+        HomeSquareUserArticleAdapter(squareUserArticleDatas)
+    }
+    private var page:Int = 1
+    private lateinit var mSquareSrl:SmartRefreshLayout
+    private lateinit var mSquareRv:RecyclerView
+
     override fun resLayoutId(): Int = R.layout.fragment_square
 
     override fun injectComponent() {
@@ -33,16 +40,21 @@ class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, On
     }
     override fun initView(view: View) {
         mPresenter.mView = this
-        mSquareSrl.autoRefresh()
-        mSquareSrl.setOnLoadMoreListener(this)
-        mSquareSrl.setOnRefreshListener(this)
-        mSquareRv.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-        homeSquareUserArticleAdapter = HomeSquareUserArticleAdapter(squareUserArticleDatas)
-        mSquareRv.addItemDecoration(
-            RecycleViewDivider(context,LinearLayoutManager.HORIZONTAL,
-                DisplayUtils.dp2px(1f),resources.getColor(R.color.common_divider), DisplayUtils.dp2px(15f))
-        )
-        mSquareRv.adapter = homeSquareUserArticleAdapter
+        mSquareSrl = view.findViewById(R.id.mSquareSrl)
+        mSquareRv = view.findViewById(R.id.mSquareRv)
+        mSquareSrl.apply {
+            setOnLoadMoreListener(this@SquareFragment)
+            setOnRefreshListener(this@SquareFragment)
+        }
+
+        mSquareRv.apply {
+            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            addItemDecoration(
+                RecycleViewDivider(context,LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),resources.getColor(R.color.common_divider), DisplayUtils.dp2px(15f))
+            )
+            adapter = homeSquareUserArticleAdapter
+        }
         homeSquareUserArticleAdapter.setOnLikeClickListener(this)
         initLoveLayout()
     }
@@ -52,15 +64,14 @@ class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, On
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
+        page = 1
         mPresenter.getSquareArticleUserList(page)
     }
 
     override fun onHomeSquareUserArticleList(homeSquareUserArticleListResp: HomeSquareUserArticleListResp) {
-        if (page == 0 && squareUserArticleDatas.size>0){
-            squareUserArticleDatas.clear()
-        }
+        squareUserArticleDatas.clear()
         squareUserArticleDatas.addAll(homeSquareUserArticleListResp.datas)
-        if (page == 0){
+        if (page == 1){
             homeSquareUserArticleAdapter.setNewData(squareUserArticleDatas)
             mSquareSrl.finishRefresh()
             mSquareSrl.setEnableRefresh(false)
@@ -69,7 +80,6 @@ class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, On
             mSquareSrl.finishLoadMore()
         }
         page = homeSquareUserArticleListResp.curPage
-        mSquareSrl.setEnableRefresh(false)
         if (page>=homeSquareUserArticleListResp.pageCount){
             mSquareSrl.setEnableLoadMore(false)
         }
@@ -99,5 +109,9 @@ class SquareFragment :BaseMvpFragment<SquarePresenter>(), OnLoadMoreListener, On
 
     override fun cancelCollectClick(id: Int, originId: Int) {
         mPresenter.uncollectArticle(id, originId)
+    }
+
+    override fun onFragmentFirstVisible() {
+        mSquareSrl.autoRefresh()
     }
 }

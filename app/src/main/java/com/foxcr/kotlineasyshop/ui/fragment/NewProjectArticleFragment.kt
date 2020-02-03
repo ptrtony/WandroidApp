@@ -2,6 +2,7 @@ package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpFragment
 import com.foxcr.base.utils.DisplayUtils
@@ -26,7 +27,7 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
     private val mAdapter: HomeArticleProjectListAdapter by lazy {
         HomeArticleProjectListAdapter(projectDatas)
     }
-    private var page : Int = 0
+    private var page : Int = 1
     override fun resLayoutId(): Int = R.layout.fragment_new_project_article
 
     override fun injectComponent() {
@@ -34,20 +35,26 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
             .homeModule(HomeModule()).build().inject(this)
     }
 
+    private lateinit var mNewProjectArticleRv:RecyclerView
+
     override fun initView(view: View) {
+        mNewProjectArticleRv = view.findViewById(R.id.mNewProjectArticleRv)
         mPresenter.mView = this
         //首页最新项目列表
-        mNewProjectArticleRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mNewProjectArticleRv.addItemDecoration(
-            RecycleViewDivider(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                DisplayUtils.dp2px(1f),
-                resources.getColor(R.color.common_divider),
-                DisplayUtils.dp2px(15f)
+        mNewProjectArticleRv.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                RecycleViewDivider(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),
+                    resources.getColor(R.color.common_divider),
+                    DisplayUtils.dp2px(15f)
+                )
             )
-        )
-        mNewProjectArticleRv.adapter = mAdapter
+            adapter = mAdapter
+
+        }
         mAdapter.setOnLikeClickListener(this)
         initLoveLayout()
     }
@@ -58,7 +65,7 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
     }
 
     override fun onNewProjectArticleResult(homeArticleProjectListResp: HomeArticleProjectListResp) {
-        if (page == 0) {
+        if (page == 1) {
             projectDatas.clear()
             if (homeArticleProjectListResp.datas.size <= 0) return
             projectDatas.addAll(homeArticleProjectListResp.datas)
@@ -69,9 +76,9 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
             projectDatas.addAll(homeArticleProjectListResp.datas)
             mAdapter.addData(projectDatas)
         }
-        page = homeArticleProjectListResp.curPage
+        page ++
         onRefreshOrLoadMoreListener?.loadPage(page,NEWPROJECT)
-        if (page < homeArticleProjectListResp.pageCount) {
+        if (page <= homeArticleProjectListResp.pageCount) {
             onRefreshOrLoadMoreListener?.finishLoadMore()
         } else {
             onRefreshOrLoadMoreListener?.apply {

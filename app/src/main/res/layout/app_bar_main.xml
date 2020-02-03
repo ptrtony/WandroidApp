@@ -4,6 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <com.foxcr.base.widgets.HeaderBar
+        android:id="@+id/mHomeHeaderBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:headBackground="@color/common_white"
+        app:backIcon="@mipmap/icon_mean"
+        app:isShowBack="true"
+        app:rightIcon="@mipmap/icon_search"
+        app:titleText="首页"
+        app:titleTextColor="@color/text_light_dark"/>
     <com.foxcr.base.widgets.tablayout.TabLayout
         android:id="@+id/mHomeTab"
         android:layout_width="match_parent"
@@ -18,7 +28,7 @@
         app:indicatorMarginBottom="3dp"
         app:tabSelectedTextColor="@color/common_blue"
         app:tabTextColor="@color/text_light_dark"
-        />
+        app:tabBackground="@color/common_white"/>
     
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/mMainVp2"

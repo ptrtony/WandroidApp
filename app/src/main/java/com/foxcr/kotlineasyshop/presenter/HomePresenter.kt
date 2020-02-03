@@ -39,6 +39,9 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
      * 首页banner
      */
     fun homeBanner(){
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.homeBanner()
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()

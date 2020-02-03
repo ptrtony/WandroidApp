@@ -14,7 +14,9 @@ import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.TimeUtils
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
+import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
 import com.foxcr.kotlineasyshop.data.protocal.HomeSquareUserArticleListResp
+import com.zhy.view.flowlayout.TagFlowLayout
 
 class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSquareUserArticleListResp.DatasBean>) :
     BaseQuickAdapter<HomeSquareUserArticleListResp.DatasBean,
@@ -23,13 +25,18 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
         articleDatas
     ) {
 
+    private var mTagData : MutableList<HomeSquareUserArticleListResp.DatasBean.TagsBean> = mutableListOf()
+    private val mTagAdapter:HomeSquareUserArticleTagAdapter by lazy {
+        HomeSquareUserArticleTagAdapter(mContext,mTagData)
+    }
+
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
         val mTitleTv: TextView = view.findViewById(R.id.mTitleTv)
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
 //        val mCategoryTv: TextView = view.findViewById(R.id.mCategoryTv)
         val mTimeTv: TextView = view.findViewById(R.id.mTimeTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
-
+        val mTagFlowL : TagFlowLayout = view.findViewById(R.id.mTagFlowL)
         @SuppressLint("SetTextI18n")
         fun dataBinding(mContext: Context, item: HomeSquareUserArticleListResp.DatasBean){
             mTitleTv.text = item.title
@@ -62,6 +69,10 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
 
     override fun convert(helper: ArticleListViewHolder, item: HomeSquareUserArticleListResp.DatasBean) {
         helper.dataBinding(mContext, item)
+        helper.mTagFlowL.adapter = mTagAdapter
+        mTagData.clear()
+        mTagData.addAll(item.tags)
+        mTagAdapter.setNewData(mTagData)
         helper.mLikeIv.setOnClickListener {
             if (SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()|| SPUtil.getString(
                     BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty()){

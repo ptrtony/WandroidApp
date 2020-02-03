@@ -84,8 +84,18 @@ public class HomeArticleListResp {
         public int userId;
         public int visible;
         public int zan;
-        public List<?> tags;
         public int originId;
+        public List<TagsBean> tags;
 
+        public static class TagsBean {
+            /**
+             * name : 问答
+             * url : /article/list/0?cid=440
+             */
+
+            public String name;
+            public String url;
+
+        }
     }
 }

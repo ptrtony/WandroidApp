@@ -123,4 +123,16 @@ interface HomeApi {
      */
     @GET("wenda/list/{pageId}/json ")
     fun getRequestAnswerListData(@Path("pageId")page:Int):Observable<BaseResp<HomeRequestAnswerListResp>>
+
+    /**
+     * 体系数据
+     */
+    @GET("tree/json")
+    fun getKnowledgeSystemData():Observable<BaseResp<List<HomeKnowledgeSystemResp>>>
+
+    /**
+     * 知识体系列表
+     */
+    @GET("article/list/{page}/json")
+    fun getArticleKnowledgeSystemData(@Path("page")page:Int,@Query("cid")cid:Int):Observable<BaseResp<HomeKnowledgeSystemListResp>>
 }

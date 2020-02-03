@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.LogUtils
 import com.foxcr.base.widgets.RecycleViewDivider
@@ -23,7 +23,7 @@ import com.foxcr.kotlineasyshop.presenter.view.NavigationView
 import kotlinx.android.synthetic.main.fragment_navigation.*
 
 
-class NavigationFragment : BaseMvpFragment<NavigationPresenter>(), NavigationView,
+class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), NavigationView,
     NavigationListOneAdapter.OnNavigationListOneClickListener,
     NavigationListTwoAdapter.OnNavigationListTwoClickListener {
     companion object {
@@ -40,13 +40,15 @@ class NavigationFragment : BaseMvpFragment<NavigationPresenter>(), NavigationVie
     private val mNavigationListTwoAdapter: NavigationListTwoAdapter by lazy {
         NavigationListTwoAdapter(activity!!, mListTwoDatas)
     }
-    private var mShouldScroll:Boolean = false
-    private var mToPosition = 0
-    lateinit var centerLayoutManager: CenterLayoutManager
+
+
+    private lateinit var centerLayoutManager: CenterLayoutManager
     private var mListOneLastPosition = 0
     private var mListOneMovePosition = 0
-    override fun resLayoutId(): Int = R.layout.fragment_navigation
 
+    private lateinit var mNavigationOneRl:RecyclerView
+    private lateinit var mNavigationTwoRl:RecyclerView
+    override fun resLayoutId(): Int = R.layout.fragment_navigation
     override fun injectComponent() {
         DaggerNavigationComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
@@ -55,47 +57,54 @@ class NavigationFragment : BaseMvpFragment<NavigationPresenter>(), NavigationVie
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initView(view: View) {
         mPresenter.mView = this
-        mPresenter.getNavigationData()
+        mNavigationOneRl = view.findViewById(R.id.mNavigationOneRl)
+        mNavigationTwoRl = view.findViewById(R.id.mNavigationTwoRl)
+
         centerLayoutManager = CenterLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-        mNavigationOneRl.layoutManager = centerLayoutManager
-        mNavigationOneRl.addItemDecoration(
-            RecycleViewDivider(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                DisplayUtils.dp2px(1f),
-                resources.getColor(R.color.common_divider),
-                DisplayUtils.dp2px(15f)
+        mNavigationOneRl.apply {
+            layoutManager = centerLayoutManager
+            addItemDecoration(
+                RecycleViewDivider(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),
+                    resources.getColor(R.color.common_divider),
+                    DisplayUtils.dp2px(15f)
+                )
             )
-        )
-        mNavigationOneRl.adapter = mNavigationListOneAdapter
-        mNavigationTwoRl.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mNavigationTwoRl.addItemDecoration(StickyItemDecoration())
-        mNavigationTwoRl.adapter = mNavigationListTwoAdapter
+            adapter = mNavigationListOneAdapter
+        }
 
-        mNavigationListOneAdapter.setOnNavigationListOneClickListener(this)
-        mNavigationListTwoAdapter.setOnNavigationListTwoClickListener(this)
-        
-        mNavigationTwoRl.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            val firstVisiblePosition = mNavigationTwoRl.getChildLayoutPosition(mNavigationTwoRl.getChildAt(0))
-            for (i in 0 until mListOneDatas.size){
-                if (mListTwoDatas[firstVisiblePosition].chapterName==mListOneDatas[i].title){
-                    if (mListOneMovePosition!=i){
-                        mListOneDatas.forEachIndexed { index, oneBean ->
-                            oneBean.isSuccess = index == i
+        mNavigationTwoRl.apply {
+            layoutManager =
+                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(StickyItemDecoration())
+            adapter = mNavigationListTwoAdapter
+            setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                val firstVisiblePosition = mNavigationTwoRl.getChildLayoutPosition(mNavigationTwoRl.getChildAt(0))
+                for (i in 0 until mListOneDatas.size){
+                    if (mListTwoDatas[firstVisiblePosition].chapterName==mListOneDatas[i].title){
+                        if (mListOneMovePosition!=i){
+                            mListOneDatas.forEachIndexed { index, oneBean ->
+                                oneBean.isSuccess = index == i
+                            }
+                            centerLayoutManager.smoothScrollToPosition(mNavigationOneRl, RecyclerView.State(),
+                                i
+                            )
+                            mNavigationListOneAdapter.notifyDataSetChanged()
                         }
-                        centerLayoutManager.smoothScrollToPosition(mNavigationOneRl, RecyclerView.State(),
-                            i
-                        )
-                        mNavigationListOneAdapter.notifyDataSetChanged()
-                    }
-                    mListOneMovePosition = i
+                        mListOneMovePosition = i
 
-                    break
+                        break
+                    }
                 }
             }
         }
-        
+
+
+        mNavigationListOneAdapter.setOnNavigationListOneClickListener(this)
+        mNavigationListTwoAdapter.setOnNavigationListTwoClickListener(this)
+
 
     }
 
@@ -149,32 +158,8 @@ class NavigationFragment : BaseMvpFragment<NavigationPresenter>(), NavigationVie
 
     }
 
-
-    /**
-     * recylerview滑动到指定位置
-     */
-    private fun smoothMoveToPosition(recyclerView: RecyclerView, position: Int) {
-        // 第一个可见位置
-        val firstItem = recyclerView.getChildLayoutPosition(recyclerView.getChildAt(0))
-        // 最后一个可见位置
-        val lastItem =
-            recyclerView.getChildLayoutPosition(recyclerView.getChildAt(recyclerView.childCount - 1))
-        if (position < firstItem) {
-            // 第一种可能:跳转位置在第一个可见位置之前，使用smoothScrollToPosition
-            recyclerView.smoothScrollToPosition(position)
-        } else if (position <= lastItem){
-            val movePosition = position - firstItem
-            if (movePosition>0 && movePosition < recyclerView.childCount){
-                val top = recyclerView.getChildAt(movePosition).top
-                recyclerView.smoothScrollBy(0,top)
-            }
-        }else{
-            // 第三种可能:跳转位置在最后可见项之后，则先调用smoothScrollToPosition将要跳转的位置滚动到可见位置
-            // 再通过onScrollStateChanged控制再次调用smoothMoveToPosition，执行上一个判断中的方法
-            recyclerView.smoothScrollToPosition(position)
-            mToPosition = position
-            mShouldScroll = true
-        }
+    override fun onFragmentFirstVisible() {
+        mPresenter.getNavigationData()
     }
 
 

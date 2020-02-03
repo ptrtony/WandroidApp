@@ -6,6 +6,8 @@
         <attr name="rightText" format="string"/>
         <attr name="backIcon" format="reference"/>
         <attr name="headBackground" format="color"/>
+        <attr name="rightIcon" format="reference"/>
+        <attr name="titleTextColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="TabLayout">
@@ -56,6 +58,11 @@
         <attr name="liked" format="boolean"/>
         <attr name="is_enabled" format="boolean"/>
         <attr name="anim_scale_factor" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="RoundImage">
+        <attr name="borderRadius" format="dimension"/>
+        <attr name="type" format="integer"/>
     </declare-styleable>
 
 </resources>

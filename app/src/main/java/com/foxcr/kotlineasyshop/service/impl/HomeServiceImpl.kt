@@ -65,5 +65,16 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.getQuestAnswerListData(page)
     }
 
+    override fun getKnowledgeSystemData(): Observable<List<HomeKnowledgeSystemResp>> {
+        return homeRepository.getKnowledgeSystemData()
+    }
+
+    override fun getKnowledgeSystemListData(
+        page: Int,
+        cid: Int
+    ): Observable<HomeKnowledgeSystemListResp> {
+        return homeRepository.getKnowledgeSystemListData(page, cid)
+    }
+
 
 }

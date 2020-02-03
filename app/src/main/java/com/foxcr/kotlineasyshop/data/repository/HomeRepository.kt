@@ -118,4 +118,22 @@ class HomeRepository @Inject constructor(){
             .convert()
     }
 
+    /**
+     * 体系
+     */
+    fun getKnowledgeSystemData():Observable<List<HomeKnowledgeSystemResp>>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getKnowledgeSystemData()
+            .convert()
+    }
+
+    /**
+     * 知识体系列表
+     */
+    fun getKnowledgeSystemListData(page:Int,cid:Int):Observable<HomeKnowledgeSystemListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getArticleKnowledgeSystemData(page, cid)
+            .convert()
+    }
+
 }
