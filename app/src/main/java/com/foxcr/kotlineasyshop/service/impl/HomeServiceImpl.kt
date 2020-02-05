@@ -17,7 +17,7 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.homeBanner()
     }
 
-    override fun homeArticleList(curPage: Int): Observable<HomeArticleListResp> {
+    override fun homeArticleList(curPage: Int): Observable<HomeArticleResp> {
         return homeRepository.homeArticleList(curPage)
     }
 
@@ -33,8 +33,12 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.ofenNetAddress()
     }
 
-    override fun homeArticleProjectList(page: Int): Observable<HomeArticleProjectListResp> {
+    override fun homeArticleProjectList(page: Int): Observable<HomeArticleResp> {
         return homeRepository.homeArticleProjectList(page)
+    }
+
+    override fun collectListArticle(page:Int): Observable<CollectArticleListResp> {
+        return homeRepository.getCollectListArticleData(page)
     }
 
     override fun homeSquareUserArticleList(page: Int): Observable<HomeSquareUserArticleListResp> {
@@ -101,6 +105,10 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         cid: Int
     ): Observable<ProjectCategoryListResp> {
         return homeRepository.getProjectCategoryListData(cid,page)
+    }
+
+    override fun getArticleQueryData(page: Int, key: String): Observable<SearchArticleResp> {
+        return homeRepository.getArticleQueryData(page, key)
     }
 
 

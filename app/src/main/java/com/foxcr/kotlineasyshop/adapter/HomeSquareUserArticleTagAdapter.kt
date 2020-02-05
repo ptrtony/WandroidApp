@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
-import com.foxcr.kotlineasyshop.data.protocal.HomeRequestAnswerListResp
 import com.foxcr.kotlineasyshop.data.protocal.HomeSquareUserArticleListResp
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter

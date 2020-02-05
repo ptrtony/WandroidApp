@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="HeaderBar">
-        <attr name="isShowBack" format="boolean"/>
-        <attr name="titleText" format="string"/>
-        <attr name="rightText" format="string"/>
-        <attr name="backIcon" format="reference"/>
-        <attr name="headBackground" format="color"/>
-        <attr name="rightIcon" format="reference"/>
-        <attr name="titleTextColor" format="color"/>
+        <attr name="isShowBack" format="boolean" />
+        <attr name="titleText" format="string" />
+        <attr name="rightText" format="string" />
+        <attr name="backIcon" format="reference" />
+        <attr name="headBackground" format="color" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="titleTextColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="TabLayout">
-        <attr name="indicatorStartColor" format="color|reference"/>
-        <attr name="indicatorEndColor" format="color|reference"/>
-        <attr name="indicatorMarginStart" format="dimension|reference"/>
-        <attr name="indicatorMarginEnd" format="dimension|reference"/>
-        <attr name="indicatorMarginBottom" format="dimension|reference"/>
+        <attr name="indicatorStartColor" format="color|reference" />
+        <attr name="indicatorEndColor" format="color|reference" />
+        <attr name="indicatorMarginStart" format="dimension|reference" />
+        <attr name="indicatorMarginEnd" format="dimension|reference" />
+        <attr name="indicatorMarginBottom" format="dimension|reference" />
     </declare-styleable>
 
     <declare-styleable name="BottomNavigationBar">
@@ -40,29 +40,36 @@
     </declare-styleable>
 
     <declare-styleable name="AutoSizeRadioButton">
-        <attr name="largeSize" format="dimension"/>
-        <attr name="smallSize" format="dimension"/>
-        <attr name="autoTextColor" format="color"/>
-        <attr name="isLargeSize" format="boolean"/>
+        <attr name="largeSize" format="dimension" />
+        <attr name="smallSize" format="dimension" />
+        <attr name="autoTextColor" format="color" />
+        <attr name="isLargeSize" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="LikeButton">
         <attr name="icon_type" format="string" />
-        <attr name="icon_size" format="dimension|reference"/>
+        <attr name="icon_size" format="dimension|reference" />
         <attr name="like_drawable" format="reference" />
         <attr name="unlike_drawable" format="reference" />
         <attr name="dots_primary_color" format="color|reference" />
         <attr name="dots_secondary_color" format="color|reference" />
         <attr name="circle_start_color" format="color|reference" />
         <attr name="circle_end_color" format="color|reference" />
-        <attr name="liked" format="boolean"/>
-        <attr name="is_enabled" format="boolean"/>
-        <attr name="anim_scale_factor" format="float"/>
+        <attr name="liked" format="boolean" />
+        <attr name="is_enabled" format="boolean" />
+        <attr name="anim_scale_factor" format="float" />
     </declare-styleable>
 
     <declare-styleable name="RoundImage">
-        <attr name="borderRadius" format="dimension"/>
-        <attr name="type" format="integer"/>
+        <attr name="borderRadius" format="dimension" />
+        <attr name="type" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="swipeEnable" format="boolean" />
+        <attr name="ios" format="boolean" />
+        <attr name="leftSwipe" format="boolean" />
     </declare-styleable>
 
 </resources>

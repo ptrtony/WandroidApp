@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.foxcr.base.R
 import com.foxcr.base.common.BaseApplication
 import com.foxcr.base.injection.component.ActivityComponent
 import com.foxcr.base.injection.component.DaggerActivityComponent
@@ -259,5 +260,12 @@ open abstract class BaseMvpLazyFragment<T:BasePresenter<*>> : RxFragment(),BaseV
      * 初始化视图
      */
     abstract fun initView(view:View)
+
+    /**
+     * recyclerview列表为空显示的布局
+     */
+    fun emptyView(parent:ViewGroup):View{
+        return View.inflate(activity,R.layout.empty_view,parent)
+    }
 
 }

@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.ui.activity.BaseActivity
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.HeaderBar
@@ -20,7 +21,7 @@ import com.google.android.material.navigation.NavigationView
 @Route(path = "/easyshop/main")
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private var tabTexts = arrayListOf("首页", "广场", "导航", "问答", "体系", "项目", "公众号", "项目分类", "工具")
+    private var tabTexts = arrayListOf("首页", "广场", "导航", "问答", "体系", "项目", "公众号", "项目分类", "收藏")
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var mHomeTab: TabLayout
     private lateinit var mMainVp2: ViewPager
@@ -42,6 +43,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             drawerLayout.openDrawer(GravityCompat.START,true)
         }
 
+        mHomeHeaderBar.onRightIconClickListener {
+            ARouter.getInstance()
+                .build("/easyshop/search")
+                .greenChannel()
+                .navigation()
+        }
 
         mHomeTab.run {
             tabMode = TabLayout.MODE_SCROLLABLE

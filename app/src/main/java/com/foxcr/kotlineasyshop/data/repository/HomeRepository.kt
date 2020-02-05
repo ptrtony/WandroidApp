@@ -22,7 +22,7 @@ class HomeRepository @Inject constructor(){
     /**
      * 首页文章列表
      */
-    fun homeArticleList(page:Int):Observable<HomeArticleListResp>{
+    fun homeArticleList(page:Int):Observable<HomeArticleResp>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .homeArticleList(page)
             .convert()
@@ -58,7 +58,7 @@ class HomeRepository @Inject constructor(){
     /**
      * 最新项目tab (首页的第二个tab)
      */
-    fun homeArticleProjectList(page:Int):Observable<HomeArticleProjectListResp>{
+    fun homeArticleProjectList(page:Int):Observable<HomeArticleResp>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .homeArticleProjectList(page)
             .convert()
@@ -180,6 +180,25 @@ class HomeRepository @Inject constructor(){
     fun getProjectCategoryListData(id:Int,page:Int):Observable<ProjectCategoryListResp>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .getProjectCategoryListData(page,id)
+            .convert()
+    }
+
+    /**
+     * 收藏文章列表
+     */
+    fun getCollectListArticleData(page:Int):Observable<CollectArticleListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .collectArticleList(page)
+            .convert()
+
+    }
+
+    /**
+     * 搜索
+     */
+    fun getArticleQueryData(page:Int,key:String):Observable<SearchArticleResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getArticlQueryData(page,key)
             .convert()
     }
 

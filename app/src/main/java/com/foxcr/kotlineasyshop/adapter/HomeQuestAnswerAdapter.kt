@@ -1,9 +1,7 @@
 package com.foxcr.kotlineasyshop.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.text.Html
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,8 +14,6 @@ import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeRequestAnswerListResp
-import com.zhy.view.flowlayout.FlowLayout
-import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 class HomeQuestAnswerAdapter constructor(datas:List<HomeRequestAnswerListResp.DatasBean>): BaseQuickAdapter<HomeRequestAnswerListResp.DatasBean
         , HomeQuestAnswerAdapter.HomeQuestAnswerViewHolder>(

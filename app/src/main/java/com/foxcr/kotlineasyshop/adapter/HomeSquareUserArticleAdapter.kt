@@ -14,7 +14,6 @@ import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.TimeUtils
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
 import com.foxcr.kotlineasyshop.data.protocal.HomeSquareUserArticleListResp
 import com.zhy.view.flowlayout.TagFlowLayout
 

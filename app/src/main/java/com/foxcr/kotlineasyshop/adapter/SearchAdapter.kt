@@ -16,22 +16,21 @@ import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.TimeUtils
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
-import com.foxcr.kotlineasyshop.data.protocal.HomeRequestAnswerListResp
+import com.foxcr.kotlineasyshop.data.protocal.SearchArticleResp
 import com.zhy.view.flowlayout.TagFlowLayout
 
 
 /**
  * HomeArticleListResp.DatasBean
  */
-class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleListResp.DatasBean>) :
-    BaseQuickAdapter<HomeArticleListResp.DatasBean, HomeArticleListAdapter.ArticleListViewHolder>(
+class SearchAdapter constructor(articleDatas: MutableList<SearchArticleResp.DatasBean>) :
+    BaseQuickAdapter<SearchArticleResp.DatasBean, SearchAdapter.ArticleListViewHolder>(
         R.layout.item_home_article,
         articleDatas
     ) {
-    private var mTagData : MutableList<HomeArticleListResp.DatasBean.TagsBean> = mutableListOf()
-    private val mTagAdapter:HomeArticleTagAdapter by lazy {
-        HomeArticleTagAdapter(mContext,mTagData)
+    private var mTagData : MutableList<SearchArticleResp.DatasBean.TagsBean> = mutableListOf()
+    private val mTagAdapter:SearchTagAdapter by lazy {
+        SearchTagAdapter(mContext,mTagData)
     }
 
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
@@ -42,7 +41,7 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
         val mTagFlowL:TagFlowLayout = view.findViewById(R.id.mTagFlowL)
         @SuppressLint("SetTextI18n")
-        fun dataBinding(mContext: Context, item: HomeArticleListResp.DatasBean){
+        fun dataBinding(mContext: Context, item: SearchArticleResp.DatasBean){
             mTitleTv.text = item.title
             if (item.author.isNotEmpty()) {
                 val authorHtml = StringBuilder()
@@ -72,7 +71,7 @@ class HomeArticleListAdapter constructor(articleDatas: MutableList<HomeArticleLi
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun convert(helper: ArticleListViewHolder, item: HomeArticleListResp.DatasBean) {
+    override fun convert(helper: ArticleListViewHolder, item: SearchArticleResp.DatasBean) {
 
         helper.dataBinding(mContext,item)
         helper.mTagFlowL.adapter = mTagAdapter

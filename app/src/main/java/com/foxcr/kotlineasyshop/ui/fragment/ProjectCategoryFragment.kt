@@ -3,9 +3,8 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
-import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.base.presenter.view.BaseView
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
@@ -27,7 +26,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     ProjectCategoryView, OnRefreshListener, OnLoadMoreListener,
@@ -88,8 +86,20 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
             adapter = mTwoAdapter
         }
 
+        mTwoAdapter.openLoadAnimation()
+        mTwoAdapter.emptyView = emptyView(mCategoryTwoRl)
         mOneAdapter.setProjectCategoryClickListener(this)
         mTwoAdapter.setOnLikeClickListener(this)
+
+        mTwoAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",projectCategoryListData[position].link)
+                .greenChannel()
+                .navigation()
+        }
+
+
     }
 
     override fun onFragmentFirstVisible() {
@@ -176,5 +186,9 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
         mPresenter.uncollectArticle(id, originId)
     }
 
+    override fun onError(errorMsg: String) {
+        super.onError(errorMsg)
+        mProjectCategorySmartRefresh.finishRefresh()
+    }
 
 }

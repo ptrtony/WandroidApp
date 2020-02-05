@@ -16,10 +16,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.activity.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name="com.foxcr.user.ui.activity.LoginActivity"></activity>
+            android:name=".ui.activity.SearchActivity"/>
+        <activity android:name="com.foxcr.user.ui.activity.LoginActivity"/>
+        <activity android:name="com.foxcr.user.ui.activity.RegisterActivity"/>
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

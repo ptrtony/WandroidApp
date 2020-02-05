@@ -11,7 +11,6 @@ import com.foxcr.base.utils.GlideUtils
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
 import com.foxcr.kotlineasyshop.data.protocal.ProjectCategoryListResp
 
 class ProjectCagetoryListAdapter constructor(articleDatas: MutableList<ProjectCategoryListResp.DatasBean>) :

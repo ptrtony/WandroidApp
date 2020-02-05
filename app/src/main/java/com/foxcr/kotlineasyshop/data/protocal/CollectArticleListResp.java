@@ -1,5 +1,7 @@
 package com.foxcr.kotlineasyshop.data.protocal;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 public class CollectArticleListResp {
@@ -23,7 +25,9 @@ public class CollectArticleListResp {
     public List<DatasBean> datas;
 
 
-    public static class DatasBean {
+    public static class DatasBean implements MultiItemEntity
+
+    {
         /**
          * apkLink :
          * audit : 1
@@ -84,7 +88,12 @@ public class CollectArticleListResp {
         public int userId;
         public int visible;
         public int zan;
+        public int itemType;
         public List<?> tags;
 
+        @Override
+        public int getItemType() {
+            return itemType;
+        }
     }
 }

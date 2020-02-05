@@ -2,10 +2,10 @@ package com.foxcr.kotlineasyshop.presenter
 
 import android.annotation.SuppressLint
 import com.foxcr.base.ext.ioToUI
+import com.foxcr.base.ext.netException
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.kotlineasyshop.presenter.view.HomeView
 import com.foxcr.kotlineasyshop.service.impl.HomeServiceImpl
-import kotlinx.coroutines.*
 import javax.inject.Inject
 
 
@@ -28,27 +28,85 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
             .subscribe({
                 mView.homeBanner(it)
             },{
-                mView.onError(it.message.toString())
+                it.netException(mView)
             })
     }
-//    /**
-//     * 首页文章列表
-//     */
-//    fun homeArticleList(page:Int){
-//        homeServiceImpl.homeArticleList(page)
-//            .ioToUI()
-//            .subscribe {
-//                mView.homeArticleList(it)
-//            }
-//    }
-//
-//    fun homeArticleProjectList(page:Int){
-//        homeServiceImpl.homeArticleProjectList(page)
-//            .ioToUI()
-//            .subscribe {
-//                mView.homeArticleProjectList(it)
-//            }
-//    }
+    /**
+     * 首页文章列表
+     */
+    fun homeArticleList(page:Int){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.homeArticleList(page)
+            .ioToUI()
+            .subscribe ({
+                mView.homeArticleList(it)
+            },{
+                it.netException(mView)
+            })
+    }
+
+    fun homeArticleProjectList(page:Int){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.homeArticleProjectList(page)
+            .ioToUI()
+            .subscribe ({
+                mView.homeArticleProjectList(it)
+            },{
+                it.netException(mView)
+            })
+    }
+
+
+    fun collectInStandArticle(id:Int){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.collectInStackArticle(id)
+            .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
+            .subscribe({
+                mView.onCollectSuccessResult(it)
+            },{
+                it.netException(mView)
+            })
+    }
+
+
+    fun collectOutStandArticle(title:String, author:String, link:String){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.collectOutStackArticle(title, author, link)
+            .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
+            .subscribe({
+                mView.onCollectSuccessResult(it)
+            },{
+                it.netException(mView)
+            })
+
+    }
+
+    fun uncollectArticle(id:Int, originId:Int){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.uncollectArticle(id,originId)
+            .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
+            .subscribe({
+                mView.onUnCollectSuccessResult(it)
+            },{
+                it.netException(mView)
+            })
+
+    }
+
+
 //    /**
 //     * 置顶文章
 //     */

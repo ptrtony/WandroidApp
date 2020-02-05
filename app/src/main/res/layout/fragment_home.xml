@@ -4,62 +4,8 @@
     android:id="@+id/mHomeSmartRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <androidx.core.widget.NestedScrollView
-        style="@style/MatchMatch"
-        android:scrollbars="none">
-
-        <LinearLayout style="@style/MatchMatch.Vertical">
-
-            <com.foxcr.base.widgets.slideview.SlidingPlayViewWithDot
-                android:id="@+id/mHomeBanner"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
-
-            <RadioGroup
-                android:id="@+id/mHomeNewArticleRg"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/mHomeNewBlogRb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/common_margin"
-                    android:button="@null"
-                    android:text="最新博文"
-                    android:gravity="center"
-                    android:textColor="@color/common_blue"
-                    android:textSize="@dimen/text_large_size"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/common_margin_small"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/common_divider" />
-
-                <RadioButton
-                    android:id="@+id/mHomeNewProjectRb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/common_margin_small"
-                    android:button="@null"
-                    android:text="最新项目"
-                    android:gravity="center"
-                    android:textColor="@color/text_light_dark"
-                    android:textSize="@dimen/text_large_size"
-                    android:textStyle="bold" />
-
-            </RadioGroup>
-
-            <FrameLayout
-                android:id="@+id/mFrameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mHomeArticleRl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

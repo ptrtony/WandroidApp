@@ -4,13 +4,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
+import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.GlideUtils
+import com.foxcr.base.utils.ToastUtils
+import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWBLOGTYPE
 import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWPROJECT
+import com.foxcr.base.widgets.RecycleViewDivider
 import com.foxcr.base.widgets.slideview.SlidingPlayViewWithDot
 import com.foxcr.kotlineasyshop.R
+import com.foxcr.kotlineasyshop.adapter.ArticleEnum
+import com.foxcr.kotlineasyshop.adapter.HomeArticleAdapter
+import com.foxcr.kotlineasyshop.data.protocal.HomeArticleResp
 import com.foxcr.kotlineasyshop.data.protocal.HomeBannerResp
 import com.foxcr.kotlineasyshop.injection.component.DaggerHomeComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
@@ -21,60 +32,76 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.item_home_article_project.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, HomeView,
-    RadioGroup.OnCheckedChangeListener, OnRefreshListener, OnRefreshOrLoadMoreListener {
-    private var projectPage: Int = 1
-    private var articlePage: Int = 1
+    RadioGroup.OnCheckedChangeListener, OnRefreshListener, OnLikeClickListener {
     private var bannerDatas: MutableList<HomeBannerResp> = mutableListOf()
     private lateinit var mInflater: LayoutInflater
     private var isCheckArticle = true
-    private val newBlogArticleFragment: NewBlogArticleFragment by lazy {
-        NewBlogArticleFragment()
+    private var mHomeData: MutableList<HomeArticleResp.DatasBean> = mutableListOf()
+    private val mHomeArticleAdapter: HomeArticleAdapter by lazy {
+        HomeArticleAdapter(mHomeData)
     }
 
-    private val newProjectArticleFragment: NewProjectArticleFragment by lazy {
-        NewProjectArticleFragment()
-    }
+    private var page = 1
 
-    private lateinit var mHomeSmartRefresh:SmartRefreshLayout
-    private lateinit var mHomeNewArticleRg:RadioGroup
+    private lateinit var mHomeSmartRefresh: SmartRefreshLayout
+    private lateinit var mHomeArticleRl: RecyclerView
+    private lateinit var mHomeNewArticleRg: RadioGroup
     private lateinit var mHomeBanner: SlidingPlayViewWithDot
-    private lateinit var mHomeNewBlogRb:RadioButton
-    private lateinit var mHomeNewProjectRb:RadioButton
-    private lateinit var mFrameLayout:FrameLayout
+    private lateinit var mHomeNewBlogRb: RadioButton
+    private lateinit var mHomeNewProjectRb: RadioButton
+    private var isCurrentLoad = true
     override fun resLayoutId(): Int = R.layout.fragment_home
 
 
     override fun initView(view: View) {
-        mInflater = LayoutInflater.from(context)
-
+        mPresenter.mView = this
         mHomeSmartRefresh = view.findViewById(R.id.mHomeSmartRefresh)
-        mHomeNewArticleRg = view.findViewById(R.id.mHomeNewArticleRg)
-        mHomeBanner = view.findViewById(R.id.mHomeBanner)
-        mHomeNewBlogRb = view.findViewById(R.id.mHomeNewBlogRb)
-        mHomeNewProjectRb = view.findViewById(R.id.mHomeNewProjectRb)
-        mFrameLayout = view.findViewById(R.id.mFrameLayout)
+        mHomeArticleRl = view.findViewById(R.id.mHomeArticleRl)
+        mHomeArticleRl.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                RecycleViewDivider(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),
+                    resources.getColor(R.color.common_divider),
+                    DisplayUtils.dp2px(15f)
+                )
+            )
+            adapter = mHomeArticleAdapter
+        }
+        mInflater = LayoutInflater.from(context)
+        val headView = LayoutInflater.from(activity)
+            .inflate(R.layout.layout_home_head_container, mHomeArticleRl, false)
+        mHomeNewArticleRg = headView.findViewById(R.id.mHomeNewArticleRg)
+        mHomeBanner = headView.findViewById(R.id.mHomeBanner)
+        mHomeNewBlogRb = headView.findViewById(R.id.mHomeNewBlogRb)
+        mHomeNewProjectRb = headView.findViewById(R.id.mHomeNewProjectRb)
+        mHomeArticleAdapter.addHeaderView(headView)
         mHomeSmartRefresh.apply {
             setOnLoadMoreListener(this@HomeFragment)
             setOnRefreshListener(this@HomeFragment)
         }
+        mHomeArticleAdapter.setOnLikeClickListener(this)
         mHomeNewArticleRg.setOnCheckedChangeListener(this)
-        if (mFrameLayout.childCount>0) mFrameLayout.removeAllViews()
-        newBlogArticleFragment.setOnRefreshOrLoadMoreListener(this)
-        newProjectArticleFragment.setOnRefreshOrLoadMoreListener(this)
-        mPresenter.mView = this
-        childFragmentManager.beginTransaction()
-            .add(R.id.mFrameLayout, newBlogArticleFragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .addToBackStack(null)
-            .commit()
-    }
+        mHomeArticleAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",mHomeData[position].link)
+                .greenChannel()
+                .navigation()
+        }
 
+        mHomeArticleAdapter.openLoadAnimation()
+        mHomeArticleAdapter.emptyView = emptyView(mHomeArticleRl)
+    }
 
 
     override fun onStop() {
@@ -87,13 +114,6 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
             .homeModule(HomeModule()).build().inject(this)
     }
 
-    override fun onLoadMore(refreshLayout: RefreshLayout) {
-        if (isCheckArticle) {
-            newBlogArticleFragment.getNewBlogArticleList(articlePage)
-        } else {
-            newProjectArticleFragment.getNewProjectArticleList(projectPage)
-        }
-    }
 
     override fun homeBanner(banners: List<HomeBannerResp>) {
         if (bannerDatas.isNotEmpty()) bannerDatas.clear()
@@ -103,10 +123,65 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         }
     }
 
+    override fun homeArticleList(homeArticleResp: HomeArticleResp) {
+        if (page == 1) {
+            mHomeData.clear()
+            mHomeData.addAll(homeArticleResp.datas)
+            mHomeData.forEach { homeArticleResp ->
+                homeArticleResp.itemType = ArticleEnum.ITEM_ARTICLE_TYPE
+            }
+            mHomeArticleAdapter.setNewData(mHomeData)
+            mHomeSmartRefresh.finishRefresh()
+        } else {
+            mHomeData.addAll(homeArticleResp.datas)
+            mHomeData.forEach { homeArticleResp ->
+                homeArticleResp.itemType = ArticleEnum.ITEM_ARTICLE_TYPE
+            }
+            mHomeArticleAdapter.addData(mHomeData)
+            mHomeSmartRefresh.finishLoadMore()
+        }
+        page++
+        if (page > homeArticleResp.pageCount) {
+            mHomeSmartRefresh.setEnableLoadMore(false)
+        }
+    }
+
+    override fun homeArticleProjectList(homeArticleResp: HomeArticleResp) {
+        if (page == 1) {
+            mHomeData.clear()
+            mHomeData.addAll(homeArticleResp.datas)
+            mHomeData.forEach { homeArticleResp ->
+                homeArticleResp.itemType = ArticleEnum.ITEM_PROJECT_TYPE
+            }
+            mHomeArticleAdapter.setNewData(mHomeData)
+            mHomeSmartRefresh.finishRefresh()
+        } else {
+            mHomeData.addAll(homeArticleResp.datas)
+            mHomeData.forEach { homeArticleResp ->
+                homeArticleResp.itemType = ArticleEnum.ITEM_PROJECT_TYPE
+            }
+            mHomeArticleAdapter.addData(mHomeData)
+            mHomeSmartRefresh.finishLoadMore()
+        }
+        page++
+        if (page > homeArticleResp.pageCount) {
+            mHomeSmartRefresh.setEnableLoadMore(false)
+        }
+    }
+
+    override fun onCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
+        ToastUtils.showToast("收藏成功")
+    }
+
+    override fun onUnCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
+        ToastUtils.showToast("取消收藏")
+    }
+
     /**
      * 启动首页显示的banner
      */
     private fun startHomeBanner(bannerDatas: List<HomeBannerResp>) {
+        isCurrentLoad = false
         if (bannerDatas.isEmpty()) {
             mHomeBanner.visibility = View.GONE
             return
@@ -137,76 +212,69 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
                 mHomeNewBlogRb.setTextColor(resources.getColor(R.color.common_blue))
                 mHomeNewProjectRb.setTextColor(resources.getColor(R.color.text_light_dark))
                 isCheckArticle = true
-                childFragmentManager.beginTransaction().replace(R.id.mFrameLayout,newBlogArticleFragment)
-                    .addToBackStack(null)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
             }
             R.id.mHomeNewProjectRb -> {
                 mHomeNewBlogRb.setTextColor(resources.getColor(R.color.text_light_dark))
                 mHomeNewProjectRb.setTextColor(resources.getColor(R.color.common_blue))
                 isCheckArticle = false
-                childFragmentManager.beginTransaction().replace(R.id.mFrameLayout,newProjectArticleFragment)
-                    .addToBackStack(null)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
             }
         }
         mHomeSmartRefresh.autoRefresh()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        GlobalScope.launch (Dispatchers.Main){
-            withContext(Dispatchers.IO){
-                mPresenter.homeBanner()
-            }
+        page = 1
+        mHomeSmartRefresh.setEnableLoadMore(true)
+        GlobalScope.launch(Dispatchers.Main) {
+            if (isCurrentLoad) {
+                withContext(Dispatchers.IO) {
+                    mPresenter.homeBanner()
+                }
 
-            withContext(Dispatchers.IO){
-                refreshData()
+            }
+            withContext(Dispatchers.IO) {
+                if (isCheckArticle){
+                    mPresenter.homeArticleList(page)
+                }else{
+                    mPresenter.homeArticleProjectList(page)
+                }
             }
         }
     }
 
-    private fun refreshData(){
-        projectPage = 1
-        articlePage = 1
-        if (isCheckArticle){
-            newBlogArticleFragment.getNewBlogArticleList(articlePage)
-        }else{
-            newProjectArticleFragment.getNewProjectArticleList(projectPage)
-        }
-    }
-
-    override fun finishRefresh() {
-        mHomeSmartRefresh.finishRefresh()
-    }
-
-    override fun finishLoadMore() {
-        mHomeSmartRefresh.finishLoadMore()
-    }
-
-    override fun enableLoadMore(isLoadMore: Boolean) {
-        mHomeSmartRefresh.setEnableLoadMore(isLoadMore)
-    }
-
-    override fun enableRefresh(isRefresh: Boolean) {
-        mHomeSmartRefresh.setEnableRefresh(isRefresh)
-    }
-
-    override fun loadPage(page: Int, type: Int) {
-        if (type == NEWPROJECT) {
-            projectPage = page
-        } else if (type == NEWBLOGTYPE) {
-            articlePage = page
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+        if (isCheckArticle) {
+            mPresenter.homeArticleList(page)
+        } else {
+            mPresenter.homeArticleProjectList(page)
         }
     }
 
     override fun onFragmentFirstVisible() {
         mHomeSmartRefresh.postDelayed({
             mHomeSmartRefresh.autoRefresh()
-        },500)
+        }, 500)
+        initLoveLayout()
+    }
+
+    override fun onLikeInNetClick(view: View, id: Int) {
+        mPresenter.homeArticleList(id)
+        mLoveView.addLoveView(view)
 
     }
 
+    override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
+        mPresenter.collectOutStandArticle(title, author, link)
+        mLoveView.addLoveView(view)
+    }
+
+    override fun cancelCollectClick(id: Int, originId: Int) {
+        mPresenter.uncollectArticle(id, originId)
+    }
+
+    override fun onError(errorMsg: String) {
+        super.onError(errorMsg)
+        mHomeSmartRefresh.finishRefresh()
+    }
 
 }

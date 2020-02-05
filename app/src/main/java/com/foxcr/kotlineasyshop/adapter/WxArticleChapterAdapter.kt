@@ -6,7 +6,6 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.NavigationListOneBean
 import com.foxcr.kotlineasyshop.data.protocal.WxArticleChaptersResp
 
 class WxArticleChapterAdapter constructor(datas:List<WxArticleChaptersResp>) : BaseQuickAdapter<WxArticleChaptersResp, WxArticleChapterAdapter.WxArticleChapterViewHolder>(

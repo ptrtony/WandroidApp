@@ -26,8 +26,7 @@
         android:paddingRight="@dimen/common_padding"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/common_white"
-        android:visibility="gone"/>
+        android:textColor="@color/common_white" />
 
     <ImageView
         android:id="@+id/mRightIv"

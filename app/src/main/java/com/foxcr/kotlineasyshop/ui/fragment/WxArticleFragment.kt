@@ -3,6 +3,7 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.hideKeyboard
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
@@ -100,6 +101,14 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         }
 
         mAdapter.setOnLikeClickListener(this)
+        mAdapter.emptyView = emptyView(mWxArticleRl)
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",mData[position].link)
+                .greenChannel()
+                .navigation()
+        }
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
@@ -182,5 +191,10 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
     override fun cancelCollectClick(id: Int, originId: Int) {
         mPresenter.uncollectArticle(id, originId)
+    }
+
+    override fun onError(errorMsg: String) {
+        super.onError(errorMsg)
+        mWxArticleSmartRefresh.finishRefresh()
     }
 }

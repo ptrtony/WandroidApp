@@ -3,6 +3,7 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
@@ -20,7 +21,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import kotlinx.android.synthetic.main.fragment_question_answers.*
 
 class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),QuestAnswerView,
     OnRefreshListener, OnLoadMoreListener, OnLikeClickListener {
@@ -64,6 +64,15 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),Ques
         }
 
         mQuestAnswerAdapter.setOnLikeClickListener(this)
+        mQuestAnswerAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",datas[position].link)
+                .greenChannel()
+                .navigation()
+        }
+        mQuestAnswerAdapter.openLoadAnimation()
+        mQuestAnswerAdapter.emptyView = emptyView(mQuestAnswerRl)
         initLoveLayout()
 
     }

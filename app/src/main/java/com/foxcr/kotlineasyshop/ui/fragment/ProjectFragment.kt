@@ -3,6 +3,7 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
@@ -10,8 +11,9 @@ import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.base.widgets.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.adapter.HomeArticleProjectListAdapter
+import com.foxcr.kotlineasyshop.adapter.ProjectAdapter
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
+import com.foxcr.kotlineasyshop.data.protocal.HomeArticleResp
 import com.foxcr.kotlineasyshop.injection.component.DaggerProjectComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.ProjectPresenter
@@ -23,9 +25,9 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
 class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnRefreshListener,
     OnLoadMoreListener, OnLikeClickListener {
-    private var projectDatas :  MutableList<HomeArticleProjectListResp.DatasBean> = mutableListOf()
-    private val mAdapter: HomeArticleProjectListAdapter by lazy {
-        HomeArticleProjectListAdapter(projectDatas)
+    private var projectDatas :  MutableList<HomeArticleResp.DatasBean> = mutableListOf()
+    private val mAdapter: ProjectAdapter by lazy {
+        ProjectAdapter(projectDatas)
     }
 
     private lateinit var mProjectSmartRefresh:SmartRefreshLayout
@@ -66,6 +68,15 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnR
         }
 
         mAdapter.setOnLikeClickListener(this)
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .greenChannel()
+                .withString("url",projectDatas[position].link)
+                .navigation()
+        }
+        mAdapter.emptyView = emptyView(mProjectRl)
+        mAdapter.openLoadAnimation()
 
     }
 
@@ -76,19 +87,19 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnR
         initLoveLayout()
     }
 
-    override fun onNewProjectArticleResult(homeArticleProjectListResp: HomeArticleProjectListResp) {
+    override fun onNewProjectArticleResult(homeArticleResp: HomeArticleResp) {
         if (page == 1){
             projectDatas.clear()
-            projectDatas.addAll(homeArticleProjectListResp.datas)
+            projectDatas.addAll(homeArticleResp.datas)
             mAdapter.setNewData(projectDatas)
             mProjectSmartRefresh.finishRefresh()
         }else{
-            projectDatas.addAll(homeArticleProjectListResp.datas)
+            projectDatas.addAll(homeArticleResp.datas)
             mAdapter.addData(projectDatas)
             mProjectSmartRefresh.finishLoadMore()
         }
         page ++
-        if (page>homeArticleProjectListResp.pageCount){
+        if (page>homeArticleResp.pageCount){
             mProjectSmartRefresh.setEnableLoadMore(false)
         }
     }
@@ -123,6 +134,11 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnR
 
     override fun cancelCollectClick(id: Int, originId: Int) {
         mPresenter.uncollectArticle(id, originId)
+    }
+
+    override fun onError(errorMsg: String) {
+        super.onError(errorMsg)
+        mProjectSmartRefresh.finishRefresh()
     }
 
 }

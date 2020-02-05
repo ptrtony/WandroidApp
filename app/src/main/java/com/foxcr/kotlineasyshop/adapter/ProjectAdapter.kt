@@ -11,11 +11,11 @@ import com.foxcr.base.utils.GlideUtils
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.kotlineasyshop.R
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
+import com.foxcr.kotlineasyshop.data.protocal.HomeArticleResp
 
-class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeArticleProjectListResp.DatasBean>) :
-    BaseQuickAdapter<HomeArticleProjectListResp.DatasBean,
-            HomeArticleProjectListAdapter.ArticleListViewHolder>(
+class ProjectAdapter constructor(articleDatas: MutableList<HomeArticleResp.DatasBean>) :
+    BaseQuickAdapter<HomeArticleResp.DatasBean,
+            ProjectAdapter.ArticleListViewHolder>(
         R.layout.item_home_article_project,
         articleDatas
     ) {
@@ -28,7 +28,7 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
 
-        fun dataBinding(item: HomeArticleProjectListResp.DatasBean){
+        fun dataBinding(item: HomeArticleResp.DatasBean){
             GlideUtils.loadImage(item.envelopePic, mHomeArticleProjectIv)
             mTitleTv.text = item.title
             mContentTv.text = item.desc
@@ -44,7 +44,7 @@ class HomeArticleProjectListAdapter constructor(articleDatas: MutableList<HomeAr
 
     override fun convert(
         helper: ArticleListViewHolder,
-        item: HomeArticleProjectListResp.DatasBean
+        item: HomeArticleResp.DatasBean
     ) {
         helper.dataBinding(item)
         helper.mLikeIv.setOnClickListener {

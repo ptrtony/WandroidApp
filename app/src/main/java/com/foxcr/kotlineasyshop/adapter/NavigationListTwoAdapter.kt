@@ -52,7 +52,10 @@ class NavigationListTwoAdapter constructor(
         } else if (holder is ContentViewHolder) {
             holder.mContentView.text = datas[position].title
         }
-        onListTwoClickListener?.onNavigationListTwoClick(holder.itemView, holder.layoutPosition)
+        holder.itemView.setOnClickListener {
+            onListTwoClickListener?.onNavigationListTwoClick(holder.itemView, holder.layoutPosition)
+        }
+
     }
 
     class TitleViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
@@ -76,9 +79,10 @@ class NavigationListTwoAdapter constructor(
     }
 
     private var onListTwoClickListener: OnNavigationListTwoClickListener? = null
-    fun setOnNavigationListTwoClickListener(onListTwoClickListener: OnNavigationListTwoClickListener){
+    fun setOnNavigationListTwoClickListener(onListTwoClickListener: OnNavigationListTwoClickListener) {
         this.onListTwoClickListener = onListTwoClickListener
     }
+
     interface OnNavigationListTwoClickListener {
         fun onNavigationListTwoClick(view: View, position: Int)
     }

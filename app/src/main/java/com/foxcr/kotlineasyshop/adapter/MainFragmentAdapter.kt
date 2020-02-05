@@ -17,7 +17,7 @@ class MainFragmentAdapter constructor(fm: FragmentManager, private val titles: L
             5 -> ProjectFragment()
             6 -> PublicNumberFragment()
             7 -> ProjectCategoryFragment()
-            else -> ToolsFragment()
+            else -> CollectFragment()
         }
     }
 

@@ -78,6 +78,8 @@ class PublicNumberFragment : BaseMvpLazyFragment<WxArticleChapterPresenter>(),
             return@setOnEditorActionListener true
         }
         mWxArticleChapterAdapter.setWxArticleClickListener(this)
+        mWxArticleChapterAdapter.openLoadAnimation()
+        mWxArticleChapterAdapter.emptyView = emptyView(mWxChapterRl)
     }
 
     override fun onFragmentFirstVisible() {

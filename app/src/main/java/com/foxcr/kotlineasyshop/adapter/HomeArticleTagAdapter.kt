@@ -6,19 +6,19 @@ import android.view.View
 import android.widget.TextView
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleListResp
-import com.foxcr.kotlineasyshop.data.protocal.HomeRequestAnswerListResp
+import com.foxcr.kotlineasyshop.data.protocal.HomeArticleResp
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 
-class HomeArticleTagAdapter constructor(context: Context, var datas:MutableList<HomeArticleListResp.DatasBean.TagsBean>): TagAdapter<HomeArticleListResp.DatasBean.TagsBean>(datas){
+class HomeArticleTagAdapter constructor(context: Context,var datas:MutableList<HomeArticleResp.DatasBean.TagsBean>): TagAdapter<HomeArticleResp.DatasBean.TagsBean>(datas){
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
-    fun setNewData(data: MutableList<HomeArticleListResp.DatasBean.TagsBean>?) {
+    fun setNewData(data: MutableList<HomeArticleResp.DatasBean.TagsBean>?) {
         this.datas = data ?: mutableListOf()
         notifyDataChanged()
     }
 
-    fun addData(data: MutableList<HomeArticleListResp.DatasBean.TagsBean>) {
+    fun addData(data: MutableList<HomeArticleResp.DatasBean.TagsBean>) {
         datas.addAll(data)
         notifyDataChanged()
     }
@@ -26,7 +26,7 @@ class HomeArticleTagAdapter constructor(context: Context, var datas:MutableList<
     override fun getView(
         parent: FlowLayout,
         position: Int,
-        t: HomeArticleListResp.DatasBean.TagsBean
+        t: HomeArticleResp.DatasBean.TagsBean
     ): View {
         val view = mInflater.inflate(R.layout.item_text,parent,false)
         val text: TextView = view.findViewById(R.id.mTagTv)

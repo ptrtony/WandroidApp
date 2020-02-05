@@ -19,7 +19,7 @@ interface HomeApi {
      * 首页文章列表
      */
     @GET("article/list/{page}/json")
-    fun homeArticleList(@Path("page") page: Int): Observable<BaseResp<HomeArticleListResp>>
+    fun homeArticleList(@Path("page") page: Int): Observable<BaseResp<HomeArticleResp>>
 
     /**
      * 置顶文章
@@ -44,7 +44,7 @@ interface HomeApi {
      * 最新项目tab (首页的第二个tab)
      */
     @GET("article/listproject/{page}/json")
-    fun homeArticleProjectList(@Path("page") page: Int): Observable<BaseResp<HomeArticleProjectListResp>>
+    fun homeArticleProjectList(@Path("page") page: Int): Observable<BaseResp<HomeArticleResp>>
 
     /**
      * 广场列表数据
@@ -56,7 +56,7 @@ interface HomeApi {
      * 收藏文章列表
      */
     @GET("lg/collect/list/{page}/json")
-    fun collectArcticleList(@Path("page") page: Int): Observable<BaseResp<CollectArticleListResp>>
+    fun collectArticleList(@Path("page") page: Int): Observable<BaseResp<CollectArticleListResp>>
 
     /**
      * 收藏站内文章
@@ -165,4 +165,13 @@ interface HomeApi {
      */
     @GET("project/list/{page}/json")
     fun getProjectCategoryListData(@Path("page")page:Int,@Query("cid")cid:Int):Observable<BaseResp<ProjectCategoryListResp>>
+
+    /**
+     * 搜索
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    fun getArticlQueryData(@Path("page")page:Int,@Field("k")k:String):Observable<BaseResp<SearchArticleResp>>
+
+
 }

@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.ToastUtils
@@ -23,7 +24,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import kotlinx.android.synthetic.main.fragment_system.*
 
 class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), KnowledgeSystemView,
     OnRefreshListener, OnLoadMoreListener, OnLikeClickListener,
@@ -94,12 +94,19 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
             setOnRefreshListener(this@SystemFragment)
             setOnLoadMoreListener(this@SystemFragment)
         }
-
-
-
+        mSystemAdapter.openLoadAnimation()
         mSystemAdapter.setOnLikeClickListener(this)
         mCategoryOneAdapter.setOnCategorySystemOneClickListener(this)
         mCategoryTwoAdapter.setOnCategoryTwoSystemClickListener(this)
+
+        mSystemAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",mSystemData[position].link)
+                .greenChannel()
+                .navigation()
+        }
+        mSystemAdapter.emptyView = emptyView(mCategoryTwoRl)
         initLoveLayout()
     }
 
@@ -214,6 +221,11 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
         }, 500)
 
 
+    }
+
+    override fun onError(errorMsg: String) {
+        super.onError(errorMsg)
+        mSystemSmartRefresh.finishRefresh()
     }
 
 

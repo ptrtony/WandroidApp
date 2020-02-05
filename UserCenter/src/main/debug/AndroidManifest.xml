@@ -4,8 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application>
         <activity
-            android:name=".ui.activity.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.activity.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

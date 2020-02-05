@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.LogUtils
@@ -20,6 +21,7 @@ import com.foxcr.kotlineasyshop.injection.component.DaggerNavigationComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.NavigationPresenter
 import com.foxcr.kotlineasyshop.presenter.view.NavigationView
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), NavigationView,
@@ -103,8 +105,6 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
 
         mNavigationListOneAdapter.setOnNavigationListOneClickListener(this)
         mNavigationListTwoAdapter.setOnNavigationListTwoClickListener(this)
-
-
     }
 
     override fun onNavigationResult(navigationDatas: List<HomeNavigationResp>) {
@@ -154,7 +154,11 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
     }
 
     override fun onNavigationListTwoClick(view: View, position: Int) {
-
+        ARouter.getInstance()
+            .build("/easyshop/web")
+            .withString("url",mListTwoDatas[position].link)
+            .greenChannel()
+            .navigation()
     }
 
     override fun onFragmentFirstVisible() {
@@ -162,6 +166,7 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
             mPresenter.getNavigationData()
         },500)
     }
+
 
 
 }

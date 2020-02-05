@@ -13,7 +13,7 @@ interface HomeService {
     /**
      * 首页文章列表
      */
-    fun homeArticleList(curPage:Int):Observable<HomeArticleListResp>
+    fun homeArticleList(curPage:Int):Observable<HomeArticleResp>
 
     /**
      * 置顶文章
@@ -33,7 +33,14 @@ interface HomeService {
     /**
      * 最新项目tab (首页的第二个tab)
      */
-    fun homeArticleProjectList(page:Int):Observable<HomeArticleProjectListResp>
+    fun homeArticleProjectList(page:Int):Observable<HomeArticleResp>
+
+
+
+    /**
+     * 收藏文章列表
+     */
+    fun collectListArticle(page:Int):Observable<CollectArticleListResp>
 
     /**
      * 广场列表数据
@@ -99,4 +106,10 @@ interface HomeService {
      * 项目列表数据
      */
     fun getProjectCategoryListData(page:Int,cid:Int):Observable<ProjectCategoryListResp>
+
+    /**
+     * 搜索
+     */
+    fun getArticleQueryData(page:Int,key:String):Observable<SearchArticleResp>
+
 }

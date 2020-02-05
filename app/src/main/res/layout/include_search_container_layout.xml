@@ -16,5 +16,6 @@
     android:imeOptions="actionSearch"
     android:singleLine="true"
     android:maxLines="1"
+    android:inputType="text"
     android:ellipsize="end"/>
 
