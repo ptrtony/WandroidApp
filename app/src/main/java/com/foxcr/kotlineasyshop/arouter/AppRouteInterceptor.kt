@@ -13,15 +13,16 @@ import com.foxcr.base.utils.SPUtil
 class AppRouteInterceptor : IInterceptor{
     override fun process(postcard: Postcard?, callback: InterceptorCallback?) {
         callback?.onContinue(postcard)
-//        if (!(SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()
-//            && SPUtil.getString(BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty())){
-//            callback?.onContinue(postcard)
-//        }else{
-//            ARouter.getInstance()
-//                .build("/userCenter/login")
-//                .greenChannel()
-//                .navigation()
-//        }
+        if (!(SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()
+            && SPUtil.getString(BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty())){
+            callback?.onContinue(postcard)
+        }else{
+            callback?.onInterrupt(Throwable("easyshop"))
+            ARouter.getInstance()
+                .build("/userCenter/login")
+                .greenChannel()
+                .navigation()
+        }
     }
 
     override fun init(context: Context?) {

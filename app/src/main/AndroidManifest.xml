@@ -27,6 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.WebActivity" />
+        <activity android:name=".ui.activity.UserCoinActivity"/>
+        <activity android:name=".ui.activity.CoinRankActivity"/>
     </application>
 
 </manifest>

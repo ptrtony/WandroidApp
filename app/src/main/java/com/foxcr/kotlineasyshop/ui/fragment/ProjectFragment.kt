@@ -23,15 +23,15 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
-class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnRefreshListener,
+class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, OnRefreshListener,
     OnLoadMoreListener, OnLikeClickListener {
-    private var projectDatas :  MutableList<HomeArticleResp.DatasBean> = mutableListOf()
+    private var projectDatas: MutableList<HomeArticleResp.DatasBean> = mutableListOf()
     private val mAdapter: ProjectAdapter by lazy {
         ProjectAdapter(projectDatas)
     }
 
-    private lateinit var mProjectSmartRefresh:SmartRefreshLayout
-    private lateinit var mProjectRl:RecyclerView
+    private lateinit var mProjectSmartRefresh: SmartRefreshLayout
+    private lateinit var mProjectRl: RecyclerView
 
     private var page = 1
 
@@ -54,7 +54,7 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnR
         }
 
         mProjectRl.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
                 RecycleViewDivider(
                     context,
@@ -72,10 +72,9 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnR
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .greenChannel()
-                .withString("url",projectDatas[position].link)
+                .withString("url", projectDatas[position].link)
                 .navigation()
         }
-        mAdapter.emptyView = emptyView(mProjectRl)
         mAdapter.openLoadAnimation()
 
     }
@@ -83,23 +82,26 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(),ProjectView, OnR
     override fun onFragmentFirstVisible() {
         mProjectSmartRefresh.postDelayed({
             mProjectSmartRefresh.autoRefresh()
-        },500)
+        }, 500)
         initLoveLayout()
     }
 
     override fun onNewProjectArticleResult(homeArticleResp: HomeArticleResp) {
-        if (page == 1){
+        if (page == 1 && homeArticleResp.datas.size <= 0) {
+            mAdapter.emptyView = emptyView(mProjectRl)
+        }
+        if (page == 1) {
             projectDatas.clear()
             projectDatas.addAll(homeArticleResp.datas)
             mAdapter.setNewData(projectDatas)
             mProjectSmartRefresh.finishRefresh()
-        }else{
+        } else {
             projectDatas.addAll(homeArticleResp.datas)
             mAdapter.addData(projectDatas)
             mProjectSmartRefresh.finishLoadMore()
         }
-        page ++
-        if (page>homeArticleResp.pageCount){
+        page++
+        if (page > homeArticleResp.pageCount) {
             mProjectSmartRefresh.setEnableLoadMore(false)
         }
     }

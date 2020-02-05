@@ -25,7 +25,7 @@ public class CollectArticleListResp {
     public List<DatasBean> datas;
 
 
-    public static class DatasBean implements MultiItemEntity
+    public static class DatasBean
 
     {
         /**
@@ -88,12 +88,7 @@ public class CollectArticleListResp {
         public int userId;
         public int visible;
         public int zan;
-        public int itemType;
         public List<?> tags;
 
-        @Override
-        public int getItemType() {
-            return itemType;
-        }
     }
 }

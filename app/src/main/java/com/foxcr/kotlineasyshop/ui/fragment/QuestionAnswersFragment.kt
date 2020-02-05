@@ -22,17 +22,17 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
-class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),QuestAnswerView,
+class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), QuestAnswerView,
     OnRefreshListener, OnLoadMoreListener, OnLikeClickListener {
-    private var datas:MutableList<HomeRequestAnswerListResp.DatasBean> = mutableListOf()
-    private val mQuestAnswerAdapter:HomeQuestAnswerAdapter by lazy {
+    private var datas: MutableList<HomeRequestAnswerListResp.DatasBean> = mutableListOf()
+    private val mQuestAnswerAdapter: HomeQuestAnswerAdapter by lazy {
         HomeQuestAnswerAdapter(datas)
     }
-    private var page:Int = 1
+    private var page: Int = 1
     override fun resLayoutId(): Int = R.layout.fragment_question_answers
 
-    private lateinit var mQuestAnswerSmartRefresh : SmartRefreshLayout
-    private lateinit var mQuestAnswerRl:RecyclerView
+    private lateinit var mQuestAnswerSmartRefresh: SmartRefreshLayout
+    private lateinit var mQuestAnswerRl: RecyclerView
     override fun injectComponent() {
         DaggerQuestionAnswersComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
@@ -50,7 +50,7 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),Ques
         }
 
         mQuestAnswerRl.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
                 RecycleViewDivider(
                     context,
@@ -67,29 +67,32 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),Ques
         mQuestAnswerAdapter.setOnItemClickListener { adapter, view, position ->
             ARouter.getInstance()
                 .build("/easyshop/web")
-                .withString("url",datas[position].link)
+                .withString("url", datas[position].link)
                 .greenChannel()
                 .navigation()
         }
         mQuestAnswerAdapter.openLoadAnimation()
-        mQuestAnswerAdapter.emptyView = emptyView(mQuestAnswerRl)
+
         initLoveLayout()
 
     }
 
     override fun onQuestAnswerResult(homeRequestAnswerListResp: HomeRequestAnswerListResp) {
-        if (page == 1){
+        if (page == 1 && homeRequestAnswerListResp.datas.size <= 0) {
+            mQuestAnswerAdapter.emptyView = emptyView(mQuestAnswerRl)
+        }
+        if (page == 1) {
             datas.clear()
             datas.addAll(homeRequestAnswerListResp.datas)
             mQuestAnswerAdapter.setNewData(datas)
             mQuestAnswerSmartRefresh.finishRefresh()
-        }else{
+        } else {
             datas.addAll(homeRequestAnswerListResp.datas)
             mQuestAnswerAdapter.addData(datas)
             mQuestAnswerSmartRefresh.finishLoadMore()
         }
-        page ++
-        if (page>homeRequestAnswerListResp.pageCount){
+        page++
+        if (page > homeRequestAnswerListResp.pageCount) {
             mQuestAnswerSmartRefresh.setEnableLoadMore(false)
         }
 
@@ -135,7 +138,7 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),Ques
     override fun onFragmentFirstVisible() {
         mQuestAnswerSmartRefresh.postDelayed({
             mQuestAnswerSmartRefresh.autoRefresh()
-        },500)
+        }, 500)
     }
 
 }

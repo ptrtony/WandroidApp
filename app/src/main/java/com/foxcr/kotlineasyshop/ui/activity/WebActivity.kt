@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Message
-import android.provider.Settings
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter

@@ -112,4 +112,20 @@ interface HomeService {
      */
     fun getArticleQueryData(page:Int,key:String):Observable<SearchArticleResp>
 
+    /**
+     * 积分排行榜接口
+     */
+
+    fun getCoinRankData(page:Int):Observable<CoinRankListResp>
+
+    /**
+     * 获取个人积分，需要登录后访问
+     */
+    fun getUserInfoCoinData():Observable<UserInfoCoinResp>
+
+    /**
+     * 获取个人积分获取列表，需要登录后访问
+     */
+    fun getUserInfoCoinListData(page:Int):Observable<LgCoinListResp>
+
 }

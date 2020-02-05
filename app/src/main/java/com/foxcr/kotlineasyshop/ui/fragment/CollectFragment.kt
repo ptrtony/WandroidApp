@@ -62,7 +62,6 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
             adapter = mCollectAdapter
         }
         mCollectAdapter.openLoadAnimation()
-        mCollectAdapter.emptyView = emptyView(mCollectRl)
     }
 
     override fun onFragmentFirstVisible() {
@@ -77,6 +76,9 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
     }
 
     override fun onCollectListResult(collectArticleList: CollectArticleListResp) {
+        if (page == 1 && collectArticleList.datas.size<=0){
+            mCollectAdapter.emptyView = emptyView(mCollectRl)
+        }
         if (page == 1){
             mCollectData.clear()
             mCollectData.addAll(collectArticleList.datas)

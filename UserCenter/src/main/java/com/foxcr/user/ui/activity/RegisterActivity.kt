@@ -1,5 +1,6 @@
 package com.foxcr.user.ui.activity
 
+import android.content.Intent
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -35,6 +36,9 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
             .navigation(this,object:EasyNavigationCallback(){
                 override fun onArrival(postcard: Postcard?) {
                     super.onArrival(postcard)
+                    val intent = Intent()
+                    intent.action = "android.easyshop.refreshUserInfo"
+                    sendBroadcast(intent)
                     finish()
                 }
             })

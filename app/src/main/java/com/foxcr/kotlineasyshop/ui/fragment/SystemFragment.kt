@@ -102,11 +102,10 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
         mSystemAdapter.setOnItemClickListener { adapter, view, position ->
             ARouter.getInstance()
                 .build("/easyshop/web")
-                .withString("url",mSystemData[position].link)
+                .withString("url", mSystemData[position].link)
                 .greenChannel()
                 .navigation()
         }
-        mSystemAdapter.emptyView = emptyView(mCategoryTwoRl)
         initLoveLayout()
     }
 
@@ -125,6 +124,9 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     override fun onKnowledgeSystemListResult(knowledgeSystemListResp: HomeKnowledgeSystemListResp) {
         mOneLevelTv.visibility = View.VISIBLE
         mTwoLevelTv.visibility = View.VISIBLE
+        if (page == 1 && knowledgeSystemListResp.datas.size <= 0) {
+            mSystemAdapter.emptyView = emptyView(mCategoryTwoRl)
+        }
         if (page == 1) {
             mSystemData.clear()
             mSystemData.addAll(knowledgeSystemListResp.datas)

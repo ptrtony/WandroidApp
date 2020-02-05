@@ -1,5 +1,4 @@
 package com.foxcr.kotlineasyshop.ui.activity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -10,6 +9,7 @@ import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.hideKeyboard
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.DisplayUtils
+import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.HeaderBar
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.base.widgets.RecycleViewDivider
@@ -105,15 +105,15 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
     }
 
     override fun onCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
-
+        ToastUtils.showToast("收藏成功")
     }
 
     override fun onUnCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {
-
+        ToastUtils.showToast("取消收藏")
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-
+        mPresenter.getSearchListData(page,keyStr)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {

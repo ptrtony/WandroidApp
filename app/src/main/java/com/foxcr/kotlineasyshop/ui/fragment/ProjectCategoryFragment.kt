@@ -31,11 +31,12 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     ProjectCategoryView, OnRefreshListener, OnLoadMoreListener,
     ProjectCategoryOneAdapter.OnProjectCategoryOneClickListener, OnLikeClickListener {
     private var projectCategoryOneData: MutableList<ProjectCategoryTreeResp> = mutableListOf()
-    private val mOneAdapter : ProjectCategoryOneAdapter by lazy {
+    private val mOneAdapter: ProjectCategoryOneAdapter by lazy {
         ProjectCategoryOneAdapter(projectCategoryOneData)
     }
 
-    private var projectCategoryListData:MutableList<ProjectCategoryListResp.DatasBean> = mutableListOf()
+    private var projectCategoryListData: MutableList<ProjectCategoryListResp.DatasBean> =
+        mutableListOf()
     private val mTwoAdapter: ProjectCagetoryListAdapter by lazy {
         ProjectCagetoryListAdapter(projectCategoryListData)
     }
@@ -67,12 +68,12 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
         }
 
         mCategoryOneRl.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             adapter = mOneAdapter
         }
 
         mCategoryTwoRl.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
                 RecycleViewDivider(
                     context,
@@ -86,18 +87,18 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
             adapter = mTwoAdapter
         }
 
-        mTwoAdapter.openLoadAnimation()
-        mTwoAdapter.emptyView = emptyView(mCategoryTwoRl)
         mOneAdapter.setProjectCategoryClickListener(this)
         mTwoAdapter.setOnLikeClickListener(this)
 
         mTwoAdapter.setOnItemClickListener { adapter, view, position ->
             ARouter.getInstance()
                 .build("/easyshop/web")
-                .withString("url",projectCategoryListData[position].link)
+                .withString("url", projectCategoryListData[position].link)
                 .greenChannel()
                 .navigation()
         }
+
+        mTwoAdapter.openLoadAnimation()
 
 
     }
@@ -106,7 +107,7 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
         initLoveLayout()
         mProjectCategorySmartRefresh.postDelayed({
             mProjectCategorySmartRefresh.autoRefresh()
-        },500)
+        }, 500)
     }
 
     override fun onProjectCategoryTreeResult(projectCategoryTreeDatas: List<ProjectCategoryTreeResp>) {
@@ -118,19 +119,22 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     }
 
     override fun onProjectCategoryListResult(projectCategoryListResp: ProjectCategoryListResp) {
-        if (page == 1){
+        if (page == 1 && projectCategoryListResp.datas.size <= 0) {
+            mTwoAdapter.emptyView = emptyView(mCategoryTwoRl)
+        }
+        if (page == 1) {
             projectCategoryListData.clear()
             projectCategoryListData.addAll(projectCategoryListResp.datas)
             mTwoAdapter.setNewData(projectCategoryListData)
             mProjectCategorySmartRefresh.finishRefresh()
-        }else{
+        } else {
             projectCategoryListData.addAll(projectCategoryListResp.datas)
             mTwoAdapter.addData(projectCategoryListData)
             mProjectCategorySmartRefresh.finishLoadMore()
         }
 
         page++
-        if (page>projectCategoryListResp.pageCount){
+        if (page > projectCategoryListResp.pageCount) {
             mProjectCategorySmartRefresh.setEnableLoadMore(false)
         }
     }
@@ -146,19 +150,19 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     override fun onRefresh(refreshLayout: RefreshLayout) {
         page = 1
         mProjectCategorySmartRefresh.setEnableLoadMore(true)
-        if (isCurrentLoad){
-            GlobalScope.launch (Dispatchers.Main){
+        if (isCurrentLoad) {
+            GlobalScope.launch(Dispatchers.Main) {
                 mPresenter.getProjectCategoryTreeData()
-                mPresenter.getProjectCategoryListData(page,cid)
+                mPresenter.getProjectCategoryListData(page, cid)
             }
-        }else{
-            mPresenter.getProjectCategoryListData(page,cid)
+        } else {
+            mPresenter.getProjectCategoryListData(page, cid)
         }
 
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter.getProjectCategoryListData(page,cid)
+        mPresenter.getProjectCategoryListData(page, cid)
     }
 
     override fun onCategoryTwoClick(view: View, position: Int, item: ProjectCategoryTreeResp) {

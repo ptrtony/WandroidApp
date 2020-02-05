@@ -101,7 +101,6 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         }
 
         mAdapter.setOnLikeClickListener(this)
-        mAdapter.emptyView = emptyView(mWxArticleRl)
         mAdapter.setOnItemClickListener { adapter, view, position ->
             ARouter.getInstance()
                 .build("/easyshop/web")
@@ -135,6 +134,9 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
     override fun onWxArticleListResult(wxArticleListResp: WxArticleListResp) {
         mWxArticleSmartRefresh.finishRefresh()
+        if (wxArticleListResp.datas.size<=0 && page ==1){
+            mAdapter.emptyView = emptyView(mWxArticleRl)
+        }
         if (page == 1) {
             mData.clear()
             mData.addAll(wxArticleListResp.datas)
@@ -153,6 +155,9 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
     override fun onSearchWxArticleListResult(wxArticleListResp: WxArticleListResp) {
         mWxArticleSmartRefresh.finishRefresh()
+        if (page == 1 && wxArticleListResp.datas.size<=0){
+            mAdapter.emptyView = emptyView(mWxArticleRl)
+        }
         if(page == 1){
             mData.clear()
             mData.addAll(wxArticleListResp.datas)

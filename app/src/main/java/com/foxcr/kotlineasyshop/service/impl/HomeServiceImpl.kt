@@ -111,5 +111,17 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.getArticleQueryData(page, key)
     }
 
+    override fun getCoinRankData(page: Int): Observable<CoinRankListResp> {
+        return homeRepository.getCoinRankData(page)
+    }
+
+    override fun getUserInfoCoinData(): Observable<UserInfoCoinResp> {
+        return homeRepository.getUserInfoIconData()
+    }
+
+    override fun getUserInfoCoinListData(page: Int): Observable<LgCoinListResp> {
+        return homeRepository.getUserCoinListData(page)
+    }
+
 
 }

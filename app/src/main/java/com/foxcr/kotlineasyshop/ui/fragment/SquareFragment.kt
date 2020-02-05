@@ -22,15 +22,17 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
-class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListener, OnRefreshListener,SquareView,
+class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListener,
+    OnRefreshListener, SquareView,
     OnLikeClickListener {
-    private var squareUserArticleDatas:MutableList<HomeSquareUserArticleListResp.DatasBean> = mutableListOf()
-    private val homeSquareUserArticleAdapter:HomeSquareUserArticleAdapter by lazy {
+    private var squareUserArticleDatas: MutableList<HomeSquareUserArticleListResp.DatasBean> =
+        mutableListOf()
+    private val homeSquareUserArticleAdapter: HomeSquareUserArticleAdapter by lazy {
         HomeSquareUserArticleAdapter(squareUserArticleDatas)
     }
-    private var page:Int = 1
-    private lateinit var mSquareSrl:SmartRefreshLayout
-    private lateinit var mSquareRv:RecyclerView
+    private var page: Int = 1
+    private lateinit var mSquareSrl: SmartRefreshLayout
+    private lateinit var mSquareRv: RecyclerView
 
     override fun resLayoutId(): Int = R.layout.fragment_square
 
@@ -38,6 +40,7 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
         DaggerSquareComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
     }
+
     override fun initView(view: View) {
         mPresenter.mView = this
         mSquareSrl = view.findViewById(R.id.mSquareSrl)
@@ -48,10 +51,15 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
         }
 
         mSquareRv.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
-                RecycleViewDivider(context,LinearLayoutManager.HORIZONTAL,
-                    DisplayUtils.dp2px(1f),resources.getColor(R.color.common_divider), DisplayUtils.dp2px(15f))
+                RecycleViewDivider(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),
+                    resources.getColor(R.color.common_divider),
+                    DisplayUtils.dp2px(15f)
+                )
             )
             adapter = homeSquareUserArticleAdapter
         }
@@ -60,11 +68,10 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .greenChannel()
-                .withString("url",squareUserArticleDatas[position].link)
+                .withString("url", squareUserArticleDatas[position].link)
                 .navigation()
         }
         homeSquareUserArticleAdapter.openLoadAnimation()
-        homeSquareUserArticleAdapter.emptyView = emptyView(mSquareRv)
         initLoveLayout()
     }
 
@@ -78,18 +85,22 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
     }
 
     override fun onHomeSquareUserArticleList(homeSquareUserArticleListResp: HomeSquareUserArticleListResp) {
-        squareUserArticleDatas.clear()
-        squareUserArticleDatas.addAll(homeSquareUserArticleListResp.datas)
-        if (page == 1){
+        if (page == 1 && homeSquareUserArticleListResp.datas.size <= 0) {
+            homeSquareUserArticleAdapter.emptyView = emptyView(mSquareRv)
+        }
+        if (page == 1) {
+            squareUserArticleDatas.clear()
+            squareUserArticleDatas.addAll(homeSquareUserArticleListResp.datas)
             homeSquareUserArticleAdapter.setNewData(squareUserArticleDatas)
             mSquareSrl.finishRefresh()
             mSquareSrl.setEnableRefresh(false)
-        }else{
+        } else {
+            squareUserArticleDatas.addAll(homeSquareUserArticleListResp.datas)
             homeSquareUserArticleAdapter.addData(squareUserArticleDatas)
             mSquareSrl.finishLoadMore()
         }
         page = homeSquareUserArticleListResp.curPage
-        if (page>=homeSquareUserArticleListResp.pageCount){
+        if (page >= homeSquareUserArticleListResp.pageCount) {
             mSquareSrl.setEnableLoadMore(false)
         }
     }
@@ -119,6 +130,6 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
     override fun onFragmentFirstVisible() {
         mSquareSrl.postDelayed({
             mSquareSrl.autoRefresh()
-        },500)
+        }, 500)
     }
 }

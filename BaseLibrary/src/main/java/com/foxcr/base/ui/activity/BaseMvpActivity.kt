@@ -3,8 +3,10 @@ package com.foxcr.base.ui.activity
 import android.content.Context
 import android.graphics.PixelFormat
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.foxcr.base.R
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.base.presenter.view.BaseView
 import com.foxcr.base.utils.ToastUtils
@@ -60,5 +62,12 @@ open abstract class BaseMvpActivity<T : BasePresenter<*>> : BaseActivity(), Base
         layoutParams.x = 0
         layoutParams.y = 0
         windowManager.addView(mLoveView, layoutParams)
+    }
+
+    /**
+     * recyclerview列表为空显示的布局
+     */
+    fun emptyView(): View {
+        return View.inflate(this, R.layout.empty_view,null)
     }
 }

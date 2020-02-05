@@ -94,13 +94,12 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         mHomeArticleAdapter.setOnItemClickListener { adapter, view, position ->
             ARouter.getInstance()
                 .build("/easyshop/web")
-                .withString("url",mHomeData[position].link)
+                .withString("url", mHomeData[position].link)
                 .greenChannel()
                 .navigation()
         }
 
         mHomeArticleAdapter.openLoadAnimation()
-        mHomeArticleAdapter.emptyView = emptyView(mHomeArticleRl)
     }
 
 
@@ -147,6 +146,9 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     }
 
     override fun homeArticleProjectList(homeArticleResp: HomeArticleResp) {
+        if (page == 1 && homeArticleResp.datas.size <= 0) {
+            mHomeArticleAdapter.emptyView = emptyView(mHomeArticleRl)
+        }
         if (page == 1) {
             mHomeData.clear()
             mHomeData.addAll(homeArticleResp.datas)
@@ -233,9 +235,9 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
 
             }
             withContext(Dispatchers.IO) {
-                if (isCheckArticle){
+                if (isCheckArticle) {
                     mPresenter.homeArticleList(page)
-                }else{
+                } else {
                     mPresenter.homeArticleProjectList(page)
                 }
             }

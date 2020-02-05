@@ -5,6 +5,7 @@ import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.convert
 import com.foxcr.kotlineasyshop.data.api.HomeApi
 import com.foxcr.kotlineasyshop.data.protocal.*
+import com.foxcr.kotlineasyshop.presenter.HomePresenter_MembersInjector
 import io.reactivex.Observable
 import java.util.*
 import javax.inject.Inject
@@ -199,6 +200,33 @@ class HomeRepository @Inject constructor(){
     fun getArticleQueryData(page:Int,key:String):Observable<SearchArticleResp>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .getArticlQueryData(page,key)
+            .convert()
+    }
+
+    /**
+     * 获取个人积分，需要登录后访问
+     */
+    fun getUserInfoIconData():Observable<UserInfoCoinResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getUserInfoCoin()
+            .convert()
+    }
+
+    /**
+     * 积分排行榜接口
+     */
+    fun getCoinRankData(page:Int):Observable<CoinRankListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getCoinRankData(page)
+            .convert()
+    }
+
+    /**
+     * 获取个人积分获取列表，需要登录后访问
+     */
+    fun getUserCoinListData(page:Int):Observable<LgCoinListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getLgCoinListData(page)
             .convert()
     }
 

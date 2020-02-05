@@ -173,5 +173,21 @@ interface HomeApi {
     @FormUrlEncoded
     fun getArticlQueryData(@Path("page")page:Int,@Field("k")k:String):Observable<BaseResp<SearchArticleResp>>
 
+    /**
+     * 个人积分
+     */
+    @GET("lg/coin/userinfo/json")
+    fun getUserInfoCoin():Observable<BaseResp<UserInfoCoinResp>>
 
+    /**
+     * 积分排行榜接口
+     */
+    @GET("coin/rank/{page}/json")
+    fun getCoinRankData(@Path("page")page:Int):Observable<BaseResp<CoinRankListResp>>
+
+    /**
+     * 获取个人积分获取列表，需要登录后访问
+     */
+    @GET("lg/coin/list/{page}/json")
+    fun getLgCoinListData(@Path("page")page:Int):Observable<BaseResp<LgCoinListResp>>
 }

@@ -265,7 +265,7 @@ open abstract class BaseMvpLazyFragment<T:BasePresenter<*>> : RxFragment(),BaseV
      * recyclerview列表为空显示的布局
      */
     fun emptyView(parent:ViewGroup):View{
-        return View.inflate(activity,R.layout.empty_view,parent)
+        return View.inflate(activity,R.layout.empty_view,null)
     }
 
 }

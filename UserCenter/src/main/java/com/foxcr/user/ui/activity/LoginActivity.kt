@@ -1,5 +1,6 @@
 package com.foxcr.user.ui.activity
 
+import android.content.Intent
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -66,12 +67,16 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     override fun onLoginResult(loginResp: LoginResp) {
         SPUtil.putString(BaseConstant.LOGINUSERNAME,mUserNameEtn.text.toString().trim())
         SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,mPwdEtn.text.toString().trim())
+
         ARouter.getInstance()
             .build("/easyshop/main")
             .greenChannel()
             .navigation(this,object:EasyNavigationCallback(){
                 override fun onArrival(postcard: Postcard?) {
                     super.onArrival(postcard)
+                    val intent = Intent()
+                    intent.action = "android.easyshop.refreshUserInfo"
+                    sendBroadcast(intent)
                     finish()
                 }
             })
