@@ -1,5 +1,8 @@
 package com.foxcr.base.ext
+import android.app.Activity
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import com.foxcr.base.common.DefaultTextWatcher
@@ -43,3 +46,19 @@ fun Button.enable(mEtn:EditText,buttonColors:IntArray,method:()->Boolean){
         }
     })
 }
+
+/**
+ * 隐藏软件盘
+ */
+
+fun EditText.hideKeyboard(){
+    val manager = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    manager.hideSoftInputFromWindow(this.windowToken,0)
+
+}
+
+fun View.hideKeyboard(){
+    val manager = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    manager.hideSoftInputFromWindow(this.windowToken,0)
+}
+

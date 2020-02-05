@@ -22,7 +22,7 @@ import com.foxcr.kotlineasyshop.presenter.NewBlogArticlePresenter
 import com.foxcr.kotlineasyshop.presenter.view.NewBlogArticleView
 import kotlinx.android.synthetic.main.fragment_new_blog_article.*
 
-class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBlogArticleView,
+class NewBlogArticleFragment : BaseMvpLazyFragment<NewBlogArticlePresenter>(), NewBlogArticleView,
     OnLikeClickListener {
     private var articleDatas: MutableList<HomeArticleListResp.DatasBean> = mutableListOf()
     private val mAdapter: HomeArticleListAdapter by lazy {
@@ -60,7 +60,6 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
         }
 
         mAdapter.setOnLikeClickListener(this)
-        initLoveLayout()
 
     }
 
@@ -106,16 +105,12 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
     private var onRefreshLoadMoreListener: OnRefreshOrLoadMoreListener? = null
 
     override fun onLikeInNetClick(view: View, id: Int) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view, locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectInStandArticle(id)
     }
 
     override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view, locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectOutStandArticle(title, author, link)
     }
 
@@ -131,6 +126,9 @@ class NewBlogArticleFragment : BaseMvpFragment<NewBlogArticlePresenter>(), NewBl
         ToastUtils.showToast("取消收藏")
     }
 
+    override fun onFragmentFirstVisible() {
+        initLoveLayout()
+    }
 
 
 }

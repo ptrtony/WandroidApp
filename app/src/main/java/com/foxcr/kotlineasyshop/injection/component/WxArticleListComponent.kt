@@ -8,6 +8,6 @@ import dagger.Component
 
 @PerActivityScope
 @Component(dependencies = [ActivityComponent::class],modules = [HomeModule::class])
-interface PublicNumberComponent {
-    fun inject(publicNumberFragment: PublicNumberFragment)
+interface WxArticleListComponent {
+    fun inject(wxArticleFragment: WxArticleFragment)
 }

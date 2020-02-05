@@ -20,7 +20,6 @@ import com.foxcr.kotlineasyshop.injection.component.DaggerNavigationComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.NavigationPresenter
 import com.foxcr.kotlineasyshop.presenter.view.NavigationView
-import kotlinx.android.synthetic.main.fragment_navigation.*
 
 
 class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), NavigationView,
@@ -159,7 +158,9 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
     }
 
     override fun onFragmentFirstVisible() {
-        mPresenter.getNavigationData()
+        mNavigationOneRl.postDelayed({
+            mPresenter.getNavigationData()
+        },500)
     }
 
 

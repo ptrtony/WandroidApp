@@ -74,4 +74,29 @@ interface HomeService {
      * 知识体系
      */
     fun getKnowledgeSystemListData(page:Int,cid:Int):Observable<HomeKnowledgeSystemListResp>
+
+    /**
+     * 获取公众号列表
+     */
+    fun getWxArticleChaptersData():Observable<List<WxArticleChaptersResp>>
+
+    /**
+     * 查看某个公众号历史数据
+     */
+    fun getWxArticleListData(id:Int,page:Int):Observable<WxArticleListResp>
+
+    /**
+     * 在某个公众号中搜索历史文章
+     */
+    fun searchWxArticleListData(id:Int,page:Int,key:String):Observable<WxArticleListResp>
+
+    /**
+     *  项目分类
+     */
+    fun getProjectCategoryTreeData():Observable<List<ProjectCategoryTreeResp>>
+
+    /**
+     * 项目列表数据
+     */
+    fun getProjectCategoryListData(page:Int,cid:Int):Observable<ProjectCategoryListResp>
 }

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpFragment
+import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
@@ -21,7 +22,7 @@ import com.foxcr.kotlineasyshop.presenter.NewProjectArticlePresenter
 import com.foxcr.kotlineasyshop.presenter.view.NewProjectArticleView
 import kotlinx.android.synthetic.main.fragment_new_project_article.*
 
-class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),NewProjectArticleView,
+class NewProjectArticleFragment : BaseMvpLazyFragment<NewProjectArticlePresenter>(),NewProjectArticleView,
     OnLikeClickListener {
     private var projectDatas :  MutableList<HomeArticleProjectListResp.DatasBean> = mutableListOf()
     private val mAdapter: HomeArticleProjectListAdapter by lazy {
@@ -56,7 +57,6 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
 
         }
         mAdapter.setOnLikeClickListener(this)
-        initLoveLayout()
     }
 
     fun getNewProjectArticleList(page:Int){
@@ -103,20 +103,20 @@ class NewProjectArticleFragment : BaseMvpFragment<NewProjectArticlePresenter>(),
     private var onRefreshOrLoadMoreListener: OnRefreshOrLoadMoreListener?=null
 
     override fun onLikeInNetClick(view: View, id: Int) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view,locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectInStandArticle(id)
     }
 
     override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view,locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectOutStandArticle(title,author, link)
     }
 
     override fun cancelCollectClick(id: Int, originId: Int) {
         mPresenter.uncollectArticle(id, originId)
+    }
+
+    override fun onFragmentFirstVisible() {
+        initLoveLayout()
     }
 }

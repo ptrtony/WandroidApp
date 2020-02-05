@@ -4,29 +4,27 @@ import android.annotation.SuppressLint
 import com.foxcr.base.ext.ioToUI
 import com.foxcr.base.ext.netException
 import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.kotlineasyshop.presenter.view.NavigationView
+import com.foxcr.kotlineasyshop.presenter.view.WxArticleChaptersView
 import com.foxcr.kotlineasyshop.service.impl.HomeServiceImpl
 import javax.inject.Inject
 
-class NavigationPresenter @Inject constructor():BasePresenter<NavigationView>(){
+class WxArticleChapterPresenter @Inject constructor(): BasePresenter<WxArticleChaptersView>(){
     @Inject
-    lateinit var homeServiceImpl:HomeServiceImpl
+    lateinit var homeServiceImpl: HomeServiceImpl
 
     @SuppressLint("CheckResult")
-    fun getNavigationData(){
+    fun getWxArticleChaptersData(){
         if (!checkNetWork()){
             return
         }
-        mView.showLoading()
-        homeServiceImpl.getNavigationData()
+        homeServiceImpl.getWxArticleChaptersData()
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
             .subscribe({
-                mView.onNavigationResult(it)
-                mView.hideLoading()
+                mView.onWxArticleChaptersResult(it)
             },{
                 it.netException(mView)
-                mView.hideLoading()
             })
     }
+
 }

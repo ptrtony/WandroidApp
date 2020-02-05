@@ -66,8 +66,10 @@ public class LoveLayout extends RelativeLayout {
         mHeight = getMeasuredHeight();
     }
 
-    public void addLoveView(View view, int[] locations) {
+    public void addLoveView(View view) {
         // TODO Auto-generated method stub
+        int[] locations = new int[2];
+        view.getLocationOnScreen(locations);
         for (int i=0;i<icons.length;i++){
             final ImageView iv = new ImageView(context);
             params.rightMargin = getWidth() - locations[0] - params.width + view.getWidth();

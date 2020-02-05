@@ -15,26 +15,6 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
     @Inject
     lateinit var homeServiceImpl: HomeServiceImpl
 
-    fun getHomeNetData(){
-        GlobalScope.launch(Dispatchers.Main){
-            mergeHomeRequest()
-       }
-
-    }
-
-    private suspend fun mergeHomeRequest(){
-        withContext(Dispatchers.IO){
-            homeBanner()
-        }
-
-//        withContext(Dispatchers.IO){
-//            homeArticleList(0)
-//        }
-//
-//        withContext(Dispatchers.IO){
-//            homeArticleProjectList(0)
-//        }
-    }
     /**
      * 首页banner
      */

@@ -136,4 +136,52 @@ class HomeRepository @Inject constructor(){
             .convert()
     }
 
+    /**
+     * 获取公众号列表
+     */
+    fun getWxArticleChaptersData():Observable<List<WxArticleChaptersResp>>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getWxArticleChaptersData()
+            .convert()
+    }
+
+    /**
+     * 查看某个公众号历史数据
+     */
+
+    fun getWxArticleList(id:Int,page:Int):Observable<WxArticleListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getWxArticleListData(id,page)
+            .convert()
+    }
+
+    /**
+     * 在某个公众号中搜索历史文章
+     */
+    fun searchWxArticleListData(id:Int,page:Int,key:String):Observable<WxArticleListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .searchWxArticleListData(id,page,key)
+            .convert()
+    }
+
+    /**
+     * 项目分类
+     */
+
+    fun getProjectCategoryTreeData():Observable<List<ProjectCategoryTreeResp>>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getProjectCategoryTreeData()
+            .convert()
+    }
+
+    /**
+     *  项目列表数据
+     */
+    fun getProjectCategoryListData(id:Int,page:Int):Observable<ProjectCategoryListResp>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getProjectCategoryListData(page,id)
+            .convert()
+    }
+
+
 }

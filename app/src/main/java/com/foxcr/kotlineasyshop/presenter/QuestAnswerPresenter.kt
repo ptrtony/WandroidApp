@@ -14,6 +14,9 @@ class QuestAnswerPresenter @Inject constructor(): BasePresenter<QuestAnswerView>
 
     @SuppressLint("CheckResult")
     fun getQuestAnswerData(page:Int){
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.getQuestAnswerData(page)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
@@ -27,6 +30,9 @@ class QuestAnswerPresenter @Inject constructor(): BasePresenter<QuestAnswerView>
 
     @SuppressLint("CheckResult")
     fun collectInStandArticle(id:Int){
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.collectInStackArticle(id)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
@@ -39,6 +45,9 @@ class QuestAnswerPresenter @Inject constructor(): BasePresenter<QuestAnswerView>
 
     @SuppressLint("CheckResult")
     fun collectOutStandArticle(title:String, author:String, link:String){
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.collectOutStackArticle(title, author, link)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
@@ -52,6 +61,9 @@ class QuestAnswerPresenter @Inject constructor(): BasePresenter<QuestAnswerView>
 
     @SuppressLint("CheckResult")
     fun uncollectArticle(id:Int, originId:Int){
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.uncollectArticle(id,originId)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()

@@ -135,4 +135,34 @@ interface HomeApi {
      */
     @GET("article/list/{page}/json")
     fun getArticleKnowledgeSystemData(@Path("page")page:Int,@Query("cid")cid:Int):Observable<BaseResp<HomeKnowledgeSystemListResp>>
+
+    /**
+     * 公众号列表
+     */
+    @GET("wxarticle/chapters/json")
+    fun getWxArticleChaptersData() : Observable<BaseResp<List<WxArticleChaptersResp>>>
+
+    /**
+     * 查看某个公众号历史数据
+     */
+    @GET("wxarticle/list/{ID}/{page}/json")
+    fun getWxArticleListData(@Path("ID")ID:Int,@Path("page")page:Int):Observable<BaseResp<WxArticleListResp>>
+
+    /**
+     * 在某个公众号中搜索历史文章
+     */
+    @GET("wxarticle/list/{ID}/{page}/json")
+    fun searchWxArticleListData(@Path("ID")ID:Int,@Path("page")page:Int,@Query("k")k:String):Observable<BaseResp<WxArticleListResp>>
+
+    /**
+     * 项目分类
+     */
+    @GET("project/tree/json")
+    fun getProjectCategoryTreeData():Observable<BaseResp<List<ProjectCategoryTreeResp>>>
+
+    /**
+     * 项目分类列表
+     */
+    @GET("project/list/{page}/json")
+    fun getProjectCategoryListData(@Path("page")page:Int,@Query("cid")cid:Int):Observable<BaseResp<ProjectCategoryListResp>>
 }

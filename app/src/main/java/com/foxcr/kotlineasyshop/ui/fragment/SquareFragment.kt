@@ -94,16 +94,12 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
     }
 
     override fun onLikeInNetClick(view: View, id: Int) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view,locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectInStandArticle(id)
     }
 
     override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view,locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectOutStandArticle(title, author, link)
     }
 
@@ -112,6 +108,8 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
     }
 
     override fun onFragmentFirstVisible() {
-        mSquareSrl.autoRefresh()
+        mSquareSrl.postDelayed({
+            mSquareSrl.autoRefresh()
+        },500)
     }
 }

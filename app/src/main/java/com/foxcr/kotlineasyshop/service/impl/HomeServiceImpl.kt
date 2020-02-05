@@ -76,5 +76,32 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.getKnowledgeSystemListData(page, cid)
     }
 
+    override fun getWxArticleChaptersData(): Observable<List<WxArticleChaptersResp>> {
+        return homeRepository.getWxArticleChaptersData()
+    }
+
+    override fun getWxArticleListData(id: Int, page: Int): Observable<WxArticleListResp> {
+        return homeRepository.getWxArticleList(id, page)
+    }
+
+    override fun searchWxArticleListData(
+        id: Int,
+        page: Int,
+        key: String
+    ): Observable<WxArticleListResp> {
+        return homeRepository.searchWxArticleListData(id, page, key)
+    }
+
+    override fun getProjectCategoryTreeData(): Observable<List<ProjectCategoryTreeResp>> {
+        return homeRepository.getProjectCategoryTreeData()
+    }
+
+    override fun getProjectCategoryListData(
+        page: Int,
+        cid: Int
+    ): Observable<ProjectCategoryListResp> {
+        return homeRepository.getProjectCategoryListData(cid,page)
+    }
+
 
 }

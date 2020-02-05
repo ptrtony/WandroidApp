@@ -76,7 +76,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         mMainVp2.run {
             adapter = mainAdapter
-            offscreenPageLimit = 3
+            offscreenPageLimit = tabTexts.size - 1
             currentItem = 0
         }
 

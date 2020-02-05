@@ -4,26 +4,45 @@ import android.annotation.SuppressLint
 import com.foxcr.base.ext.ioToUI
 import com.foxcr.base.ext.netException
 import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.kotlineasyshop.presenter.view.SquareView
+import com.foxcr.kotlineasyshop.presenter.view.ProjectCategoryView
 import com.foxcr.kotlineasyshop.service.impl.HomeServiceImpl
 import javax.inject.Inject
 
-class SquarePresenter @Inject constructor():BasePresenter<SquareView>(){
+class ProjectCategoryPresenter @Inject constructor(): BasePresenter<ProjectCategoryView>(){
+
     @Inject
     lateinit var homeServiceImpl: HomeServiceImpl
 
     @SuppressLint("CheckResult")
-    fun getSquareArticleUserList(page:Int){
+    fun getProjectCategoryTreeData(){
         if (!checkNetWork()){
             return
         }
-        homeServiceImpl.homeSquareUserArticleList(page)
-            .ioToUI()
+        homeServiceImpl.getProjectCategoryTreeData()
             .compose(lifecycleProvider.bindToLifecycle())
-            .subscribe {
-                mView.onHomeSquareUserArticleList(it)
-            }
+            .ioToUI()
+            .subscribe({
+                mView.onProjectCategoryTreeResult(it)
+            },{
+                it.netException(mView)
+            })
     }
+
+    @SuppressLint("CheckResult")
+    fun getProjectCategoryListData(page:Int, cid:Int){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.getProjectCategoryListData(page, cid)
+            .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
+            .subscribe({
+                mView.onProjectCategoryListResult(it)
+            },{
+                it.netException(mView)
+            })
+    }
+
 
     @SuppressLint("CheckResult")
     fun collectInStandArticle(id:Int){

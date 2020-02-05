@@ -2,10 +2,7 @@ package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentTransaction
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.GlideUtils
@@ -24,6 +21,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, HomeView,
     RadioGroup.OnCheckedChangeListener, OnRefreshListener, OnRefreshOrLoadMoreListener {
@@ -45,6 +46,7 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     private lateinit var mHomeBanner: SlidingPlayViewWithDot
     private lateinit var mHomeNewBlogRb:RadioButton
     private lateinit var mHomeNewProjectRb:RadioButton
+    private lateinit var mFrameLayout:FrameLayout
     override fun resLayoutId(): Int = R.layout.fragment_home
 
 
@@ -56,12 +58,13 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         mHomeBanner = view.findViewById(R.id.mHomeBanner)
         mHomeNewBlogRb = view.findViewById(R.id.mHomeNewBlogRb)
         mHomeNewProjectRb = view.findViewById(R.id.mHomeNewProjectRb)
-
+        mFrameLayout = view.findViewById(R.id.mFrameLayout)
         mHomeSmartRefresh.apply {
             setOnLoadMoreListener(this@HomeFragment)
             setOnRefreshListener(this@HomeFragment)
         }
         mHomeNewArticleRg.setOnCheckedChangeListener(this)
+        if (mFrameLayout.childCount>0) mFrameLayout.removeAllViews()
         newBlogArticleFragment.setOnRefreshOrLoadMoreListener(this)
         newProjectArticleFragment.setOnRefreshOrLoadMoreListener(this)
         mPresenter.mView = this
@@ -153,8 +156,15 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        mPresenter.getHomeNetData()
-        refreshData()
+        GlobalScope.launch (Dispatchers.Main){
+            withContext(Dispatchers.IO){
+                mPresenter.homeBanner()
+            }
+
+            withContext(Dispatchers.IO){
+                refreshData()
+            }
+        }
     }
 
     private fun refreshData(){
@@ -192,7 +202,10 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     }
 
     override fun onFragmentFirstVisible() {
-        mHomeSmartRefresh.autoRefresh()
+        mHomeSmartRefresh.postDelayed({
+            mHomeSmartRefresh.autoRefresh()
+        },500)
+
     }
 
 

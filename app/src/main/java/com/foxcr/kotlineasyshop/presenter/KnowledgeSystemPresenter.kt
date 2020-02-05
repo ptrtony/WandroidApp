@@ -14,7 +14,9 @@ class KnowledgeSystemPresenter @Inject constructor(): BasePresenter<KnowledgeSys
     lateinit var homeServiceImpl: HomeServiceImpl
     @SuppressLint("CheckResult")
     fun getKnowledgeSystemData(){
-
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.getKnowledgeSystemData()
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
@@ -28,6 +30,9 @@ class KnowledgeSystemPresenter @Inject constructor(): BasePresenter<KnowledgeSys
 
     @SuppressLint("CheckResult")
     fun getKnowledgeSystemListData(page:Int, cid:Int){
+        if (!checkNetWork()){
+            return
+        }
         homeServiceImpl.getKnowledgeSystemListData(page, cid)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()

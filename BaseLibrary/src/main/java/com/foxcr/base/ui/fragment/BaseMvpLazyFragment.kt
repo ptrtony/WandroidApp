@@ -49,8 +49,8 @@ open abstract class BaseMvpLazyFragment<T:BasePresenter<*>> : RxFragment(),BaseV
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (rootView == null) {
-            rootView = inflater.inflate(resLayoutId(), container, false);
+        if (rootView == null){
+            rootView = inflater.inflate(resLayoutId(), container, false)
         }
         activityComponent = DaggerActivityComponent.builder().appComponent((activity?.applicationContext as BaseApplication).appComponent)
             .activityModule(ActivityModule(activity!!)).lifecycleProvideModule(

@@ -1,6 +1,7 @@
 package com.foxcr.kotlineasyshop.ui.fragment
 
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,10 +42,12 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     private val mSystemAdapter: HomeKnowledgeSystemListAdapter by lazy {
         HomeKnowledgeSystemListAdapter(mSystemData)
     }
-    private lateinit var mCategoryOneRl:RecyclerView
-    private lateinit var mCategoryTwoRl:RecyclerView
-    private lateinit var mKnowledgeSystemListRl:RecyclerView
-    private lateinit var mSystemSmartRefresh:SmartRefreshLayout
+    private lateinit var mCategoryOneRl: RecyclerView
+    private lateinit var mCategoryTwoRl: RecyclerView
+    private lateinit var mKnowledgeSystemListRl: RecyclerView
+    private lateinit var mSystemSmartRefresh: SmartRefreshLayout
+    private lateinit var mOneLevelTv: TextView
+    private lateinit var mTwoLevelTv: TextView
     private var page: Int = 1
     private var cid = 0
     override fun resLayoutId(): Int = R.layout.fragment_system
@@ -64,9 +67,12 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
         mCategoryTwoRl = view.findViewById(R.id.mCategoryTwoRl)
         mKnowledgeSystemListRl = view.findViewById(R.id.mKnowledgeSystemListRl)
         mSystemSmartRefresh = view.findViewById(R.id.mSystemSmartRefresh)
+        mOneLevelTv = view.findViewById(R.id.mOneLevelTv)
+        mTwoLevelTv = view.findViewById(R.id.mTwoLevelTv)
+        mOneLevelTv.visibility = View.INVISIBLE
+        mTwoLevelTv.visibility = View.INVISIBLE
         REFRESH_TYPE = 1
         mPresenter.mView = this
-        mPresenter.getKnowledgeSystemData()
         mCategoryOneRl.apply {
             layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
             adapter = mCategoryOneAdapter
@@ -87,7 +93,6 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
             setEnableLoadMore(true)
             setOnRefreshListener(this@SystemFragment)
             setOnLoadMoreListener(this@SystemFragment)
-            autoRefresh()
         }
 
 
@@ -111,8 +116,10 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     }
 
     override fun onKnowledgeSystemListResult(knowledgeSystemListResp: HomeKnowledgeSystemListResp) {
-        mSystemData.clear()
-        if (page == 0) {
+        mOneLevelTv.visibility = View.VISIBLE
+        mTwoLevelTv.visibility = View.VISIBLE
+        if (page == 1) {
+            mSystemData.clear()
             mSystemData.addAll(knowledgeSystemListResp.datas)
             mSystemAdapter.setNewData(mSystemData)
             mSystemSmartRefresh.finishRefresh()
@@ -150,16 +157,12 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     }
 
     override fun onLikeInNetClick(view: View, id: Int) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view, locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectInStandArticle(id)
     }
 
     override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view, locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectOutStandArticle(title, author, link)
     }
 
@@ -205,6 +208,11 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     }
 
     override fun onFragmentFirstVisible() {
+
+        mSystemSmartRefresh.postDelayed({
+            mSystemSmartRefresh.autoRefresh()
+        }, 500)
+
 
     }
 

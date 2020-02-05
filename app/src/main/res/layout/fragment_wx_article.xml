@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:id="@+id/mProjectSmartRefresh"
+    android:id="@+id/mWxArticleSmartRefresh"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mProjectRl"
-        style="@style/MatchMatch"/>
+        android:id="@+id/mWxArticleRl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

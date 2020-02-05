@@ -4,26 +4,51 @@ import android.annotation.SuppressLint
 import com.foxcr.base.ext.ioToUI
 import com.foxcr.base.ext.netException
 import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.kotlineasyshop.presenter.view.SquareView
+import com.foxcr.kotlineasyshop.presenter.view.WxArticleListView
 import com.foxcr.kotlineasyshop.service.impl.HomeServiceImpl
 import javax.inject.Inject
 
-class SquarePresenter @Inject constructor():BasePresenter<SquareView>(){
+class WxArticleListPresenter @Inject constructor(): BasePresenter<WxArticleListView>(){
+
     @Inject
     lateinit var homeServiceImpl: HomeServiceImpl
 
     @SuppressLint("CheckResult")
-    fun getSquareArticleUserList(page:Int){
+    fun getWxArticleListData(id:Int, page:Int,isShowLoading:Boolean){
         if (!checkNetWork()){
             return
         }
-        homeServiceImpl.homeSquareUserArticleList(page)
-            .ioToUI()
+        if (isShowLoading){
+            mView.showLoading()
+        }
+        homeServiceImpl.getWxArticleListData(id, page)
             .compose(lifecycleProvider.bindToLifecycle())
-            .subscribe {
-                mView.onHomeSquareUserArticleList(it)
-            }
+            .ioToUI()
+            .subscribe({
+                mView.hideLoading()
+                mView.onWxArticleListResult(it)
+            },{
+                mView.hideLoading()
+                it.netException(mView)
+            })
     }
+
+    @SuppressLint("CheckResult")
+    fun searchWxArticleListData(id:Int, page:Int, key:String){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.searchWxArticleListData(id, page, key)
+            .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
+            .subscribe({
+                mView.onSearchWxArticleListResult(it)
+            },{
+                it.netException(mView)
+            })
+
+    }
+
 
     @SuppressLint("CheckResult")
     fun collectInStandArticle(id:Int){
@@ -71,4 +96,5 @@ class SquarePresenter @Inject constructor():BasePresenter<SquareView>(){
             })
 
     }
+
 }

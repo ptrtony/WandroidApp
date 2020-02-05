@@ -4,26 +4,29 @@ import android.annotation.SuppressLint
 import com.foxcr.base.ext.ioToUI
 import com.foxcr.base.ext.netException
 import com.foxcr.base.presenter.BasePresenter
-import com.foxcr.kotlineasyshop.presenter.view.SquareView
+import com.foxcr.kotlineasyshop.presenter.view.ProjectView
 import com.foxcr.kotlineasyshop.service.impl.HomeServiceImpl
 import javax.inject.Inject
 
-class SquarePresenter @Inject constructor():BasePresenter<SquareView>(){
+class ProjectPresenter @Inject constructor(): BasePresenter<ProjectView>(){
     @Inject
     lateinit var homeServiceImpl: HomeServiceImpl
 
     @SuppressLint("CheckResult")
-    fun getSquareArticleUserList(page:Int){
+    fun getNewProjectArticleList(page:Int){
         if (!checkNetWork()){
             return
         }
-        homeServiceImpl.homeSquareUserArticleList(page)
-            .ioToUI()
+        homeServiceImpl.homeArticleProjectList(page)
             .compose(lifecycleProvider.bindToLifecycle())
-            .subscribe {
-                mView.onHomeSquareUserArticleList(it)
-            }
+            .ioToUI()
+            .subscribe({
+                mView.onNewProjectArticleResult(it)
+            },{
+                it.netException(mView)
+            })
     }
+
 
     @SuppressLint("CheckResult")
     fun collectInStandArticle(id:Int){

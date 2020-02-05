@@ -110,16 +110,12 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),Ques
     }
 
     override fun onLikeInNetClick(view: View, id: Int) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view, locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectInStandArticle(id)
     }
 
     override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
-        val locations = IntArray(2)
-        view.getLocationOnScreen(locations)
-        mLoveView.addLoveView(view, locations)
+        mLoveView.addLoveView(view)
         mPresenter.collectOutStandArticle(title, author, link)
     }
 
@@ -128,7 +124,9 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(),Ques
     }
 
     override fun onFragmentFirstVisible() {
-        mQuestAnswerSmartRefresh.autoRefresh()
+        mQuestAnswerSmartRefresh.postDelayed({
+            mQuestAnswerSmartRefresh.autoRefresh()
+        },500)
     }
 
 }
