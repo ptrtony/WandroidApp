@@ -11,6 +11,7 @@ import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
+import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.user.R
 import com.foxcr.user.data.protocal.LoginResp
 import com.foxcr.user.injection.component.DaggerUserLoginComponent
@@ -43,6 +44,8 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     override fun resLayoutId(): Int = R.layout.activity_login
 
     override fun initView() {
+        StatusBarUtils.setImmersiveStatusBar(this,false)
+        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
         mLoginBtn.setBackgroundResource(R.drawable.common_button_disenable_bg)
         mLoginBtn.enable(mUserNameEtn, backgroundColors) { isEnable() }
         mLoginBtn.enable(mPwdEtn, backgroundColors) { isEnable() }

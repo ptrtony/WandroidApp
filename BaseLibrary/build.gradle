@@ -69,6 +69,7 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     implementation 'com.android.support:multidex:1.0.3'
     api 'com.hyman:flowlayout-lib:1.1.2'
+    api 'androidx.appcompat:appcompat:1.1.0'
 }
 
 kapt {

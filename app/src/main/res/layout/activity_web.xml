@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/MatchMatch.Vertical"
-    android:id="@+id/mWebContainer">
+    android:id="@+id/mWebContainer"
+    android:fitsSystemWindows="true">
     <com.foxcr.base.widgets.HeaderBar
         android:id="@+id/mHeaderBar"
         android:layout_width="match_parent"

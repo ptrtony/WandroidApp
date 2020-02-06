@@ -3,12 +3,15 @@ package com.foxcr.base.ui.activity
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.LayoutRes
+import com.foxcr.base.R
 import com.foxcr.base.common.AppManager
 import com.foxcr.base.common.BaseApplication
 import com.foxcr.base.injection.component.ActivityComponent
 import com.foxcr.base.injection.component.DaggerActivityComponent
 import com.foxcr.base.injection.module.ActivityModule
 import com.foxcr.base.injection.module.LifecycleProvideModule
+import com.foxcr.base.widgets.statusbar.StatusBarUtils
+import com.foxcr.base.widgets.statusbar.StatusBarUtils.TYPE_M
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity
 
 open abstract class BaseActivity : RxAppCompatActivity() {
@@ -16,6 +19,8 @@ open abstract class BaseActivity : RxAppCompatActivity() {
     lateinit var activityComponent: ActivityComponent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StatusBarUtils.setImmersiveStatusBar(this,true)
+        StatusBarUtils.setStatusBarColor(this, resources.getColor(R.color.common_white))
         initBaseActivityComponent()
         AppManager.instance.addActivity(this)
         setContentView(resLayoutId())

@@ -15,10 +15,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.viewpager.widget.ViewPager
+import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
 import com.foxcr.base.common.BaseConstant
+import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
@@ -48,6 +50,9 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
     private lateinit var mRankTv: TextView
     private lateinit var mCoinRankTv: TextView
     private lateinit var mAppTv: TextView
+    private lateinit var mOftenNetTv: TextView
+    private lateinit var mMoonTv: TextView
+    private lateinit var mQuitTv: TextView
     private lateinit var refreshBroadcastReceiver: RefreshUserInfoBroadCastReceiver
     private val mainAdapter: MainFragmentAdapter by lazy {
         MainFragmentAdapter(supportFragmentManager, tabTexts)
@@ -77,24 +82,88 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         mRankTv = navHeaderView.findViewById(R.id.mRankTv)
         mCoinRankTv = navHeaderView.findViewById(R.id.mCoinRankTv)
         mAppTv = navHeaderView.findViewById(R.id.mAppTv)
+        mOftenNetTv = navHeaderView.findViewById(R.id.mOftenNetTv)
+        mMoonTv = navHeaderView.findViewById(R.id.mMoonTv)
+        mQuitTv = navHeaderView.findViewById(R.id.mQuitTv)
         mOriginCodeTv.setOnClickListener {
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .withString("url", "https://github.com/ptrtony/EasyPlugin")
-                .navigation()
+                .navigation(this, object : EasyNavigationCallback() {
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        drawerLayout.postDelayed({
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                        },300)
+                    }
+                })
         }
 
         mUserStandCoinTv.setOnClickListener {
             ARouter.getInstance()
                 .build("/easyshop/usercoin")
-                .navigation()
+                .navigation(this, object : EasyNavigationCallback() {
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        drawerLayout.postDelayed({
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                        },300)
+                    }
+                })
         }
 
         mCoinRankTv.setOnClickListener {
             ARouter.getInstance()
                 .build("/easyshop/coinrank")
-                .navigation()
+                .navigation(this, object : EasyNavigationCallback() {
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        drawerLayout.postDelayed({
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                        },300)
+                    }
+                })
         }
+
+        mRankTv.setOnClickListener {
+            ARouter.getInstance()
+                .build("/easyshop/usercoin")
+                .navigation(this, object : EasyNavigationCallback() {
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        drawerLayout.postDelayed({
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                        },300)
+                    }
+                })
+        }
+
+        mOftenNetTv.setOnClickListener {
+            ARouter.getInstance()
+                .build("/eashshop/oftennet")
+                .greenChannel()
+                .navigation(this, object : EasyNavigationCallback() {
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        drawerLayout.postDelayed({
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                        },300)
+                    }
+                })
+        }
+
+        mQuitTv.setOnClickListener {
+            ARouter.getInstance()
+                .build("/userCenter/login")
+                .greenChannel()
+                .navigation(this, object : EasyNavigationCallback() {
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        finish()
+                    }
+                })
+        }
+
 
         navView.setNavigationItemSelectedListener(this)
         mHomeHeaderBar.onBackClickListener {
@@ -150,7 +219,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                 ""
             ).isNullOrEmpty() || SPUtil.getString(BaseConstant.LOGINUSERNAME, "").isNullOrEmpty())
         ) {
-             mPresenter.getUserInfoCoinData()
+            mPresenter.getUserInfoCoinData()
         }
 
     }
@@ -193,14 +262,15 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         val time = System.currentTimeMillis()
         if (time - pressTime > 2000) {
             ToastUtils.showToast("再按一次退出")
             pressTime = time
+            return
         } else {
             AppManager.instance.exitApp(this)
         }
+        super.onBackPressed()
     }
 
 
@@ -217,7 +287,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
 
     @SuppressLint("SetTextI18n")
     override fun onUserInfoCoinResult(userInfoCoin: UserInfoCoinResp) {
-        mCoinTv.text = userInfoCoin.coinCount.toString()
+        mCoinTv.text = "积分: ${userInfoCoin.coinCount}"
         mRankTv.text = "排名 ${userInfoCoin.rank}"
         mAppTv.text = userInfoCoin.username
     }

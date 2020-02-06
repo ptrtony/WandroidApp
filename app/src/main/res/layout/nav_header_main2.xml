@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/common_white"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -24,41 +24,32 @@
         app:type="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:id="@+id/mUserStandCoinTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        android:drawableStart="@drawable/shape_blue_circle"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        android:layout_marginStart="@dimen/common_margin"
-        android:drawablePadding="@dimen/common_padding_small"
-        android:textSize="@dimen/text_big_size"
-        android:textColor="@color/common_blue"
-        android:text="本站积分:"
-        />
+
 
 
     <TextView
-        android:id="@+id/mCoinTv"
+        android:id="@+id/mAppTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/mUserStandCoinTv"
-        app:layout_constraintBaseline_toBaselineOf="@+id/mUserStandCoinTv"
-        android:layout_marginStart="@dimen/common_margin"
-        android:drawablePadding="@dimen/common_padding_small"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textSize="@dimen/text_big_size"
-        android:textColor="@color/common_red"
-        android:text="80"
-        android:textStyle="bold"/>
+        android:text="个人app"
+        android:textColor="@color/text_light_dark"
+        android:layout_marginTop="@dimen/common_margin_small"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"/>
+
 
     <TextView
         android:id="@+id/mLevelTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/mUserStandCoinTv"
-        app:layout_constraintTop_toBottomOf="@+id/mCoinTv"
+        app:layout_constraintStart_toEndOf="@+id/mAppTv"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mAppTv"
         android:textColor="@color/common_white"
+        android:layout_marginStart="@dimen/common_margin"
         android:layout_marginTop="@dimen/common_margin_small"
         android:textSize="@dimen/text_big_size"
         android:text="Lv1"
@@ -66,46 +57,19 @@
         android:paddingEnd="5dp"
         android:background="@drawable/shape_gree_background_tag"/>
 
+
     <TextView
-        android:id="@+id/mRankTv"
+        android:id="@+id/mCoinTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/mLevelTv"
         app:layout_constraintBaseline_toBaselineOf="@+id/mLevelTv"
         android:layout_marginStart="@dimen/common_margin"
-        android:background="@drawable/shape_blue_background"
+        android:drawablePadding="@dimen/common_padding_small"
         android:textSize="@dimen/text_big_size"
-        android:text="排名 3446"
-        android:textColor="@color/common_white"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"/>
-
-    <TextView
-        android:id="@+id/mCoinRankTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        android:layout_marginStart="@dimen/common_margin"
-        android:textColor="@color/common_blue"
-        android:drawableStart="@drawable/shape_blue_circle"
-        android:textSize="@dimen/text_big_size"
-        android:text="积分排行榜"
-        android:drawablePadding="@dimen/common_padding_small"/>
-
-
-    <TextView
-        android:id="@+id/mAppTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textSize="@dimen/text_big_size"
-        android:text="个人app"
-        android:textColor="@color/common_blue"
-        android:layout_marginTop="@dimen/common_margin_small"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"/>
+        android:textColor="@color/common_red"
+        android:text="积分: 80"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/mOriginCodeTv"
@@ -118,4 +82,101 @@
         app:layout_constraintStart_toStartOf="@+id/mAppTv"
         android:layout_marginTop="@dimen/common_margin_small"/>
 
+    <TextView
+        android:id="@+id/mOftenNetTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/mOriginCodeTv"
+        app:layout_constraintTop_toBottomOf="@+id/mOriginCodeTv"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/text_light_dark"
+        android:textSize="@dimen/text_big_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/common_margin"
+        android:text="常用网站"
+        android:drawableStart="@mipmap/icon_net"
+        android:drawablePadding="@dimen/common_margin_small"
+        android:background="#f2f2f2"
+        />
+
+
+    <TextView
+        android:id="@+id/mUserStandCoinTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/mOftenNetTv"
+        android:drawableStart="@mipmap/icon_coin"
+        app:layout_constraintTop_toBottomOf="@+id/mOftenNetTv"
+        android:padding="@dimen/common_padding"
+        android:drawablePadding="@dimen/common_padding_small"
+        android:textSize="@dimen/text_big_size"
+        android:textColor="@color/text_light_dark"
+        android:layout_marginTop="@dimen/common_margin_middle"
+        android:text="本站积分"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#f2f2f2"/>
+
+    <TextView
+        android:id="@+id/mRankTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/mUserStandCoinTv"
+        app:layout_constraintTop_toBottomOf="@+id/mUserStandCoinTv"
+        android:layout_marginTop="@dimen/common_margin_middle"
+        android:background="#f2f2f2"
+        android:textSize="@dimen/text_big_size"
+        android:padding="@dimen/common_margin"
+        android:text="排名 3446"
+        android:textColor="@color/text_light_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawablePadding="@dimen/common_padding_small"
+        android:drawableStart="@mipmap/icon_rank"/>
+
+    <TextView
+        android:id="@+id/mCoinRankTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/mRankTv"
+        app:layout_constraintTop_toBottomOf="@+id/mRankTv"
+        android:padding="@dimen/common_margin"
+        android:textColor="@color/text_light_dark"
+        android:drawableStart="@mipmap/icon_rank_list"
+        android:textSize="@dimen/text_big_size"
+        android:background="#f2f2f2"
+        android:text="积分排行榜"
+        android:layout_marginTop="@dimen/common_margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawablePadding="@dimen/common_padding_small"/>
+
+
+    <TextView
+        android:id="@+id/mMoonTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/mCoinRankTv"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/text_light_dark"
+        android:textSize="@dimen/text_big_size"
+        android:text="夜间模式"
+        android:padding="@dimen/common_margin"
+        android:drawableStart="@mipmap/icon_moon"
+        android:drawablePadding="@dimen/common_margin_small"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toStartOf="@+id/mQuitTv"/>
+
+
+    <TextView
+        android:id="@+id/mQuitTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mMoonTv"
+        android:textSize="@dimen/text_big_size"
+        android:textColor="@color/text_light_dark"
+        android:text="退出登录"
+        app:layout_constraintStart_toEndOf="@+id/mMoonTv"
+        android:drawableStart="@mipmap/icon_quit"
+        android:drawablePadding="@dimen/common_margin_small"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

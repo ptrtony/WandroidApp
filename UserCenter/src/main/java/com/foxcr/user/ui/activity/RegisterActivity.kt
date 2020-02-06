@@ -11,6 +11,7 @@ import com.foxcr.base.ext.onClick
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
+import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.user.R
 import com.foxcr.user.data.protocal.RegisterResp
 import com.foxcr.user.injection.component.DaggerUserRegisterComponent
@@ -49,6 +50,8 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
     }
 
     override fun initView() {
+        StatusBarUtils.setImmersiveStatusBar(this,false)
+        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
         mTitleBarHb.onBackClickListener { finish() }
         mRegisterBtn.setBackgroundResource(R.drawable.common_button_disenable_bg)
         mRegisterBtn.enable(mUserNameEtn,backgroundColors) {isEnable()}

@@ -1,5 +1,6 @@
 package com.foxcr.base.ui.fragment
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.*
@@ -13,6 +14,7 @@ import com.foxcr.base.injection.module.ActivityModule
 import com.foxcr.base.injection.module.LifecycleProvideModule
 import com.foxcr.base.presenter.BasePresenter
 import com.foxcr.base.presenter.view.BaseView
+import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.LoadingDialog
 import com.foxcr.base.widgets.LogUtils
@@ -220,12 +222,11 @@ open abstract class BaseMvpLazyFragment<T:BasePresenter<*>> : RxFragment(),BaseV
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_APPLICATION,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                    or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                    or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             PixelFormat.TRANSLUCENT)
         layoutParams.gravity = Gravity.TOP
         layoutParams.x = 0
-        layoutParams.y = 0
+        layoutParams.y = DisplayUtils.dp2px(24f)
         windowManager.addView(mLoveView,layoutParams)
     }
 

@@ -13,6 +13,7 @@ import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.HeaderBar
 import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.SearchAdapter
 import com.foxcr.kotlineasyshop.data.protocal.SearchArticleResp
@@ -48,7 +49,8 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
 
     override fun initView() {
         initLoveLayout()
-
+        StatusBarUtils.setImmersiveStatusBar(this,false)
+        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
         mSearchSmartRefresh = findViewById(R.id.mSearchSmartRefresh)
         mSearchRl = findViewById(R.id.mSearchRl)
         mSearchHeadBar = findViewById(R.id.mSearchHeadBar)

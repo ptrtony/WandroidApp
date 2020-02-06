@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.foxcr.base.widgets.ColoredTextView
+    android:id="@+id/mColorTextView"
+    style="@style/WrapWrap"
+    android:layout_marginTop="@dimen/common_margin_small"
+    android:gravity="center"
+    android:layout_marginStart="@dimen/common_margin"
+    android:layout_marginEnd="@dimen/common_margin"
+    android:layout_marginBottom="@dimen/common_margin_small"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
