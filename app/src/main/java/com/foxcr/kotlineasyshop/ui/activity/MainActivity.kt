@@ -88,7 +88,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         mOriginCodeTv.setOnClickListener {
             ARouter.getInstance()
                 .build("/easyshop/web")
-                .withString("url", "https://github.com/ptrtony/EasyPlugin")
+                .withString("url", "https://github.com/ptrtony/WandroidApp")
                 .navigation(this, object : EasyNavigationCallback() {
                     override fun onArrival(postcard: Postcard?) {
                         super.onArrival(postcard)

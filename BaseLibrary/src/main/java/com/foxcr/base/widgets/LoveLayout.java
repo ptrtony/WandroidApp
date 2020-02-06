@@ -70,7 +70,7 @@ public class LoveLayout extends RelativeLayout {
         // TODO Auto-generated method stub
         int[] locations = new int[2];
         view.getLocationOnScreen(locations);
-        for (int i=0;i<icons.length;i++){
+        for (int i=0;i<icons.length*2;i++){
             final ImageView iv = new ImageView(context);
             params.rightMargin = getWidth() - locations[0] - params.width + view.getWidth();
             params.topMargin = locations[1] - params.height;

@@ -7,6 +7,7 @@ import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.HeaderBar
 import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.UserCoinAdapter
 import com.foxcr.kotlineasyshop.data.protocal.LgCoinListResp
@@ -38,6 +39,8 @@ class UserCoinActivity : BaseMvpActivity<UserCoinPresenter>(), UserCoinView, OnR
     override fun resLayoutId(): Int = R.layout.activity_user_coin
 
     override fun initView() {
+        StatusBarUtils.setImmersiveStatusBar(this,false)
+        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
         mPresenter.mView = this
         mCoinHeaderBar = findViewById(R.id.mCoinHeaderBar)
         mCoinSrl = findViewById(R.id.mCoinSrl)

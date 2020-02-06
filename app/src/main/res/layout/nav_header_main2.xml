@@ -31,30 +31,31 @@
         android:id="@+id/mAppTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textSize="@dimen/text_big_size"
         android:text="个人app"
         android:textColor="@color/text_light_dark"
         android:layout_marginTop="@dimen/common_margin_small"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"/>
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/mLevelTv"/>
 
 
     <TextView
         android:id="@+id/mLevelTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/mAppTv"
-        app:layout_constraintBaseline_toBaselineOf="@+id/mAppTv"
+        app:layout_constraintStart_toStartOf="@+id/mAppTv"
+        app:layout_constraintTop_toBottomOf="@+id/mAppTv"
         android:textColor="@color/common_white"
-        android:layout_marginStart="@dimen/common_margin"
         android:layout_marginTop="@dimen/common_margin_small"
         android:textSize="@dimen/text_big_size"
         android:text="Lv1"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         android:background="@drawable/shape_gree_background_tag"/>
 
 
@@ -76,11 +77,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_middle_size"
-        android:text="https://github.com/ptrtony/EasyPlugin"
+        android:text="源码地址: \nhttps://github.com/ptrtony/WandroidApp"
         android:textColor="@color/common_blue"
-        app:layout_constraintTop_toBottomOf="@+id/mAppTv"
-        app:layout_constraintStart_toStartOf="@+id/mAppTv"
-        android:layout_marginTop="@dimen/common_margin_small"/>
+        android:lineSpacingExtra="3dp"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/mOftenNetTv"

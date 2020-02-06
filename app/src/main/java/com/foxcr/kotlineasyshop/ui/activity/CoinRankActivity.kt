@@ -7,6 +7,7 @@ import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.HeaderBar
 import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.CoinRankAdapter
 import com.foxcr.kotlineasyshop.data.protocal.CoinRankListResp
@@ -40,6 +41,8 @@ class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(),CoinRankView, OnRe
     override fun resLayoutId(): Int  = R.layout.activity_coin_rank
 
     override fun initView() {
+        StatusBarUtils.setImmersiveStatusBar(this,false)
+        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
         mPresenter.mView = this
         mCoinRankHeaderBar = findViewById(R.id.mCoinRankHeaderBar)
         mCoinRankSrl = findViewById(R.id.mCoinRankSrl)
