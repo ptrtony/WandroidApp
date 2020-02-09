@@ -4,7 +4,8 @@
     android:id="@+id/mSearchSmartRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/common_white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +16,8 @@
             android:layout_height="wrap_content"
             app:isShowBack="true"
             app:titleText="搜索"
-            />
+            app:titleTextColor="@color/common_white"
+            app:headBackground="@color/common_blue"/>
         <include
             android:id="@+id/mSearchEtn"
             layout="@layout/include_search_container_layout"

@@ -24,17 +24,18 @@ class PublicNumberFragment : BaseMvpLazyFragment<WxArticleChapterPresenter>(),
     WxArticleChaptersView, WxArticleChapterAdapter.OnWxArticleChapterClickListener {
     private lateinit var mWxChapterRl: RecyclerView
     private lateinit var mWxFrameLayout: FrameLayout
-    private lateinit var mSearchContainerEtn:EditText
-    private var wxArticleId:Int = 0
-    private lateinit var centerLayoutManager:CenterLayoutManager
-    private val wxArticleFragment:WxArticleFragment by lazy {
+    private lateinit var mSearchContainerEtn: EditText
+    private var wxArticleId: Int = 0
+    private lateinit var centerLayoutManager: CenterLayoutManager
+    private val wxArticleFragment: WxArticleFragment by lazy {
         WxArticleFragment()
     }
 
-    private var mData:MutableList<WxArticleChaptersResp> = mutableListOf()
-    private val mWxArticleChapterAdapter:WxArticleChapterAdapter by lazy {
+    private var mData: MutableList<WxArticleChaptersResp> = mutableListOf()
+    private val mWxArticleChapterAdapter: WxArticleChapterAdapter by lazy {
         WxArticleChapterAdapter(mData)
     }
+
     override fun resLayoutId(): Int = R.layout.fragment_public_number
 
     override fun injectComponent() {
@@ -48,7 +49,7 @@ class PublicNumberFragment : BaseMvpLazyFragment<WxArticleChapterPresenter>(),
         mWxFrameLayout = view.findViewById(R.id.mWxFrameLayout)
         mSearchContainerEtn = view.findViewById(R.id.mSearchContainerEtn)
 
-        centerLayoutManager = CenterLayoutManager(activity,CenterLayoutManager.VERTICAL,false)
+        centerLayoutManager = CenterLayoutManager(activity, CenterLayoutManager.VERTICAL, false)
         mWxChapterRl.apply {
             layoutManager = centerLayoutManager
             addItemDecoration(
@@ -63,17 +64,17 @@ class PublicNumberFragment : BaseMvpLazyFragment<WxArticleChapterPresenter>(),
             adapter = mWxArticleChapterAdapter
         }
         childFragmentManager.beginTransaction()
-            .replace(R.id.mWxFrameLayout,wxArticleFragment)
+            .replace(R.id.mWxFrameLayout, wxArticleFragment)
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
         mSearchContainerEtn.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 WxArticleFragment.TYPE = 2
                 mSearchContainerEtn.hideKeyboard()
                 val key = mSearchContainerEtn.text.toString().trim()
-                wxArticleFragment.getWxArticleListData(wxArticleId,key,false)
+                wxArticleFragment.getWxArticleListData(wxArticleId, key, false)
             }
             return@setOnEditorActionListener true
         }
@@ -88,7 +89,7 @@ class PublicNumberFragment : BaseMvpLazyFragment<WxArticleChapterPresenter>(),
     override fun onWxArticleChaptersResult(wxArticleChapers: List<WxArticleChaptersResp>) {
         WxArticleFragment.TYPE = 1
         wxArticleId = wxArticleChapers[0].id
-        wxArticleFragment.getWxArticleListData(wxArticleChapers[0].id,"",false)
+        wxArticleFragment.getWxArticleListData(wxArticleChapers[0].id, "", false)
         mData.clear()
         wxArticleChapers[0].isSuccess = true
         mData.addAll(wxArticleChapers)
@@ -107,11 +108,12 @@ class PublicNumberFragment : BaseMvpLazyFragment<WxArticleChapterPresenter>(),
             it.isSuccess = false
         }
         mData[position].isSuccess = true
-        centerLayoutManager.smoothScrollToPosition(mWxChapterRl, RecyclerView.State(),
+        centerLayoutManager.smoothScrollToPosition(
+            mWxChapterRl, RecyclerView.State(),
             position
         )
         mWxArticleChapterAdapter.notifyDataSetChanged()
-        wxArticleFragment.getWxArticleListData(wxArticleId,"",false)
+        wxArticleFragment.getWxArticleListData(wxArticleId, "", false)
     }
 
 

@@ -108,10 +108,10 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(), SearchView, OnLoadMor
         page++
         if (page >= searchArticleResp.pageCount) {
             mSearchSmartRefresh.setEnableLoadMore(false)
-            if (mSearchAdapter.footerLayoutCount<=0)
-                mSearchAdapter.addFooterView(View.inflate(this,R.layout.item_not_more_data,null))
-        }else{
-            if (mSearchAdapter.footerLayoutCount>0)
+            if (mSearchAdapter.footerLayoutCount <= 0)
+                mSearchAdapter.addFooterView(View.inflate(this, R.layout.item_not_more_data, null))
+        } else {
+            if (mSearchAdapter.footerLayoutCount > 0)
                 mSearchAdapter.removeAllFooterView()
         }
     }

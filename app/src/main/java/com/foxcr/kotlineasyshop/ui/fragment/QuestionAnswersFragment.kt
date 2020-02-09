@@ -65,12 +65,12 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), Que
 
         mQuestAnswerAdapter.setOnLikeClickListener(this)
         mQuestAnswerAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position<datas.size)
-            ARouter.getInstance()
-                .build("/easyshop/web")
-                .withString("url", datas[position].link)
-                .greenChannel()
-                .navigation()
+            if (position < datas.size)
+                ARouter.getInstance()
+                    .build("/easyshop/web")
+                    .withString("url", datas[position].link)
+                    .greenChannel()
+                    .navigation()
         }
         mQuestAnswerAdapter.openLoadAnimation()
 
@@ -95,10 +95,10 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), Que
         page++
         if (page >= homeRequestAnswerListResp.pageCount) {
             mQuestAnswerSmartRefresh.setEnableLoadMore(false)
-            if (mQuestAnswerAdapter.footerLayoutCount<=0)
-            mQuestAnswerAdapter.addFooterView(footerView())
-        }else{
-            if(mQuestAnswerAdapter.footerLayoutCount>0)
+            if (mQuestAnswerAdapter.footerLayoutCount <= 0)
+                mQuestAnswerAdapter.addFooterView(footerView())
+        } else {
+            if (mQuestAnswerAdapter.footerLayoutCount > 0)
                 mQuestAnswerAdapter.removeAllFooterView()
         }
 

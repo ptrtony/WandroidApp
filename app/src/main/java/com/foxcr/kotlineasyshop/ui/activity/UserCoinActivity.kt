@@ -92,10 +92,16 @@ class UserCoinActivity : BaseMvpActivity<UserCoinPresenter>(), UserCoinView, OnR
         page++
         if (page >= lgCoinListResp.pageCount) {
             mCoinSrl.setEnableLoadMore(false)
-            if (mUserCoinAdapter.footerLayoutCount<=0)
-            mUserCoinAdapter.addFooterView(View.inflate(this,R.layout.item_not_more_data,null))
-        }else{
-            if (mUserCoinAdapter.footerLayoutCount>0){
+            if (mUserCoinAdapter.footerLayoutCount <= 0)
+                mUserCoinAdapter.addFooterView(
+                    View.inflate(
+                        this,
+                        R.layout.item_not_more_data,
+                        null
+                    )
+                )
+        } else {
+            if (mUserCoinAdapter.footerLayoutCount > 0) {
                 mUserCoinAdapter.removeAllFooterView()
             }
         }

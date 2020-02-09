@@ -92,12 +92,12 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         mHomeArticleAdapter.setOnLikeClickListener(this)
         mHomeNewArticleRg.setOnCheckedChangeListener(this)
         mHomeArticleAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position<mHomeData.size)
-            ARouter.getInstance()
-                .build("/easyshop/web")
-                .withString("url", mHomeData[position].link)
-                .greenChannel()
-                .navigation()
+            if (position < mHomeData.size)
+                ARouter.getInstance()
+                    .build("/easyshop/web")
+                    .withString("url", mHomeData[position].link)
+                    .greenChannel()
+                    .navigation()
         }
 
         mHomeArticleAdapter.openLoadAnimation()
@@ -169,11 +169,11 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         page++
         if (page >= homeArticleResp.pageCount) {
             mHomeSmartRefresh.setEnableLoadMore(false)
-            if (mHomeArticleAdapter.footerLayoutCount<=0)
-            mHomeArticleAdapter.addFooterView(footerView())
-        }else{
-            if (mHomeArticleAdapter.footerLayoutCount>0)
-            mHomeArticleAdapter.removeAllFooterView()
+            if (mHomeArticleAdapter.footerLayoutCount <= 0)
+                mHomeArticleAdapter.addFooterView(footerView())
+        } else {
+            if (mHomeArticleAdapter.footerLayoutCount > 0)
+                mHomeArticleAdapter.removeAllFooterView()
         }
     }
 

@@ -26,7 +26,8 @@ import kotlinx.android.synthetic.main.activity_web.*
 @Route(path = "/easyshop/web")
 class WebActivity : BaseActivity() {
     @Autowired(name = "url")
-    @JvmField var mUrl: String = ""
+    @JvmField
+    var mUrl: String = ""
 
     private var mWebView: WebView? = null
     private lateinit var mLoadingPb: ProgressBar
@@ -44,9 +45,9 @@ class WebActivity : BaseActivity() {
         mWebView = findViewById(R.id.mWebView)
         mLoadingPb = findViewById(R.id.mLoadingPb)
         mHeaderBar.onBackClickListener {
-            if (mWebView?.canGoBack()!!){
+            if (mWebView?.canGoBack()!!) {
                 mWebView?.goBack()
-            }else{
+            } else {
                 finish()
             }
         }
@@ -200,11 +201,11 @@ class WebActivity : BaseActivity() {
 
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             currentProgress = mLoadingPb.progress
-            if (!isAnimationStart && newProgress == 100){
+            if (!isAnimationStart && newProgress == 100) {
                 isAnimationStart = true
                 mLoadingPb.progress = newProgress
                 startDismissAnimation(newProgress)
-            }else{
+            } else {
                 startProgressAnimation(newProgress)
             }
         }
@@ -216,8 +217,9 @@ class WebActivity : BaseActivity() {
     /**
      * progressBar消失动画
      */
-    private fun startDismissAnimation(newProgress:Int){
-        val mObjectAnimator : ObjectAnimator = ObjectAnimator.ofFloat(mLoadingPb,"alpha",1.0f,0.0f)
+    private fun startDismissAnimation(newProgress: Int) {
+        val mObjectAnimator: ObjectAnimator =
+            ObjectAnimator.ofFloat(mLoadingPb, "alpha", 1.0f, 0.0f)
         mObjectAnimator.duration = 1500
         mObjectAnimator.interpolator = DecelerateInterpolator()
         mObjectAnimator.addUpdateListener { animation: ValueAnimator ->
@@ -237,8 +239,9 @@ class WebActivity : BaseActivity() {
     /**
      * progressBar递增动画
      */
-    private fun startProgressAnimation(newProgress: Int){
-        val mObjectAnimator = ObjectAnimator.ofInt(mLoadingPb,"progress",currentProgress,newProgress)
+    private fun startProgressAnimation(newProgress: Int) {
+        val mObjectAnimator =
+            ObjectAnimator.ofInt(mLoadingPb, "progress", currentProgress, newProgress)
         mObjectAnimator.duration = 300
         mObjectAnimator.interpolator = DecelerateInterpolator()
         mObjectAnimator.start()

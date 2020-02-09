@@ -18,13 +18,14 @@ import com.foxcr.kotlineasyshop.presenter.view.OftenNetView
 
 
 @Route(path = "/eashshop/oftennet")
-class OftenNetActivity : BaseMvpActivity<OftenNetPresenter>(),OftenNetView{
-    private lateinit var mOftenNetHb : HeaderBar
-    private lateinit var mOftenNetTFL:RecyclerView
-    private var datas:MutableList<HomeOfenNetResp> = mutableListOf()
-    private val mTagAdapter : OftenNetTagAdapter by lazy {
-        OftenNetTagAdapter(this,datas)
+class OftenNetActivity : BaseMvpActivity<OftenNetPresenter>(), OftenNetView {
+    private lateinit var mOftenNetHb: HeaderBar
+    private lateinit var mOftenNetTFL: RecyclerView
+    private var datas: MutableList<HomeOfenNetResp> = mutableListOf()
+    private val mTagAdapter: OftenNetTagAdapter by lazy {
+        OftenNetTagAdapter(this, datas)
     }
+
     override fun initActivityComponent() {
         DaggerOftenNetComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
@@ -33,14 +34,17 @@ class OftenNetActivity : BaseMvpActivity<OftenNetPresenter>(),OftenNetView{
     override fun resLayoutId(): Int = R.layout.activity_often_net
 
     override fun initView() {
-        StatusBarUtils.setImmersiveStatusBar(this,false)
-        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
+        StatusBarUtils.setImmersiveStatusBar(this, false)
+        StatusBarUtils.setStatusBarColor(
+            this,
+            resources.getColor(com.foxcr.base.R.color.common_blue)
+        )
         mPresenter.mView = this
         mPresenter.getOftenNetData()
         mOftenNetHb = findViewById(R.id.mOftenNetHb)
         mOftenNetTFL = findViewById(R.id.mOftenNetTFL)
 
-        mOftenNetHb.setOnClickListener{ finish() }
+        mOftenNetHb.setOnClickListener { finish() }
 //        mOftenNetTFL.setOnTagClickListener { view, position, parent ->
 //            ARouter.getInstance()
 //                .build("/easyshop/web")
@@ -50,21 +54,21 @@ class OftenNetActivity : BaseMvpActivity<OftenNetPresenter>(),OftenNetView{
 //            return@setOnTagClickListener true
 //        }
         mOftenNetTFL.apply {
-            layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = mTagAdapter
         }
 
         mTagAdapter.setOnItemClickListener { adapter, view, position ->
             ARouter.getInstance()
                 .build("/easyshop/web")
-                .withString("url",datas[position].link)
+                .withString("url", datas[position].link)
                 .greenChannel()
                 .navigation()
         }
     }
 
     override fun onOftenNetResult(oftenNetDatas: List<HomeOfenNetResp>) {
-        if (oftenNetDatas.isNotEmpty()){
+        if (oftenNetDatas.isNotEmpty()) {
             datas.clear()
             datas.addAll(oftenNetDatas)
             mTagAdapter.setNewData(datas)

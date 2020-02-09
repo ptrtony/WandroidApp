@@ -47,8 +47,8 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
     private var mListOneLastPosition = 0
     private var mListOneMovePosition = 0
 
-    private lateinit var mNavigationOneRl:RecyclerView
-    private lateinit var mNavigationTwoRl:RecyclerView
+    private lateinit var mNavigationOneRl: RecyclerView
+    private lateinit var mNavigationTwoRl: RecyclerView
     override fun resLayoutId(): Int = R.layout.fragment_navigation
     override fun injectComponent() {
         DaggerNavigationComponent.builder().activityComponent(activityComponent)
@@ -61,7 +61,7 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
         mNavigationOneRl = view.findViewById(R.id.mNavigationOneRl)
         mNavigationTwoRl = view.findViewById(R.id.mNavigationTwoRl)
 
-        centerLayoutManager = CenterLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+        centerLayoutManager = CenterLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mNavigationOneRl.apply {
             layoutManager = centerLayoutManager
             addItemDecoration(
@@ -82,14 +82,16 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
             addItemDecoration(StickyItemDecoration())
             adapter = mNavigationListTwoAdapter
             setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                val firstVisiblePosition = mNavigationTwoRl.getChildLayoutPosition(mNavigationTwoRl.getChildAt(0))
-                for (i in 0 until mListOneDatas.size){
-                    if (mListTwoDatas[firstVisiblePosition].chapterName==mListOneDatas[i].title){
-                        if (mListOneMovePosition!=i){
+                val firstVisiblePosition =
+                    mNavigationTwoRl.getChildLayoutPosition(mNavigationTwoRl.getChildAt(0))
+                for (i in 0 until mListOneDatas.size) {
+                    if (mListTwoDatas[firstVisiblePosition].chapterName == mListOneDatas[i].title) {
+                        if (mListOneMovePosition != i) {
                             mListOneDatas.forEachIndexed { index, oneBean ->
                                 oneBean.isSuccess = index == i
                             }
-                            centerLayoutManager.smoothScrollToPosition(mNavigationOneRl, RecyclerView.State(),
+                            centerLayoutManager.smoothScrollToPosition(
+                                mNavigationOneRl, RecyclerView.State(),
                                 i
                             )
                             mNavigationListOneAdapter.notifyDataSetChanged()
@@ -129,16 +131,24 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
 
     }
 
-    override fun onNavigationListOneClick(view: View, position: Int,navigationListOneBean: NavigationListOneBean) {
+    override fun onNavigationListOneClick(
+        view: View,
+        position: Int,
+        navigationListOneBean: NavigationListOneBean
+    ) {
         var mLastMovePosition = 0
-        if (position != mListOneLastPosition){
+        if (position != mListOneLastPosition) {
             mListOneDatas.forEachIndexed { index, oneBean ->
                 oneBean.isSuccess = index == position
             }
-            centerLayoutManager.smoothScrollToPosition(mNavigationOneRl,RecyclerView.State(),position)
+            centerLayoutManager.smoothScrollToPosition(
+                mNavigationOneRl,
+                RecyclerView.State(),
+                position
+            )
             mNavigationListOneAdapter.notifyDataSetChanged()
-            for (i in 0 until mListTwoDatas.size){
-                if (mListOneDatas[position].title == mListTwoDatas[i].chapterName){
+            for (i in 0 until mListTwoDatas.size) {
+                if (mListOneDatas[position].title == mListTwoDatas[i].chapterName) {
                     mLastMovePosition = i
                     LogUtils.d("name:>>>>${mListTwoDatas[i].chapterName}>>>>>>>>position:>>>$mLastMovePosition")
                     break
@@ -156,7 +166,7 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
     override fun onNavigationListTwoClick(view: View, position: Int) {
         ARouter.getInstance()
             .build("/easyshop/web")
-            .withString("url",mListTwoDatas[position].link)
+            .withString("url", mListTwoDatas[position].link)
             .greenChannel()
             .navigation()
     }
@@ -164,9 +174,8 @@ class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), Navigatio
     override fun onFragmentFirstVisible() {
         mNavigationOneRl.postDelayed({
             mPresenter.getNavigationData()
-        },500)
+        }, 500)
     }
-
 
 
 }

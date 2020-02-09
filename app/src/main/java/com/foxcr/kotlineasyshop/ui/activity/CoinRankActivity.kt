@@ -22,27 +22,31 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
 
 @Route(path = "/easyshop/coinrank")
-class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(),CoinRankView, OnRefreshListener,
+class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(), CoinRankView, OnRefreshListener,
     OnLoadMoreListener {
-    private lateinit var mCoinRankHeaderBar:HeaderBar
-    private lateinit var mCoinRankSrl:SmartRefreshLayout
-    private lateinit var mCoinRankRl:RecyclerView
+    private lateinit var mCoinRankHeaderBar: HeaderBar
+    private lateinit var mCoinRankSrl: SmartRefreshLayout
+    private lateinit var mCoinRankRl: RecyclerView
     private var page = 1
 
-    private var mCoinRankData : MutableList<CoinRankListResp.DatasBean> = mutableListOf()
+    private var mCoinRankData: MutableList<CoinRankListResp.DatasBean> = mutableListOf()
     private val mCoinRankAdapter: CoinRankAdapter by lazy {
         CoinRankAdapter(mCoinRankData)
     }
+
     override fun initActivityComponent() {
         DaggerCoinBankComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
     }
 
-    override fun resLayoutId(): Int  = R.layout.activity_coin_rank
+    override fun resLayoutId(): Int = R.layout.activity_coin_rank
 
     override fun initView() {
-        StatusBarUtils.setImmersiveStatusBar(this,false)
-        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
+        StatusBarUtils.setImmersiveStatusBar(this, false)
+        StatusBarUtils.setStatusBarColor(
+            this,
+            resources.getColor(com.foxcr.base.R.color.common_blue)
+        )
         mPresenter.mView = this
         mCoinRankHeaderBar = findViewById(R.id.mCoinRankHeaderBar)
         mCoinRankSrl = findViewById(R.id.mCoinRankSrl)
@@ -56,7 +60,8 @@ class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(),CoinRankView, OnRe
         }
 
         mCoinRankRl.apply {
-            layoutManager = LinearLayoutManager(this@CoinRankActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@CoinRankActivity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
                 RecycleViewDivider(
                     context,
@@ -81,21 +86,21 @@ class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(),CoinRankView, OnRe
     }
 
     override fun onCoinBankResult(coinRankListResp: CoinRankListResp) {
-        if (page == 1 && coinRankListResp.datas.size<=0){
+        if (page == 1 && coinRankListResp.datas.size <= 0) {
             mCoinRankAdapter.emptyView = emptyView()
         }
-        if (page == 1){
+        if (page == 1) {
             mCoinRankData.clear()
             mCoinRankData.addAll(coinRankListResp.datas)
             mCoinRankAdapter.setNewData(mCoinRankData)
             mCoinRankSrl.finishRefresh()
-        }else{
+        } else {
             mCoinRankData.addAll(coinRankListResp.datas)
             mCoinRankAdapter.addData(mCoinRankData)
             mCoinRankSrl.finishLoadMore()
         }
         page++
-        if (page>coinRankListResp.pageCount){
+        if (page > coinRankListResp.pageCount) {
             mCoinRankSrl.setEnableLoadMore(false)
         }
     }

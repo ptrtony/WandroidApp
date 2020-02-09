@@ -22,11 +22,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
-class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnRefreshListener,
+class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(), CollectView, OnRefreshListener,
     OnLoadMoreListener, OnLikeClickListener, CollectAdapter.OnItemChildClickListener {
-    private lateinit var mCollectSmartRefresh:SmartRefreshLayout
-    private lateinit var mCollectRl:RecyclerView
-    private var mCollectData : MutableList<CollectArticleListResp.DatasBean> = mutableListOf()
+    private lateinit var mCollectSmartRefresh: SmartRefreshLayout
+    private lateinit var mCollectRl: RecyclerView
+    private var mCollectData: MutableList<CollectArticleListResp.DatasBean> = mutableListOf()
     private val mCollectAdapter: CollectAdapter by lazy {
         CollectAdapter(mCollectData)
     }
@@ -51,7 +51,7 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
         }
 
         mCollectRl.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
                 RecycleViewDivider(
                     context,
@@ -65,13 +65,13 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
             adapter = mCollectAdapter
         }
         mCollectAdapter.openLoadAnimation()
-        mCollectAdapter.setOnCollectClickListener(this,this)
+        mCollectAdapter.setOnCollectClickListener(this, this)
     }
 
     override fun onFragmentFirstVisible() {
         mCollectSmartRefresh.postDelayed({
             mCollectSmartRefresh.autoRefresh()
-        },500)
+        }, 500)
     }
 
     override fun onError(errorMsg: String) {
@@ -80,27 +80,27 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
     }
 
     override fun onCollectListResult(collectArticleList: CollectArticleListResp) {
-        if (page == 0 && collectArticleList.datas.size<=0){
+        if (page == 0 && collectArticleList.datas.size <= 0) {
             mCollectAdapter.emptyView = emptyView(mCollectRl)
         }
-        if (page == 0){
+        if (page == 0) {
             mCollectData.clear()
             mCollectData.addAll(collectArticleList.datas)
             mCollectAdapter.setNewData(mCollectData)
             mCollectSmartRefresh.finishRefresh()
-        }else{
+        } else {
             mCollectData.addAll(collectArticleList.datas)
             mCollectAdapter.addData(mCollectData)
             mCollectSmartRefresh.finishLoadMore()
         }
 
         page++
-        if (page>=collectArticleList.pageCount){
-            if (mCollectAdapter.footerLayoutCount<=0)
-            mCollectAdapter.addFooterView(footerView())
+        if (page >= collectArticleList.pageCount) {
+            if (mCollectAdapter.footerLayoutCount <= 0)
+                mCollectAdapter.addFooterView(footerView())
             mCollectSmartRefresh.setEnableLoadMore(false)
-        }else{
-            if (mCollectAdapter.footerLayoutCount>0)
+        } else {
+            if (mCollectAdapter.footerLayoutCount > 0)
                 mCollectAdapter.removeAllFooterView()
         }
     }
@@ -133,7 +133,7 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
     override fun onChildClick(position: Int) {
         mCollectData.remove(mCollectData[position])
         mCollectAdapter.notifyItemRemoved(position)
-        if (mCollectData.size <=0){
+        if (mCollectData.size <= 0) {
             mCollectAdapter.removeAllFooterView()
             mCollectAdapter.emptyView = emptyView(mCollectRl)
         }

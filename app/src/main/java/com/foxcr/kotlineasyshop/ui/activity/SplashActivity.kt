@@ -20,13 +20,13 @@ class SplashActivity : AppCompatActivity() {
             ARouter.getInstance()
                 .build("/easyshop/main")
                 .greenChannel()
-                .navigation(this,object:EasyNavigationCallback(){
+                .navigation(this, object : EasyNavigationCallback() {
                     override fun onArrival(postcard: Postcard?) {
                         super.onArrival(postcard)
                         finish()
                     }
                 })
-        },2000)
+        }, 2000)
 
     }
 }

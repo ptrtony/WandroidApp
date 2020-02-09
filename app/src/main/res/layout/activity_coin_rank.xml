@@ -4,13 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/common_white"
     android:fitsSystemWindows="true">
     <com.foxcr.base.widgets.HeaderBar
         android:id="@+id/mCoinRankHeaderBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:isShowBack="true"
-        app:titleText="积分排行榜"/>
+        app:titleText="积分排行榜"
+        app:titleTextColor="@color/common_white"
+        app:headBackground="@color/common_blue"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/mCoinRankSrl"

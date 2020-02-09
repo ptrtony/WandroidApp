@@ -103,12 +103,12 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
         mAdapter.setOnLikeClickListener(this)
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position<mData.size)
-            ARouter.getInstance()
-                .build("/easyshop/web")
-                .withString("url",mData[position].link)
-                .greenChannel()
-                .navigation()
+            if (position < mData.size)
+                ARouter.getInstance()
+                    .build("/easyshop/web")
+                    .withString("url", mData[position].link)
+                    .greenChannel()
+                    .navigation()
         }
     }
 
@@ -136,7 +136,7 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
     override fun onWxArticleListResult(wxArticleListResp: WxArticleListResp) {
         mWxArticleSmartRefresh.finishRefresh()
-        if (wxArticleListResp.datas.size<=0 && page ==1){
+        if (wxArticleListResp.datas.size <= 0 && page == 1) {
             mAdapter.emptyView = emptyView(mWxArticleRl)
         }
         if (page == 0) {
@@ -152,35 +152,35 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         page++
         if (page >= wxArticleListResp.pageCount) {
             mWxArticleSmartRefresh.setEnableLoadMore(false)
-            if (mAdapter.footerLayoutCount<=0)
-            mAdapter.addFooterView(footerView())
-        }else{
-            if (mAdapter.footerLayoutCount>0)
+            if (mAdapter.footerLayoutCount <= 0)
+                mAdapter.addFooterView(footerView())
+        } else {
+            if (mAdapter.footerLayoutCount > 0)
                 mAdapter.removeAllFooterView()
         }
     }
 
     override fun onSearchWxArticleListResult(wxArticleListResp: WxArticleListResp) {
         mWxArticleSmartRefresh.finishRefresh()
-        if (page == 0 && wxArticleListResp.datas.size<=0){
+        if (page == 0 && wxArticleListResp.datas.size <= 0) {
             mAdapter.emptyView = emptyView(mWxArticleRl)
         }
-        if(page == 0){
+        if (page == 0) {
             mData.clear()
             mData.addAll(wxArticleListResp.datas)
             mAdapter.setNewData(mData)
-        }else{
+        } else {
             mData.addAll(wxArticleListResp.datas)
             mAdapter.addData(mData)
             mWxArticleSmartRefresh.finishLoadMore()
         }
 
         page++
-        if (page>wxArticleListResp.pageCount){
+        if (page > wxArticleListResp.pageCount) {
             mWxArticleSmartRefresh.setEnableLoadMore(false)
             mAdapter.addFooterView(footerView())
-        }else{
-            if (mAdapter.footerLayoutCount>0)
+        } else {
+            if (mAdapter.footerLayoutCount > 0)
                 mAdapter.removeAllFooterView()
         }
     }

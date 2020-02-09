@@ -100,7 +100,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                         super.onArrival(postcard)
                         drawerLayout.postDelayed({
                             drawerLayout.closeDrawer(GravityCompat.START)
-                        },300)
+                        }, 300)
                     }
                 })
         }
@@ -113,7 +113,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                         super.onArrival(postcard)
                         drawerLayout.postDelayed({
                             drawerLayout.closeDrawer(GravityCompat.START)
-                        },300)
+                        }, 300)
                     }
                 })
         }
@@ -126,7 +126,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                         super.onArrival(postcard)
                         drawerLayout.postDelayed({
                             drawerLayout.closeDrawer(GravityCompat.START)
-                        },300)
+                        }, 300)
                     }
                 })
         }
@@ -139,7 +139,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                         super.onArrival(postcard)
                         drawerLayout.postDelayed({
                             drawerLayout.closeDrawer(GravityCompat.START)
-                        },300)
+                        }, 300)
                     }
                 })
         }
@@ -153,18 +153,18 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                         super.onArrival(postcard)
                         drawerLayout.postDelayed({
                             drawerLayout.closeDrawer(GravityCompat.START)
-                        },300)
+                        }, 300)
                     }
                 })
         }
 
         mMoonTv.setOnClickListener {
-            if (SPUtil.getBoolean(ISNIGHT)){
-                SPUtil.putBoolean(ISNIGHT,false)
+            if (SPUtil.getBoolean(ISNIGHT)) {
+                SPUtil.putBoolean(ISNIGHT, false)
                 //设置为夜间模式
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }else{
-                SPUtil.putBoolean(ISNIGHT,true)
+            } else {
+                SPUtil.putBoolean(ISNIGHT, true)
                 //设置为日间模式
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 recreate()
@@ -173,7 +173,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
             ARouter.getInstance()
                 .build("/easyshop/main")
                 .greenChannel()
-                .navigation(this,object:EasyNavigationCallback(){
+                .navigation(this, object : EasyNavigationCallback() {
                     override fun onArrival(postcard: Postcard?) {
                         super.onArrival(postcard)
                         finish()
@@ -300,7 +300,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         override fun onReceive(context: Context?, intent: Intent?) {
             val action = intent?.action
             if (action == "android.easyshop.refreshUserInfo") {
-                GlobalScope.launch (Dispatchers.Main){
+                GlobalScope.launch(Dispatchers.Main) {
                     mPresenter.getUserInfoCoinData()
                 }
             }
@@ -322,8 +322,8 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
             .navigation(this, object : EasyNavigationCallback() {
                 override fun onArrival(postcard: Postcard?) {
                     super.onArrival(postcard)
-                    SPUtil.putString(BaseConstant.LOGINUSERNAME,"")
-                    SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,"")
+                    SPUtil.putString(BaseConstant.LOGINUSERNAME, "")
+                    SPUtil.putString(BaseConstant.LOGINUSERPASSWORD, "")
                 }
             })
     }

@@ -69,12 +69,12 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, On
 
         mAdapter.setOnLikeClickListener(this)
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position<projectDatas.size)
-            ARouter.getInstance()
-                .build("/easyshop/web")
-                .greenChannel()
-                .withString("url", projectDatas[position].link)
-                .navigation()
+            if (position < projectDatas.size)
+                ARouter.getInstance()
+                    .build("/easyshop/web")
+                    .greenChannel()
+                    .withString("url", projectDatas[position].link)
+                    .navigation()
         }
         mAdapter.openLoadAnimation()
 
@@ -104,10 +104,10 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, On
         page++
         if (page >= homeArticleResp.pageCount) {
             mProjectSmartRefresh.setEnableLoadMore(false)
-            if (mAdapter.footerLayoutCount<=0)
-            mAdapter.addFooterView(footerView())
-        }else{
-            if (mAdapter.footerLayoutCount>0)
+            if (mAdapter.footerLayoutCount <= 0)
+                mAdapter.addFooterView(footerView())
+        } else {
+            if (mAdapter.footerLayoutCount > 0)
                 mAdapter.removeAllFooterView()
         }
     }

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/common_white"
     android:fitsSystemWindows="true">
 
     <com.foxcr.base.widgets.HeaderBar
@@ -11,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:isShowBack="true"
+        app:headBackground="@color/common_blue"
+        app:titleTextColor="@color/common_white"
         app:titleText="常用网站"/>
 
     <androidx.recyclerview.widget.RecyclerView
