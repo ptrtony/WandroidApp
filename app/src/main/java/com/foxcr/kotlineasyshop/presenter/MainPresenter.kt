@@ -29,4 +29,19 @@ class MainPresenter @Inject constructor() : BasePresenter<MainView>(){
                 it.netException(mView)
             })
     }
+
+    @SuppressLint("CheckResult")
+    fun getUserLoginout(){
+        if (!checkNetWork()){
+            return
+        }
+        homeServiceImpl.getUserLoginout()
+            .compose(lifecycleProvider.bindToLifecycle())
+            .ioToUI()
+            .subscribe({
+                mView.onUserLoginoutResult(it)
+            },{
+                it.netException(mView)
+            })
+    }
 }

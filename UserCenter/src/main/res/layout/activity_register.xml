@@ -56,8 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mTitleBarHb"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="@dimen/common_margin"
-        android:inputType="text"
-        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+        android:inputType="text"/>
 
 
     <ImageView

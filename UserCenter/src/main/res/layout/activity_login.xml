@@ -12,7 +12,7 @@
     <com.foxcr.base.widgets.HeaderBar
         android:id="@+id/mTitleBarHb"
         style="@style/MatchWrap"
-        app:isShowBack="false"
+        app:isShowBack="true"
         app:titleText="登录"
         app:rightText="注册"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,8 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mTitleBarHb"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="@dimen/common_margin"
-        android:inputType="text"
-        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+        android:inputType="text"/>
 
 
     <ImageView

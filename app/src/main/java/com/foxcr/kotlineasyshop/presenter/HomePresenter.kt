@@ -95,7 +95,7 @@ class HomePresenter @Inject constructor(): BasePresenter<HomeView>() {
         if (!checkNetWork()){
             return
         }
-        homeServiceImpl.uncollectArticle(id,originId)
+        homeServiceImpl.uncollectArticle(id)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
             .subscribe({

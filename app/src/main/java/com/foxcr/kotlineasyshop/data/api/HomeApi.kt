@@ -77,7 +77,7 @@ interface HomeApi {
      * 取消收藏文章
      */
     @POST("lg/uncollect_originId/{id}/json")
-    fun uncollectArticleList(@Path("id")id:Int):Observable<BaseResp<UncollectArticleListResp>>
+    fun uncollectArticleList(@Path("id")id:Int):Observable<BaseResp<BaseNoneResponseResult>>
 
     /**
      * 我的收藏页面（该页面包含自己录入的内容）
@@ -190,4 +190,10 @@ interface HomeApi {
      */
     @GET("lg/coin/list/{page}/json")
     fun getLgCoinListData(@Path("page")page:Int):Observable<BaseResp<LgCoinListResp>>
+
+    /**
+     * 退出登录
+     */
+    @GET("user/logout/json")
+    fun getUserLoginout():Observable<BaseResp<BaseNoneResponseResult>>
 }

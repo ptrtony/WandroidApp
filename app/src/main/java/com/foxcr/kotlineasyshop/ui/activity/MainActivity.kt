@@ -21,6 +21,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
 import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.common.EasyNavigationCallback
+import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
@@ -153,15 +154,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         }
 
         mQuitTv.setOnClickListener {
-            ARouter.getInstance()
-                .build("/userCenter/login")
-                .greenChannel()
-                .navigation(this, object : EasyNavigationCallback() {
-                    override fun onArrival(postcard: Postcard?) {
-                        super.onArrival(postcard)
-                        finish()
-                    }
-                })
+            mPresenter.getUserLoginout()
         }
 
 
@@ -290,6 +283,19 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         mCoinTv.text = "积分: ${userInfoCoin.coinCount}"
         mRankTv.text = "排名 ${userInfoCoin.rank}"
         mAppTv.text = userInfoCoin.username
+    }
+
+    override fun onUserLoginoutResult(baseNoneResponseResult: BaseNoneResponseResult) {
+        ARouter.getInstance()
+            .build("/userCenter/login")
+            .greenChannel()
+            .navigation(this, object : EasyNavigationCallback() {
+                override fun onArrival(postcard: Postcard?) {
+                    super.onArrival(postcard)
+                    SPUtil.putString(BaseConstant.LOGINUSERNAME,"")
+                    SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,"")
+                }
+            })
     }
 
 

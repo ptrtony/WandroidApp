@@ -33,7 +33,7 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, On
     private lateinit var mProjectSmartRefresh: SmartRefreshLayout
     private lateinit var mProjectRl: RecyclerView
 
-    private var page = 1
+    private var page = 0
 
     override fun resLayoutId(): Int = R.layout.fragment_project
     override fun injectComponent() {
@@ -87,10 +87,10 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, On
     }
 
     override fun onNewProjectArticleResult(homeArticleResp: HomeArticleResp) {
-        if (page == 1 && homeArticleResp.datas.size <= 0) {
+        if (page == 0 && homeArticleResp.datas.size <= 0) {
             mAdapter.emptyView = emptyView(mProjectRl)
         }
-        if (page == 1) {
+        if (page == 0) {
             projectDatas.clear()
             projectDatas.addAll(homeArticleResp.datas)
             mAdapter.setNewData(projectDatas)
@@ -101,7 +101,7 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, On
             mProjectSmartRefresh.finishLoadMore()
         }
         page++
-        if (page > homeArticleResp.pageCount) {
+        if (page >= homeArticleResp.pageCount) {
             mProjectSmartRefresh.setEnableLoadMore(false)
         }
     }
@@ -115,7 +115,7 @@ class ProjectFragment : BaseMvpLazyFragment<ProjectPresenter>(), ProjectView, On
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mProjectSmartRefresh.setEnableLoadMore(true)
         mPresenter.getNewProjectArticleList(page)
     }

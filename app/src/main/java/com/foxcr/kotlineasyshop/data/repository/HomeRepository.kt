@@ -3,6 +3,7 @@ package com.foxcr.kotlineasyshop.data.repository
 import com.foxcr.base.data.net.RetrofitFactory
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.convert
+import com.foxcr.base.utils.Base64Utils
 import com.foxcr.kotlineasyshop.data.api.HomeApi
 import com.foxcr.kotlineasyshop.data.protocal.*
 import com.foxcr.kotlineasyshop.presenter.HomePresenter_MembersInjector
@@ -93,11 +94,20 @@ class HomeRepository @Inject constructor(){
     }
 
     /**
-     * 取消收藏的文章
+     * 取消我的收藏的文章
      */
     fun uncollectArticle(id:Int,originId:Int):Observable<BaseNoneResponseResult>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .userUncollectArticle(id,originId)
+            .convert()
+    }
+
+    /**
+     * 取消列表的说仓的文章
+     */
+    fun uncollectArticle(id:Int):Observable<BaseNoneResponseResult>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .uncollectArticleList(id)
             .convert()
     }
 
@@ -227,6 +237,15 @@ class HomeRepository @Inject constructor(){
     fun getUserCoinListData(page:Int):Observable<LgCoinListResp>{
         return RetrofitFactory.instance.create(HomeApi::class.java)
             .getLgCoinListData(page)
+            .convert()
+    }
+
+    /**
+     * 退出登录
+     */
+    fun getUserLoginout():Observable<BaseNoneResponseResult>{
+        return RetrofitFactory.instance.create(HomeApi::class.java)
+            .getUserLoginout()
             .convert()
     }
 

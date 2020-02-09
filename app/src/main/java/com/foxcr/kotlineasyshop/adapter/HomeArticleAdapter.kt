@@ -65,10 +65,10 @@ class HomeArticleAdapter constructor(data:List<HomeArticleResp.DatasBean>) : Bas
                         .append("<font/>")
                         .append(item.author)
                     mArticleAuthorTv.text = Html.fromHtml(authorHtml.toString())
-                    mArticleTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext, item.publishTime)}"
+                    mArticleTimeTv.text = "时间: ${item.niceDate}"
                 } else {
                     mArticleAuthorTv.text = "分享人 :${item.shareUser}"
-                    mArticleTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext, item.shareDate)}"
+                    mArticleTimeTv.text = "时间: ${item.niceShareDate}"
                 }
                 val categoryHtml = StringBuilder().append("<font color='#666666'>")
                     .append("分类: ")
@@ -98,11 +98,12 @@ class HomeArticleAdapter constructor(data:List<HomeArticleResp.DatasBean>) : Bas
 
                         } else {
                             mArticleLikeIv.setImageResource(R.mipmap.icon_like)
-                            if (item.link.isNullOrEmpty()) {
+                            onLikeInNetClick(mArticleLikeIv,item.id)
+//                            if (item.link.isNullOrEmpty()) {
                                 onLikeInNetClick(mArticleLikeIv,item.id)
-                            }else{
-                                onLikeOutNetClick(mArticleLikeIv,item.title,item.author,item.link)
-                            }
+//                            }else{
+//                                onLikeOutNetClick(mArticleLikeIv,item.title,item.author,item.link)
+//                            }
                         }
                         item.collect = !item.collect
                     }

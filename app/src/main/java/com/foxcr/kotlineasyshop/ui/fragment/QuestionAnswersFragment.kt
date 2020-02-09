@@ -28,7 +28,7 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), Que
     private val mQuestAnswerAdapter: HomeQuestAnswerAdapter by lazy {
         HomeQuestAnswerAdapter(datas)
     }
-    private var page: Int = 1
+    private var page: Int = 0
     override fun resLayoutId(): Int = R.layout.fragment_question_answers
 
     private lateinit var mQuestAnswerSmartRefresh: SmartRefreshLayout
@@ -78,10 +78,10 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), Que
     }
 
     override fun onQuestAnswerResult(homeRequestAnswerListResp: HomeRequestAnswerListResp) {
-        if (page == 1 && homeRequestAnswerListResp.datas.size <= 0) {
+        if (page == 0 && homeRequestAnswerListResp.datas.size <= 0) {
             mQuestAnswerAdapter.emptyView = emptyView(mQuestAnswerRl)
         }
-        if (page == 1) {
+        if (page == 0) {
             datas.clear()
             datas.addAll(homeRequestAnswerListResp.datas)
             mQuestAnswerAdapter.setNewData(datas)
@@ -92,7 +92,7 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), Que
             mQuestAnswerSmartRefresh.finishLoadMore()
         }
         page++
-        if (page > homeRequestAnswerListResp.pageCount) {
+        if (page >= homeRequestAnswerListResp.pageCount) {
             mQuestAnswerSmartRefresh.setEnableLoadMore(false)
         }
 
@@ -113,7 +113,7 @@ class QuestionAnswersFragment : BaseMvpLazyFragment<QuestAnswerPresenter>(), Que
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mPresenter.getQuestAnswerData(page)
     }
 

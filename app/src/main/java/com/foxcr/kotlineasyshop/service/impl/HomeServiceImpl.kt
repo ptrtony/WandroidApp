@@ -61,6 +61,10 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.uncollectArticle(id, originId)
     }
 
+    override fun uncollectArticle(id: Int): Observable<BaseNoneResponseResult> {
+        return homeRepository.uncollectArticle(id)
+    }
+
     override fun getNavigationData(): Observable<List<HomeNavigationResp>> {
         return homeRepository.getNavigationData()
     }
@@ -123,8 +127,9 @@ class HomeServiceImpl @Inject constructor(): HomeService {
         return homeRepository.getUserCoinListData(page)
     }
 
-
-
+    override fun getUserLoginout(): Observable<BaseNoneResponseResult> {
+        return homeRepository.getUserLoginout()
+    }
 
 
 }

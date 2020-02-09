@@ -4,6 +4,7 @@ import android.content.Intent
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.foxcr.base.common.AppManager
 import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.ext.enable
@@ -31,18 +32,11 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
     override fun onRegisterResult(registerResp: RegisterResp) {
         SPUtil.putString(BaseConstant.LOGINUSERNAME,mUserNameEtn.text.toString().trim())
         SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,mPwdEtn.text.toString().trim())
-        ARouter.getInstance()
-            .build("/easyshop/main")
-            .greenChannel()
-            .navigation(this,object:EasyNavigationCallback(){
-                override fun onArrival(postcard: Postcard?) {
-                    super.onArrival(postcard)
-                    val intent = Intent()
-                    intent.action = "android.easyshop.refreshUserInfo"
-                    sendBroadcast(intent)
-                    finish()
-                }
-            })
+        val intent = Intent()
+        intent.action = "android.easyshop.refreshUserInfo"
+        intent.action = "android.easyshop.loginquite"
+        sendBroadcast(intent)
+        finish()
     }
 
     override fun onErrorMsg(errorMsg: String?) {
@@ -59,8 +53,6 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
         mRegisterBtn.enable(mRePwdEtn,backgroundColors) {isEnable()}
 
         mRegisterBtn.onClick {
-            SPUtil.putString(BaseConstant.LOGINUSERNAME,"")
-            SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,"")
             mPresenter.register(
                 mUserNameEtn.text.toString().trim(),
                 mPwdEtn.text.toString().trim(),

@@ -28,7 +28,7 @@ class ProjectAdapter constructor(articleDatas: MutableList<HomeArticleResp.Datas
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
 
-        fun dataBinding(item: HomeArticleResp.DatasBean){
+        fun dataBinding(item: HomeArticleResp.DatasBean) {
             GlideUtils.loadImage(item.envelopePic, mHomeArticleProjectIv)
             mTitleTv.text = item.title
             mContentTv.text = item.desc
@@ -36,7 +36,7 @@ class ProjectAdapter constructor(articleDatas: MutableList<HomeArticleResp.Datas
             mAuthorTv.text = item.author
             if (item.collect) {
                 mLikeIv.setImageResource(R.mipmap.icon_like)
-            }else{
+            } else {
                 mLikeIv.setImageResource(R.mipmap.icon_no_like)
             }
         }
@@ -48,8 +48,13 @@ class ProjectAdapter constructor(articleDatas: MutableList<HomeArticleResp.Datas
     ) {
         helper.dataBinding(item)
         helper.mLikeIv.setOnClickListener {
-            if (SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()|| SPUtil.getString(
-                    BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty()){
+            if (SPUtil.getString(
+                    BaseConstant.LOGINUSERNAME,
+                    ""
+                ).isNullOrEmpty() || SPUtil.getString(
+                    BaseConstant.LOGINUSERPASSWORD, ""
+                ).isNullOrEmpty()
+            ) {
                 ARouter.getInstance().build("/userCenter/login").greenChannel().navigation()
                 return@setOnClickListener
             }
@@ -63,11 +68,11 @@ class ProjectAdapter constructor(articleDatas: MutableList<HomeArticleResp.Datas
 
                 } else {
                     helper.mLikeIv.setImageResource(R.mipmap.icon_like)
-                    if (item.link.isNullOrEmpty()) {
-                        onLikeInNetClick(helper.mLikeIv,item.id)
-                    }else{
-                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
-                    }
+//                    if (item.link.isNullOrEmpty()) {
+                    onLikeInNetClick(helper.mLikeIv, item.id)
+//                    }else{
+//                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
+//                    }
                 }
                 item.collect = !item.collect
             }

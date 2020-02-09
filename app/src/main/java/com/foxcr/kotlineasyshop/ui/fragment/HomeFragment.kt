@@ -48,7 +48,7 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         HomeArticleAdapter(mHomeData)
     }
 
-    private var page = 1
+    private var page = 0
 
     private lateinit var mHomeSmartRefresh: SmartRefreshLayout
     private lateinit var mHomeArticleRl: RecyclerView
@@ -115,15 +115,15 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
 
 
     override fun homeBanner(banners: List<HomeBannerResp>) {
-        if (bannerDatas.isNotEmpty()) bannerDatas.clear()
         if (banners.isNotEmpty()) {
+            bannerDatas.clear()
             bannerDatas.addAll(banners)
             startHomeBanner(bannerDatas)
         }
     }
 
     override fun homeArticleList(homeArticleResp: HomeArticleResp) {
-        if (page == 1) {
+        if (page == 0) {
             mHomeData.clear()
             mHomeData.addAll(homeArticleResp.datas)
             mHomeData.forEach { homeArticleResp ->
@@ -146,10 +146,10 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     }
 
     override fun homeArticleProjectList(homeArticleResp: HomeArticleResp) {
-        if (page == 1 && homeArticleResp.datas.size <= 0) {
+        if (page == 0 && homeArticleResp.datas.size <= 0) {
             mHomeArticleAdapter.emptyView = emptyView(mHomeArticleRl)
         }
-        if (page == 1) {
+        if (page == 0) {
             mHomeData.clear()
             mHomeData.addAll(homeArticleResp.datas)
             mHomeData.forEach { homeArticleResp ->
@@ -166,7 +166,7 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
             mHomeSmartRefresh.finishLoadMore()
         }
         page++
-        if (page > homeArticleResp.pageCount) {
+        if (page >= homeArticleResp.pageCount) {
             mHomeSmartRefresh.setEnableLoadMore(false)
         }
     }
@@ -225,7 +225,7 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mHomeSmartRefresh.setEnableLoadMore(true)
         GlobalScope.launch(Dispatchers.Main) {
             if (isCurrentLoad) {
@@ -260,7 +260,7 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     }
 
     override fun onLikeInNetClick(view: View, id: Int) {
-        mPresenter.homeArticleList(id)
+        mPresenter.collectInStandArticle(id)
         mLoveView.addLoveView(view)
 
     }

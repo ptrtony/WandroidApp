@@ -93,11 +93,11 @@ class HomeKnowledgeSystemListAdapter constructor(articleDatas: MutableList<HomeK
 
                 } else {
                     helper.mLikeIv.setImageResource(R.mipmap.icon_like)
-                    if (item.link.isNullOrEmpty()) {
+//                    if (item.link.isNullOrEmpty()) {
                         onLikeInNetClick(helper.mLikeIv,item.id)
-                    }else{
-                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
-                    }
+//                    }else{
+//                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
+//                    }
                 }
                 item.collect = !item.collect
             }

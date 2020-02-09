@@ -80,7 +80,7 @@ class ProjectCategoryPresenter @Inject constructor(): BasePresenter<ProjectCateg
         if (!checkNetWork()){
             return
         }
-        homeServiceImpl.uncollectArticle(id,originId)
+        homeServiceImpl.uncollectArticle(id)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
             .subscribe({

@@ -30,7 +30,7 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
     private val homeSquareUserArticleAdapter: HomeSquareUserArticleAdapter by lazy {
         HomeSquareUserArticleAdapter(squareUserArticleDatas)
     }
-    private var page: Int = 1
+    private var page: Int = 0
     private lateinit var mSquareSrl: SmartRefreshLayout
     private lateinit var mSquareRv: RecyclerView
 
@@ -80,20 +80,20 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
+        mSquareSrl.setEnableLoadMore(true)
         mPresenter.getSquareArticleUserList(page)
     }
 
     override fun onHomeSquareUserArticleList(homeSquareUserArticleListResp: HomeSquareUserArticleListResp) {
-        if (page == 1 && homeSquareUserArticleListResp.datas.size <= 0) {
+        if (page == 0 && homeSquareUserArticleListResp.datas.size <= 0) {
             homeSquareUserArticleAdapter.emptyView = emptyView(mSquareRv)
         }
-        if (page == 1) {
+        if (page == 0) {
             squareUserArticleDatas.clear()
             squareUserArticleDatas.addAll(homeSquareUserArticleListResp.datas)
             homeSquareUserArticleAdapter.setNewData(squareUserArticleDatas)
             mSquareSrl.finishRefresh()
-            mSquareSrl.setEnableRefresh(false)
         } else {
             squareUserArticleDatas.addAll(homeSquareUserArticleListResp.datas)
             homeSquareUserArticleAdapter.addData(squareUserArticleDatas)

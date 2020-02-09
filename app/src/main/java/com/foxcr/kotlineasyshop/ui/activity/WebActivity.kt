@@ -1,15 +1,20 @@
 package com.foxcr.kotlineasyshop.ui.activity
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.net.http.SslError
 import android.os.Build
 import android.os.Message
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.webkit.*
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
+import androidx.core.animation.addListener
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -25,6 +30,8 @@ class WebActivity : BaseActivity() {
 
     private var mWebView: WebView? = null
     private lateinit var mLoadingPb: ProgressBar
+    private var isAnimationStart = false
+    private var currentProgress = 0
     override fun initActivityComponent() {
 
     }
@@ -36,7 +43,13 @@ class WebActivity : BaseActivity() {
         ARouter.getInstance().inject(this)
         mWebView = findViewById(R.id.mWebView)
         mLoadingPb = findViewById(R.id.mLoadingPb)
-        mHeaderBar.onBackClickListener { finish() }
+        mHeaderBar.onBackClickListener {
+            if (mWebView?.canGoBack()!!){
+                mWebView?.goBack()
+            }else{
+                finish()
+            }
+        }
 
         val mWebSettings = mWebView?.settings
         mWebSettings?.apply {
@@ -45,12 +58,10 @@ class WebActivity : BaseActivity() {
             useWideViewPort = true
             defaultTextEncodingName = "utf-8"
             loadsImagesAutomatically = true
-
+            useWideViewPort = true
             //调用JS方法.安卓版本大于17,加上注解 @JavascriptInterface
             javaScriptEnabled = true
-
             saveData(mWebSettings)
-
             newWin(mWebSettings)
         }
 
@@ -97,6 +108,7 @@ class WebActivity : BaseActivity() {
             (parent as ViewGroup).removeView(this)
             loadUrl("about:blank")
             stopLoading()
+
             webChromeClient = null
             webViewClient = null
             destroy()
@@ -144,6 +156,16 @@ class WebActivity : BaseActivity() {
             view?.loadUrl(url)
             return true
         }
+
+        override fun onReceivedSslError(
+            view: WebView?,
+            handler: SslErrorHandler?,
+            error: SslError?
+        ) {
+            handler?.proceed()
+        }
+
+
     }
 
     private val mWebChromeClient: WebChromeClient = object : WebChromeClient() {
@@ -177,13 +199,49 @@ class WebActivity : BaseActivity() {
         }
 
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
-            super.onProgressChanged(view, newProgress)
-            if (newProgress == 100){
-                mLoadingPb.visibility = View.GONE
-            }else{
+            currentProgress = mLoadingPb.progress
+            if (!isAnimationStart && newProgress == 100){
+                isAnimationStart = true
                 mLoadingPb.progress = newProgress
+                startDismissAnimation(newProgress)
+            }else{
+                startProgressAnimation(newProgress)
             }
         }
+
+
+    }
+
+
+    /**
+     * progressBar消失动画
+     */
+    private fun startDismissAnimation(newProgress:Int){
+        val mObjectAnimator : ObjectAnimator = ObjectAnimator.ofFloat(mLoadingPb,"alpha",1.0f,0.0f)
+        mObjectAnimator.duration = 1500
+        mObjectAnimator.interpolator = DecelerateInterpolator()
+        mObjectAnimator.addUpdateListener { animation: ValueAnimator ->
+            val fraction = animation.animatedFraction
+            val offset = 100 - newProgress
+            mLoadingPb.progress = (offset * fraction + newProgress).toInt()
+        }
+
+        mObjectAnimator.addListener {
+            mLoadingPb.progress = 0
+            mLoadingPb.visibility = View.GONE
+            isAnimationStart = false
+        }
+        mObjectAnimator.start()
+    }
+
+    /**
+     * progressBar递增动画
+     */
+    private fun startProgressAnimation(newProgress: Int){
+        val mObjectAnimator = ObjectAnimator.ofInt(mLoadingPb,"progress",currentProgress,newProgress)
+        mObjectAnimator.duration = 300
+        mObjectAnimator.interpolator = DecelerateInterpolator()
+        mObjectAnimator.start()
     }
 
 

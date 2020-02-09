@@ -63,6 +63,10 @@ interface HomeService {
     fun uncollectArticle(id:Int,originId:Int):Observable<BaseNoneResponseResult>
 
     /**
+     * 取消收藏
+     */
+    fun uncollectArticle(id:Int):Observable<BaseNoneResponseResult>
+    /**
      * 导航数据
      */
     fun getNavigationData():Observable<List<HomeNavigationResp>>
@@ -127,5 +131,10 @@ interface HomeService {
      * 获取个人积分获取列表，需要登录后访问
      */
     fun getUserInfoCoinListData(page:Int):Observable<LgCoinListResp>
+
+    /**
+     * 退出登录
+     */
+    fun getUserLoginout():Observable<BaseNoneResponseResult>
 
 }

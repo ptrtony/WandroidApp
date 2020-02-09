@@ -71,7 +71,7 @@ class KnowledgeSystemPresenter @Inject constructor(): BasePresenter<KnowledgeSys
 
     @SuppressLint("CheckResult")
     fun uncollectArticle(id:Int, originId:Int){
-        homeServiceImpl.uncollectArticle(id,originId)
+        homeServiceImpl.uncollectArticle(id)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
             .subscribe({

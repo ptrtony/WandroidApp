@@ -48,7 +48,7 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     private lateinit var mSystemSmartRefresh: SmartRefreshLayout
     private lateinit var mOneLevelTv: TextView
     private lateinit var mTwoLevelTv: TextView
-    private var page: Int = 1
+    private var page: Int = 0
     private var cid = 0
     override fun resLayoutId(): Int = R.layout.fragment_system
 
@@ -124,10 +124,10 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     override fun onKnowledgeSystemListResult(knowledgeSystemListResp: HomeKnowledgeSystemListResp) {
         mOneLevelTv.visibility = View.VISIBLE
         mTwoLevelTv.visibility = View.VISIBLE
-        if (page == 1 && knowledgeSystemListResp.datas.size <= 0) {
+        if (page == 0 && knowledgeSystemListResp.datas.size <= 0) {
             mSystemAdapter.emptyView = emptyView(mCategoryTwoRl)
         }
-        if (page == 1) {
+        if (page == 0) {
             mSystemData.clear()
             mSystemData.addAll(knowledgeSystemListResp.datas)
             mSystemAdapter.setNewData(mSystemData)
@@ -138,7 +138,7 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
             mSystemSmartRefresh.finishLoadMore()
         }
         page++
-        if (page > knowledgeSystemListResp.pageCount) {
+        if (page >= knowledgeSystemListResp.pageCount) {
             mSystemSmartRefresh.setEnableLoadMore(false)
         }
     }
@@ -152,7 +152,7 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mSystemSmartRefresh.setEnableLoadMore(true)
         when (REFRESH_TYPE) {
             1 -> mPresenter.getKnowledgeSystemData()

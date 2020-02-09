@@ -3,9 +3,12 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
+import com.foxcr.base.utils.ToastUtils
+import com.foxcr.base.widgets.OnLikeClickListener
 import com.foxcr.base.widgets.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.CollectAdapter
@@ -20,14 +23,14 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
 class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnRefreshListener,
-    OnLoadMoreListener {
+    OnLoadMoreListener, OnLikeClickListener, CollectAdapter.OnItemChildClickListener {
     private lateinit var mCollectSmartRefresh:SmartRefreshLayout
     private lateinit var mCollectRl:RecyclerView
     private var mCollectData : MutableList<CollectArticleListResp.DatasBean> = mutableListOf()
     private val mCollectAdapter: CollectAdapter by lazy {
         CollectAdapter(mCollectData)
     }
-    private var page = 1
+    private var page = 0
     override fun resLayoutId(): Int = R.layout.fragment_collect
 
     override fun injectComponent() {
@@ -62,6 +65,13 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
             adapter = mCollectAdapter
         }
         mCollectAdapter.openLoadAnimation()
+        mCollectAdapter.setOnCollectClickListener(this,this)
+        mCollectAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",mCollectData[position].link)
+                .navigation()
+        }
     }
 
     override fun onFragmentFirstVisible() {
@@ -76,10 +86,10 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
     }
 
     override fun onCollectListResult(collectArticleList: CollectArticleListResp) {
-        if (page == 1 && collectArticleList.datas.size<=0){
+        if (page == 0 && collectArticleList.datas.size<=0){
             mCollectAdapter.emptyView = emptyView(mCollectRl)
         }
-        if (page == 1){
+        if (page == 0){
             mCollectData.clear()
             mCollectData.addAll(collectArticleList.datas)
             mCollectAdapter.setNewData(mCollectData)
@@ -91,22 +101,42 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
         }
 
         page++
-        if (page>collectArticleList.pageCount){
+        if (page>=collectArticleList.pageCount){
             mCollectSmartRefresh.setEnableLoadMore(false)
         }
     }
 
     override fun onUncollectResult(baseNoneResponseResult: BaseNoneResponseResult) {
-
+        ToastUtils.showToast("取消收藏")
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mPresenter.getCollectListData(page)
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         mPresenter.getCollectListData(page)
+    }
+
+    override fun onLikeInNetClick(view: View, id: Int) {
+
+    }
+
+    override fun onLikeOutNetClick(view: View, title: String, author: String, link: String) {
+
+    }
+
+    override fun cancelCollectClick(id: Int, originId: Int) {
+        mPresenter.getUncollectArticle(id, originId)
+    }
+
+    override fun onChildClick(position: Int) {
+        mCollectData.remove(mCollectData[position])
+        mCollectAdapter.notifyItemRemoved(position)
+        if (mCollectData.size <=0){
+            mCollectAdapter.emptyView = emptyView(mCollectRl)
+        }
     }
 
 

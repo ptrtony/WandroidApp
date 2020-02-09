@@ -1,7 +1,4 @@
 package com.foxcr.kotlineasyshop.data.protocal;
-
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
 import java.util.List;
 
 public class CollectArticleListResp {
@@ -89,6 +86,6 @@ public class CollectArticleListResp {
         public int visible;
         public int zan;
         public List<?> tags;
-
+        public int originId = -1;
     }
 }

@@ -1,6 +1,9 @@
 package com.foxcr.user.ui.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -29,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_login.mUserNameEtn
  */
 @Route(path = "/userCenter/login")
 class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
+    private lateinit var loginQuitBroadcastReceiver:LoginQuitBroadcastReceiver
     private var backgroundColors: IntArray =
         intArrayOf(R.drawable.common_button_enable_bg, R.drawable.common_button_disenable_bg)
 
@@ -44,14 +48,16 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     override fun resLayoutId(): Int = R.layout.activity_login
 
     override fun initView() {
+        loginQuitBroadcastReceiver = LoginQuitBroadcastReceiver(this)
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("android.easyshop.loginquite")
+        registerReceiver(loginQuitBroadcastReceiver,intentFilter)
         StatusBarUtils.setImmersiveStatusBar(this,false)
         StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
         mLoginBtn.setBackgroundResource(R.drawable.common_button_disenable_bg)
         mLoginBtn.enable(mUserNameEtn, backgroundColors) { isEnable() }
         mLoginBtn.enable(mPwdEtn, backgroundColors) { isEnable() }
         mLoginBtn.onClick {
-            SPUtil.putString(BaseConstant.LOGINUSERNAME,"")
-            SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,"")
             mPresenter.login(
                 mUserNameEtn.text.toString().trim(),
                 mPwdEtn.text.toString().trim()
@@ -70,19 +76,10 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
     override fun onLoginResult(loginResp: LoginResp) {
         SPUtil.putString(BaseConstant.LOGINUSERNAME,mUserNameEtn.text.toString().trim())
         SPUtil.putString(BaseConstant.LOGINUSERPASSWORD,mPwdEtn.text.toString().trim())
-
-        ARouter.getInstance()
-            .build("/easyshop/main")
-            .greenChannel()
-            .navigation(this,object:EasyNavigationCallback(){
-                override fun onArrival(postcard: Postcard?) {
-                    super.onArrival(postcard)
-                    val intent = Intent()
-                    intent.action = "android.easyshop.refreshUserInfo"
-                    sendBroadcast(intent)
-                    finish()
-                }
-            })
+        val intent = Intent()
+        intent.action = "android.easyshop.refreshUserInfo"
+        sendBroadcast(intent)
+        finish()
     }
 
     override fun onErrorMsg(errorMsg: String?) {
@@ -96,5 +93,17 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView {
                 && mPwdEtn.text.toString().trim().isNotEmpty()
     }
 
+    private class LoginQuitBroadcastReceiver constructor(val activity: LoginActivity) : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "android.easyshop.loginquite"){
+                activity.finish()
+            }
+        }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(loginQuitBroadcastReceiver)
+    }
 }

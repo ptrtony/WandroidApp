@@ -62,7 +62,7 @@ class SearchPresenter @Inject constructor() : BasePresenter<SearchView>() {
         if (!checkNetWork()){
             return
         }
-        homeServiceImpl.uncollectArticle(id,originId)
+        homeServiceImpl.uncollectArticle(id)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
             .subscribe({

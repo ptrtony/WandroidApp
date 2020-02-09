@@ -39,7 +39,7 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
     private lateinit var mWxArticleSmartRefresh: SmartRefreshLayout
     private lateinit var mWxArticleRl: RecyclerView
-    private var page: Int = 1
+    private var page: Int = 0
     private var isShowLoading: Boolean = false
     private var wxArticleId = -1
     private var key = ""
@@ -60,7 +60,7 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         this.isShowLoading = isShowLoading
         this.wxArticleId = id
         this.key = key
-        page = 1
+        page = 0
         if (TYPE == 1) {
             if (isShowLoading) {
                 mPresenter.getWxArticleListData(id, page, isShowLoading)
@@ -111,7 +111,7 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mWxArticleSmartRefresh.setEnableLoadMore(true)
         if (TYPE == 1) {
             mPresenter.getWxArticleListData(wxArticleId, page, false)
@@ -137,7 +137,7 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         if (wxArticleListResp.datas.size<=0 && page ==1){
             mAdapter.emptyView = emptyView(mWxArticleRl)
         }
-        if (page == 1) {
+        if (page == 0) {
             mData.clear()
             mData.addAll(wxArticleListResp.datas)
             mAdapter.setNewData(mData)
@@ -148,17 +148,17 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         }
 
         page++
-        if (page > wxArticleListResp.pageCount) {
+        if (page >= wxArticleListResp.pageCount) {
             mWxArticleSmartRefresh.setEnableLoadMore(false)
         }
     }
 
     override fun onSearchWxArticleListResult(wxArticleListResp: WxArticleListResp) {
         mWxArticleSmartRefresh.finishRefresh()
-        if (page == 1 && wxArticleListResp.datas.size<=0){
+        if (page == 0 && wxArticleListResp.datas.size<=0){
             mAdapter.emptyView = emptyView(mWxArticleRl)
         }
-        if(page == 1){
+        if(page == 0){
             mData.clear()
             mData.addAll(wxArticleListResp.datas)
             mAdapter.setNewData(mData)

@@ -24,32 +24,33 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
         articleDatas
     ) {
 
-    private var mTagData : MutableList<HomeSquareUserArticleListResp.DatasBean.TagsBean> = mutableListOf()
-    private val mTagAdapter:HomeSquareUserArticleTagAdapter by lazy {
-        HomeSquareUserArticleTagAdapter(mContext,mTagData)
+    private var mTagData: MutableList<HomeSquareUserArticleListResp.DatasBean.TagsBean> =
+        mutableListOf()
+    private val mTagAdapter: HomeSquareUserArticleTagAdapter by lazy {
+        HomeSquareUserArticleTagAdapter(mContext, mTagData)
     }
 
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
         val mTitleTv: TextView = view.findViewById(R.id.mTitleTv)
         val mAuthorTv: TextView = view.findViewById(R.id.mAuthorTv)
-//        val mCategoryTv: TextView = view.findViewById(R.id.mCategoryTv)
+        //        val mCategoryTv: TextView = view.findViewById(R.id.mCategoryTv)
         val mTimeTv: TextView = view.findViewById(R.id.mTimeTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
-        val mTagFlowL : TagFlowLayout = view.findViewById(R.id.mTagFlowL)
+        val mTagFlowL: TagFlowLayout = view.findViewById(R.id.mTagFlowL)
         @SuppressLint("SetTextI18n")
-        fun dataBinding(mContext: Context, item: HomeSquareUserArticleListResp.DatasBean){
+        fun dataBinding(mContext: Context, item: HomeSquareUserArticleListResp.DatasBean) {
             mTitleTv.text = item.title
-            if (item.author.isNotEmpty()){
+            if (item.author.isNotEmpty()) {
                 val authorHtml = StringBuilder()
                     .append("<font color='#666666'>")
                     .append("作者: ")
                     .append("<font/>")
                     .append(item.author)
                 mAuthorTv.text = Html.fromHtml(authorHtml.toString())
-                mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext,item.publishTime)}"
-            }else{
+                mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext, item.publishTime)}"
+            } else {
                 mAuthorTv.text = "分享人 :${item.shareUser}"
-                mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext,item.shareDate)}"
+                mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext, item.shareDate)}"
             }
 //        val categoryHtml = StringBuilder().append("<font color='#666666'>")
 //            .append("分类: ")
@@ -58,23 +59,31 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
 //            .append("/")
 //            .append(item.chapterName)
 //        helper.mCategoryTv.text = Html.fromHtml(categoryHtml.toString())
-            if (item.collect){
+            if (item.collect) {
                 mLikeIv.setImageResource(R.mipmap.icon_like)
-            }else{
+            } else {
                 mLikeIv.setImageResource(R.mipmap.icon_no_like)
             }
         }
     }
 
-    override fun convert(helper: ArticleListViewHolder, item: HomeSquareUserArticleListResp.DatasBean) {
+    override fun convert(
+        helper: ArticleListViewHolder,
+        item: HomeSquareUserArticleListResp.DatasBean
+    ) {
         helper.dataBinding(mContext, item)
         helper.mTagFlowL.adapter = mTagAdapter
         mTagData.clear()
         mTagData.addAll(item.tags)
         mTagAdapter.setNewData(mTagData)
         helper.mLikeIv.setOnClickListener {
-            if (SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()|| SPUtil.getString(
-                    BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty()){
+            if (SPUtil.getString(
+                    BaseConstant.LOGINUSERNAME,
+                    ""
+                ).isNullOrEmpty() || SPUtil.getString(
+                    BaseConstant.LOGINUSERPASSWORD, ""
+                ).isNullOrEmpty()
+            ) {
                 ARouter.getInstance().build("/userCenter/login").greenChannel().navigation()
                 return@setOnClickListener
             }
@@ -88,11 +97,11 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
 
                 } else {
                     helper.mLikeIv.setImageResource(R.mipmap.icon_like)
-                    if (item.link.isNullOrEmpty()) {
-                        onLikeInNetClick(helper.mLikeIv,item.id)
-                    }else{
-                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
-                    }
+//                    if (item.link.isNullOrEmpty()) {
+                    onLikeInNetClick(helper.mLikeIv, item.id)
+//                    }else{
+//                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
+//                    }
                 }
                 item.collect = !item.collect
             }
@@ -101,9 +110,9 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
         }
     }
 
-    private var onLikeClickListener: OnLikeClickListener?=null
+    private var onLikeClickListener: OnLikeClickListener? = null
 
-    fun setOnLikeClickListener(onLikeClickListener:OnLikeClickListener){
+    fun setOnLikeClickListener(onLikeClickListener: OnLikeClickListener) {
         this.onLikeClickListener = onLikeClickListener
     }
 }

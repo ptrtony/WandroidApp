@@ -44,7 +44,7 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     private lateinit var mCategoryOneRl: RecyclerView
     private lateinit var mCategoryTwoRl: RecyclerView
 
-    private var page = 1
+    private var page = 0
     private var cid = 0
     private var isCurrentLoad = true
     override fun resLayoutId(): Int = R.layout.fragment_project_category
@@ -119,10 +119,10 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     }
 
     override fun onProjectCategoryListResult(projectCategoryListResp: ProjectCategoryListResp) {
-        if (page == 1 && projectCategoryListResp.datas.size <= 0) {
+        if (page == 0 && projectCategoryListResp.datas.size <= 0) {
             mTwoAdapter.emptyView = emptyView(mCategoryTwoRl)
         }
-        if (page == 1) {
+        if (page == 0) {
             projectCategoryListData.clear()
             projectCategoryListData.addAll(projectCategoryListResp.datas)
             mTwoAdapter.setNewData(projectCategoryListData)
@@ -134,7 +134,7 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
         }
 
         page++
-        if (page > projectCategoryListResp.pageCount) {
+        if (page >= projectCategoryListResp.pageCount) {
             mProjectCategorySmartRefresh.setEnableLoadMore(false)
         }
     }
@@ -148,7 +148,7 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mProjectCategorySmartRefresh.setEnableLoadMore(true)
         if (isCurrentLoad) {
             GlobalScope.launch(Dispatchers.Main) {

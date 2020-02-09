@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.foxcr.base.widgets.swipedelmenu.SwipeMenuLayout
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
@@ -52,7 +51,7 @@
             android:textSize="@dimen/text_middle_size"
             android:textColor="@color/text_light_dark"
             android:text="safjhajsfha"
-            />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/mCategoryTv"
@@ -64,16 +63,17 @@
             android:textColor="@color/text_light_dark"
             tools:text="hsfhajshfaksfajh"
             android:text=""
+            android:paddingEnd="@dimen/common_margin"
             android:layout_marginTop="@dimen/common_margin"/>
 
         <TextView
             android:id="@+id/mTimeTv"
             style="@style/AutoWrap"
             app:layout_constraintStart_toEndOf="@+id/mCategoryTv"
-            app:layout_constraintBaseline_toBaselineOf="@+id/mCategoryTv"
+            app:layout_constraintTop_toBottomOf="@+id/mTitleTv"
             android:text="2019-02-01"
+            android:layout_marginTop="@dimen/common_margin"
             app:layout_constraintEnd_toStartOf="@+id/mLikeIv"
-            android:layout_marginStart="@dimen/common_margin"
             android:textColor="@color/text_normal"/>
 
 
@@ -90,7 +90,7 @@
 
     <Button
         android:id="@+id/mDelItemBtn"
-        android:layout_width="120dp"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:background="@color/common_red"
         android:textSize="@dimen/text_big_size"
