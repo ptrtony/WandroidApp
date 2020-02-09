@@ -164,7 +164,18 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                 SPUtil.putBoolean(ISNIGHT,true)
                 //设置为日间模式
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                recreate()
             }
+
+            ARouter.getInstance()
+                .build("/easyshop/main")
+                .greenChannel()
+                .navigation(this,object:EasyNavigationCallback(){
+                    override fun onArrival(postcard: Postcard?) {
+                        super.onArrival(postcard)
+                        finish()
+                    }
+                })
         }
 
         mQuitTv.setOnClickListener {
