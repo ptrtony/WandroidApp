@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -30,6 +31,13 @@ class CollectAdapter constructor(data: List<CollectArticleListResp.DatasBean>) :
         helper.setOnClickListener(R.id.mDelItemBtn) {
             onLikeClickListener?.cancelCollectClick(item.id, item.originId)
             onItemChildClick?.onChildClick(helper.layoutPosition)
+        }
+
+        helper.setOnClickListener(R.id.mRootView){
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",item.link)
+                .navigation()
         }
     }
 

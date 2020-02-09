@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
+import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
+import com.foxcr.base.widgets.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.CategorySystemOneAdapter
 import com.foxcr.kotlineasyshop.adapter.CategorySystemTwoAdapter
@@ -85,6 +87,15 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
 
         mKnowledgeSystemListRl.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                RecycleViewDivider(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    DisplayUtils.dp2px(1f),
+                    resources.getColor(R.color.common_divider),
+                    DisplayUtils.dp2px(15f)
+                )
+            )
             adapter = mSystemAdapter
         }
 

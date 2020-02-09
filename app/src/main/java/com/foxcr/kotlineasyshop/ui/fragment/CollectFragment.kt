@@ -66,13 +66,6 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
         }
         mCollectAdapter.openLoadAnimation()
         mCollectAdapter.setOnCollectClickListener(this,this)
-        mCollectAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position<mCollectData.size)
-            ARouter.getInstance()
-                .build("/easyshop/web")
-                .withString("url",mCollectData[position].link)
-                .navigation()
-        }
     }
 
     override fun onFragmentFirstVisible() {
