@@ -67,6 +67,7 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
         mCollectAdapter.openLoadAnimation()
         mCollectAdapter.setOnCollectClickListener(this,this)
         mCollectAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position<mCollectData.size)
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .withString("url",mCollectData[position].link)
@@ -102,7 +103,12 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
 
         page++
         if (page>=collectArticleList.pageCount){
+            if (mCollectAdapter.footerLayoutCount<=0)
+            mCollectAdapter.addFooterView(footerView())
             mCollectSmartRefresh.setEnableLoadMore(false)
+        }else{
+            if (mCollectAdapter.footerLayoutCount>0)
+                mCollectAdapter.removeAllFooterView()
         }
     }
 
@@ -135,6 +141,7 @@ class CollectFragment : BaseMvpLazyFragment<CollectPresenter>(),CollectView, OnR
         mCollectData.remove(mCollectData[position])
         mCollectAdapter.notifyItemRemoved(position)
         if (mCollectData.size <=0){
+            mCollectAdapter.removeAllFooterView()
             mCollectAdapter.emptyView = emptyView(mCollectRl)
         }
     }

@@ -65,6 +65,7 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
         }
         homeSquareUserArticleAdapter.setOnLikeClickListener(this)
         homeSquareUserArticleAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position<squareUserArticleDatas.size)
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .greenChannel()
@@ -102,6 +103,11 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
         page = homeSquareUserArticleListResp.curPage
         if (page >= homeSquareUserArticleListResp.pageCount) {
             mSquareSrl.setEnableLoadMore(false)
+            if (homeSquareUserArticleAdapter.footerLayoutCount<=0)
+            homeSquareUserArticleAdapter.addFooterView(footerView())
+        }else{
+            if (homeSquareUserArticleAdapter.footerLayoutCount>0)
+                homeSquareUserArticleAdapter.removeAllFooterView()
         }
     }
 

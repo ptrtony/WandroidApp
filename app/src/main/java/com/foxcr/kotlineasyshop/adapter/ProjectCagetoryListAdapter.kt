@@ -63,11 +63,12 @@ class ProjectCagetoryListAdapter constructor(articleDatas: MutableList<ProjectCa
 
                 } else {
                     helper.mLikeIv.setImageResource(R.mipmap.icon_like)
-                    if (item.link.isNullOrEmpty()) {
-                        onLikeInNetClick(helper.mLikeIv,item.id)
-                    }else{
-                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
-                    }
+                    onLikeInNetClick(helper.mLikeIv,item.id)
+//                    if (item.link.isNullOrEmpty()) {
+//                        onLikeInNetClick(helper.mLikeIv,item.id)
+//                    }else{
+//                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
+//                    }
                 }
                 item.collect = !item.collect
             }

@@ -34,13 +34,13 @@ class HomeQuestAnswerAdapter constructor(datas:List<HomeRequestAnswerListResp.Da
         fun dataBinding(item: HomeRequestAnswerListResp.DatasBean){
             mTitleTv.text = item.title
             val authorHtml = StringBuilder()
-                .append("<font color='#666666'>")
+                .append("<font color='#999999'>")
                 .append("作者: ")
                 .append("<font/>")
                 .append(item.author)
             mAuthorTv.text = Html.fromHtml(authorHtml.toString())
             val categoryHtml = StringBuilder()
-                .append("<font color ='#666666'>")
+                .append("<font color ='#999999'>")
                 .append("分类")
                 .append("<font/>")
                 .append(item.superChapterName)

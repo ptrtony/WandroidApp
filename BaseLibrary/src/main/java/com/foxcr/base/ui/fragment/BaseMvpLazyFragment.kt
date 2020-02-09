@@ -269,4 +269,8 @@ open abstract class BaseMvpLazyFragment<T:BasePresenter<*>> : RxFragment(),BaseV
         return View.inflate(activity,R.layout.empty_view,null)
     }
 
+    fun footerView():View{
+        return View.inflate(activity,R.layout.item_not_more_data,null)
+    }
+
 }

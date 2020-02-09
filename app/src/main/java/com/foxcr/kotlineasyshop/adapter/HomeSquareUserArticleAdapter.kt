@@ -42,7 +42,7 @@ class HomeSquareUserArticleAdapter constructor(articleDatas: MutableList<HomeSqu
             mTitleTv.text = item.title
             if (item.author.isNotEmpty()) {
                 val authorHtml = StringBuilder()
-                    .append("<font color='#666666'>")
+                    .append("<font color='#999999'>")
                     .append("作者: ")
                     .append("<font/>")
                     .append(item.author)

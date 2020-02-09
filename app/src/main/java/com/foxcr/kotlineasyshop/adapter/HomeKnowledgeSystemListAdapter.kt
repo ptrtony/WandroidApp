@@ -46,7 +46,7 @@ class HomeKnowledgeSystemListAdapter constructor(articleDatas: MutableList<HomeK
             mTitleTv.text = item.title
             if (item.author.isNotEmpty()) {
                 val authorHtml = StringBuilder()
-                    .append("<font color='#666666'>")
+                    .append("<font color='#999999'>")
                     .append("作者: ")
                     .append("<font/>")
                     .append(item.author)
@@ -56,7 +56,7 @@ class HomeKnowledgeSystemListAdapter constructor(articleDatas: MutableList<HomeK
                 mAuthorTv.text = "分享人 :${item.shareUser}"
                 mTimeTv.text = "时间: ${TimeUtils.QQFormatTime(mContext, item.shareDate)}"
             }
-            val categoryHtml = StringBuilder().append("<font color='#666666'>")
+            val categoryHtml = StringBuilder().append("<font color='#999999'>")
                 .append("分类: ")
                 .append("<font/>")
                 .append(item.superChapterName)

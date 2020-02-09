@@ -60,7 +60,7 @@ class HomeArticleAdapter constructor(data:List<HomeArticleResp.DatasBean>) : Bas
                 mTitleArticleTv.text = item.title
                 if (item.author.isNotEmpty()) {
                     val authorHtml = StringBuilder()
-                        .append("<font color='#666666'>")
+                        .append("<font color='#999999'>")
                         .append("作者: ")
                         .append("<font/>")
                         .append(item.author)
@@ -70,7 +70,7 @@ class HomeArticleAdapter constructor(data:List<HomeArticleResp.DatasBean>) : Bas
                     mArticleAuthorTv.text = "分享人 :${item.shareUser}"
                     mArticleTimeTv.text = "时间: ${item.niceShareDate}"
                 }
-                val categoryHtml = StringBuilder().append("<font color='#666666'>")
+                val categoryHtml = StringBuilder().append("<font color='#999999'>")
                     .append("分类: ")
                     .append("<font/>")
                     .append(item.superChapterName)
@@ -100,7 +100,7 @@ class HomeArticleAdapter constructor(data:List<HomeArticleResp.DatasBean>) : Bas
                             mArticleLikeIv.setImageResource(R.mipmap.icon_like)
                             onLikeInNetClick(mArticleLikeIv,item.id)
 //                            if (item.link.isNullOrEmpty()) {
-                                onLikeInNetClick(mArticleLikeIv,item.id)
+//                                onLikeInNetClick(mArticleLikeIv,item.id)
 //                            }else{
 //                                onLikeOutNetClick(mArticleLikeIv,item.title,item.author,item.link)
 //                            }

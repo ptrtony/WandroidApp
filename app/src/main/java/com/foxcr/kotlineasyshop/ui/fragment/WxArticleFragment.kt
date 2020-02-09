@@ -22,6 +22,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+import kotlinx.android.synthetic.main.item_home_article_or_project.*
 
 class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArticleListView,
     OnRefreshListener,
@@ -102,6 +103,7 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
 
         mAdapter.setOnLikeClickListener(this)
         mAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position<mData.size)
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .withString("url",mData[position].link)
@@ -150,6 +152,11 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         page++
         if (page >= wxArticleListResp.pageCount) {
             mWxArticleSmartRefresh.setEnableLoadMore(false)
+            if (mAdapter.footerLayoutCount<=0)
+            mAdapter.addFooterView(footerView())
+        }else{
+            if (mAdapter.footerLayoutCount>0)
+                mAdapter.removeAllFooterView()
         }
     }
 
@@ -171,6 +178,10 @@ class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArtic
         page++
         if (page>wxArticleListResp.pageCount){
             mWxArticleSmartRefresh.setEnableLoadMore(false)
+            mAdapter.addFooterView(footerView())
+        }else{
+            if (mAdapter.footerLayoutCount>0)
+                mAdapter.removeAllFooterView()
         }
     }
 

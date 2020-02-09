@@ -91,6 +91,7 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
         mTwoAdapter.setOnLikeClickListener(this)
 
         mTwoAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position<projectCategoryListData.size)
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .withString("url", projectCategoryListData[position].link)
@@ -136,7 +137,13 @@ class ProjectCategoryFragment : BaseMvpLazyFragment<ProjectCategoryPresenter>(),
         page++
         if (page >= projectCategoryListResp.pageCount) {
             mProjectCategorySmartRefresh.setEnableLoadMore(false)
+            if (mTwoAdapter.footerLayoutCount<=0)
+            mTwoAdapter.addFooterView(footerView())
+        }else{
+            if (mTwoAdapter.footerLayoutCount>0)
+                mTwoAdapter.removeAllFooterView()
         }
+
     }
 
     override fun onCollectSuccessResult(baseNoneResponseResult: BaseNoneResponseResult) {

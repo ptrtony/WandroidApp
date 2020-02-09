@@ -55,16 +55,16 @@ class WxArticleAdapter constructor(data: List<WxArticleListResp.DatasBean>) :
 
                 } else {
                     helper.mWxArticleLoveIv.setImageResource(R.mipmap.icon_like)
-                    if (item.link.isNullOrEmpty()) {
+//                    if (item.link.isNullOrEmpty()) {
                         onLikeInNetClick(helper.mWxArticleLoveIv, item.id)
-                    } else {
-                        onLikeOutNetClick(
-                            helper.mWxArticleLoveIv,
-                            item.title,
-                            item.author,
-                            item.link
-                        )
-                    }
+//                    } else {
+//                        onLikeOutNetClick(
+//                            helper.mWxArticleLoveIv,
+//                            item.title,
+//                            item.author,
+//                            item.link
+//                        )
+//                    }
                 }
                 item.collect = !item.collect
             }

@@ -44,14 +44,14 @@ class CollectAdapter constructor(data: List<CollectArticleListResp.DatasBean>) :
         @SuppressLint("SetTextI18n")
         fun dataBinding(item: CollectArticleListResp.DatasBean) {
             mTitleTv.text = item.title
-            mTimeTv.text = "时间: ${item.niceDate}"
+            mTimeTv.text = "收藏时间: ${item.niceDate}"
             mLikeIv.visibility = View.GONE
-            if (item.chapterName.isNotEmpty()) {
+            if (item.chapterName.isEmpty()) {
                 mCategoryTv.visibility = View.GONE
             } else {
                 mCategoryTv.visibility = View.VISIBLE
                 val categoryHtml = StringBuilder()
-                    .append("<font color='#666666'>")
+                    .append("<font color='#999999'>")
                     .append("分类: ")
                     .append("<font/>")
                     .append(item.chapterName)

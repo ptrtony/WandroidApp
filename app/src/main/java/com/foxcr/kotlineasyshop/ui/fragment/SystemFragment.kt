@@ -100,6 +100,7 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
         mCategoryTwoAdapter.setOnCategoryTwoSystemClickListener(this)
 
         mSystemAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position<mSystemData.size)
             ARouter.getInstance()
                 .build("/easyshop/web")
                 .withString("url", mSystemData[position].link)
@@ -140,6 +141,11 @@ class SystemFragment : BaseMvpLazyFragment<KnowledgeSystemPresenter>(), Knowledg
         page++
         if (page >= knowledgeSystemListResp.pageCount) {
             mSystemSmartRefresh.setEnableLoadMore(false)
+            if (mSystemAdapter.footerLayoutCount<=0)
+            mSystemAdapter.addFooterView(footerView())
+        }else{
+            if (mSystemAdapter.footerLayoutCount>0)
+                mSystemAdapter.removeAllFooterView()
         }
     }
 
