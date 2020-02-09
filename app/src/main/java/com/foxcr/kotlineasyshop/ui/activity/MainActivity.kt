@@ -37,6 +37,9 @@ import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.MainPresenter
 import com.foxcr.kotlineasyshop.presenter.view.MainView
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Route(path = "/easyshop/main")
 class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
@@ -297,7 +300,9 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         override fun onReceive(context: Context?, intent: Intent?) {
             val action = intent?.action
             if (action == "android.easyshop.refreshUserInfo") {
-                mPresenter.getUserInfoCoinData()
+                GlobalScope.launch (Dispatchers.Main){
+                    mPresenter.getUserInfoCoinData()
+                }
             }
         }
 

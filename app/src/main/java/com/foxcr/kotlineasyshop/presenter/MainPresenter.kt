@@ -20,7 +20,6 @@ class MainPresenter @Inject constructor() : BasePresenter<MainView>(){
             return
         }
         homeServiceImpl.getUserInfoCoinData()
-            .delay(3,TimeUnit.SECONDS)
             .compose(lifecycleProvider.bindToLifecycle())
             .ioToUI()
             .subscribe({
