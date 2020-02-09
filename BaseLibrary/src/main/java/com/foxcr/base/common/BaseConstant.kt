@@ -8,5 +8,6 @@ class BaseConstant {
         const val LOGINUSERNAME = "login_user_name"
         const val LOGINUSERPASSWORD = "login_user_password"
         const val COOKIE = "Cookie"
+        const val ISNIGHT = "night"
     }
 }

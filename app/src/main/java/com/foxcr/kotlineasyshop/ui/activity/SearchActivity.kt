@@ -1,4 +1,5 @@
 package com.foxcr.kotlineasyshop.ui.activity
+
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -27,17 +28,17 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
 @Route(path = "/easyshop/search")
-class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMoreListener,
+class SearchActivity : BaseMvpActivity<SearchPresenter>(), SearchView, OnLoadMoreListener,
     OnRefreshListener, OnLikeClickListener {
-    private var mSearchData:MutableList<SearchArticleResp.DatasBean> = mutableListOf()
-    private val mSearchAdapter : SearchAdapter by lazy {
+    private var mSearchData: MutableList<SearchArticleResp.DatasBean> = mutableListOf()
+    private val mSearchAdapter: SearchAdapter by lazy {
         SearchAdapter(mSearchData)
     }
 
-    private lateinit var mSearchSmartRefresh:SmartRefreshLayout
-    private lateinit var mSearchRl:RecyclerView
-    private lateinit var mSearchHeadBar:HeaderBar
-    private lateinit var mSearchEtn:EditText
+    private lateinit var mSearchSmartRefresh: SmartRefreshLayout
+    private lateinit var mSearchRl: RecyclerView
+    private lateinit var mSearchHeadBar: HeaderBar
+    private lateinit var mSearchEtn: EditText
     private var page = 1
     private var keyStr = ""
     override fun initActivityComponent() {
@@ -49,8 +50,11 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
 
     override fun initView() {
         initLoveLayout()
-        StatusBarUtils.setImmersiveStatusBar(this,false)
-        StatusBarUtils.setStatusBarColor(this, resources.getColor(com.foxcr.base.R.color.common_blue))
+        StatusBarUtils.setImmersiveStatusBar(this, false)
+        StatusBarUtils.setStatusBarColor(
+            this,
+            resources.getColor(com.foxcr.base.R.color.common_blue)
+        )
         mSearchSmartRefresh = findViewById(R.id.mSearchSmartRefresh)
         mSearchRl = findViewById(R.id.mSearchRl)
         mSearchHeadBar = findViewById(R.id.mSearchHeadBar)
@@ -58,7 +62,7 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
         mSearchHeadBar.onBackClickListener { finish() }
 
         mSearchEtn.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 keyStr = mSearchEtn.text.toString().trim()
                 page = 1
                 mSearchEtn.hideKeyboard()
@@ -73,7 +77,8 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
         }
 
         mSearchRl.apply {
-            layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(
                 RecycleViewDivider(
                     context,
@@ -90,19 +95,24 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
     }
 
     override fun onSearchResult(searchArticleResp: SearchArticleResp) {
-        if (page ==1){
+        if (page == 1) {
             mSearchData.clear()
             mSearchData.addAll(searchArticleResp.datas)
             mSearchAdapter.setNewData(mSearchData)
             mSearchSmartRefresh.finishRefresh()
-        }else{
+        } else {
             mSearchData.addAll(searchArticleResp.datas)
             mSearchAdapter.addData(mSearchData)
             mSearchSmartRefresh.finishLoadMore()
         }
         page++
-        if (page>searchArticleResp.pageCount){
+        if (page >= searchArticleResp.pageCount) {
             mSearchSmartRefresh.setEnableLoadMore(false)
+            if (mSearchAdapter.footerLayoutCount<=0)
+                mSearchAdapter.addFooterView(View.inflate(this,R.layout.item_not_more_data,null))
+        }else{
+            if (mSearchAdapter.footerLayoutCount>0)
+                mSearchAdapter.removeAllFooterView()
         }
     }
 
@@ -115,12 +125,12 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(),SearchView, OnLoadMore
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter.getSearchListData(page,keyStr)
+        mPresenter.getSearchListData(page, keyStr)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         mSearchSmartRefresh.setEnableLoadMore(true)
-        mPresenter.getSearchListData(page,keyStr)
+        mPresenter.getSearchListData(page, keyStr)
     }
 
     override fun onLikeInNetClick(view: View, id: Int) {

@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -20,6 +21,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.common.AppManager
 import com.foxcr.base.common.BaseConstant
+import com.foxcr.base.common.BaseConstant.Companion.ISNIGHT
 import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.activity.BaseMvpActivity
@@ -151,6 +153,18 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
                         },300)
                     }
                 })
+        }
+
+        mMoonTv.setOnClickListener {
+            if (SPUtil.getBoolean(ISNIGHT)){
+                SPUtil.putBoolean(ISNIGHT,false)
+                //设置为夜间模式
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }else{
+                SPUtil.putBoolean(ISNIGHT,true)
+                //设置为日间模式
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
         }
 
         mQuitTv.setOnClickListener {

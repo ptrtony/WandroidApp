@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#3d3d3d</color>
-    <color name="colorPrimaryDark">#03a9f4</color>
-    <color name="colorAccent">#03a9f4</color>
+    <color name="colorPrimary">#212121</color>
+    <!--状态栏的颜色-->
+    <color name="colorPrimaryDark">#000000</color>
+    <!--控件的选中颜色，即checked或selected状态的颜色。-->
+    <color name="colorAccent">#212121</color>
+<!--    <color name="xiantiao">#3C3C3C</color>-->
+<!--    <color name="common_touch_bg">#3C3C3C</color>-->
+    <!--通用背景色-->
+    <color name="common_blue">#333333</color>
+<!--    &lt;!&ndash;通用一级标题的颜色&ndash;&gt;-->
+<!--    <color name="common_h1">#999999</color>-->
+<!--    &lt;!&ndash;通用二级标题的颜色&ndash;&gt;-->
+<!--    <color name="common_h2">#666666</color>-->
+<!--    &lt;!&ndash;通用三级标题的颜色&ndash;&gt;-->
+<!--    <color name="common_h3">#999999</color>-->
+<!--    &lt;!&ndash;通用分割线细&ndash;&gt;-->
+<!--    <color name="common_divider_narrow">#232323</color>-->
+    <!--通用分割线粗-->
+<!--    <color name="common_divider">#333333</color>-->
+<!--    <color name="colorPrimary">#3d3d3d</color>-->
+<!--    <color name="colorPrimaryDark">#03a9f4</color>-->
+<!--    <color name="colorAccent">#03a9f4</color>-->
     <color name="common_bg">#f5f5f5</color>
     <color name="common_black">#000000</color>
-    <color name="common_blue">#03a9f4</color>
+<!--    <color name="common_blue">#03a9f4</color>-->
     <color name="common_blue_dark">#0288d1</color>
     <color name="common_blue_light">#039be5</color>
     <color name="common_disable">#d9d9d9</color>
     <color name="common_divider">#d4d4d4</color>
     <color name="common_gray">#dddddd</color>
+    <color name="common_gray_light">#dddddd</color>
     <color name="common_purple">#d500f9</color>
     <color name="common_red">#f11919</color>
     <color name="common_white">#666666</color>
     <color name="common_yellow">#fe9c2f</color>
-
     <color name="text_light_normal">#FFFFFF</color>
     <color name="text_light_dark">#FFFFFF</color>
     <color name="text_normal">#FFFFFF</color>

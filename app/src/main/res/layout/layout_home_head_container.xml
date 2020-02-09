@@ -11,7 +11,8 @@
         android:id="@+id/mHomeNewArticleRg"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/common_white">
 
         <RadioButton
             android:id="@+id/mHomeNewBlogRb"
