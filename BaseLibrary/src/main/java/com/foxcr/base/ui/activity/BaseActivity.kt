@@ -2,6 +2,8 @@ package com.foxcr.base.ui.activity
 
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
+import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import com.foxcr.base.R
 import com.foxcr.base.common.AppManager
@@ -70,5 +72,11 @@ open abstract class BaseActivity : RxAppCompatActivity() {
         val timeD = time - lastClickTime
         lastClickTime = time
         return timeD <= 300
+    }
+
+
+    fun getRootView():View{
+        val content = findViewById<FrameLayout>(android.R.id.content)
+        return content.getChildAt(0)
     }
 }

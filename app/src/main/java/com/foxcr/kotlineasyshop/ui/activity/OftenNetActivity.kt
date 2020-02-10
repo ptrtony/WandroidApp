@@ -73,5 +73,6 @@ class OftenNetActivity : BaseMvpActivity<OftenNetPresenter>(), OftenNetView {
             datas.addAll(oftenNetDatas)
             mTagAdapter.setNewData(datas)
         }
+
     }
 }

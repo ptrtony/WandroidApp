@@ -1,5 +1,6 @@
 package com.foxcr.kotlineasyshop.ui.activity
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -27,7 +28,7 @@ class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(), CoinRankView, OnR
     private lateinit var mCoinRankHeaderBar: HeaderBar
     private lateinit var mCoinRankSrl: SmartRefreshLayout
     private lateinit var mCoinRankRl: RecyclerView
-    private var page = 1
+    private var page = 0
 
     private var mCoinRankData: MutableList<CoinRankListResp.DatasBean> = mutableListOf()
     private val mCoinRankAdapter: CoinRankAdapter by lazy {
@@ -86,10 +87,10 @@ class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(), CoinRankView, OnR
     }
 
     override fun onCoinBankResult(coinRankListResp: CoinRankListResp) {
-        if (page == 1 && coinRankListResp.datas.size <= 0) {
+        if (page == 0 && coinRankListResp.datas.size <= 0) {
             mCoinRankAdapter.emptyView = emptyView()
         }
-        if (page == 1) {
+        if (page == 0) {
             mCoinRankData.clear()
             mCoinRankData.addAll(coinRankListResp.datas)
             mCoinRankAdapter.setNewData(mCoinRankData)
@@ -100,8 +101,13 @@ class CoinRankActivity : BaseMvpActivity<CoinRankPresenter>(), CoinRankView, OnR
             mCoinRankSrl.finishLoadMore()
         }
         page++
-        if (page > coinRankListResp.pageCount) {
+        if (page >= coinRankListResp.pageCount) {
             mCoinRankSrl.setEnableLoadMore(false)
+            if (mCoinRankAdapter.footerLayoutCount<=0)
+            mCoinRankAdapter.addFooterView(View.inflate(this,R.layout.item_not_more_data, null))
+        }else{
+            if (mCoinRankAdapter.footerLayoutCount>0)
+                mCoinRankAdapter.removeAllFooterView()
         }
     }
 }

@@ -137,5 +137,6 @@ class SquareFragment : BaseMvpLazyFragment<SquarePresenter>(), OnLoadMoreListene
         mSquareSrl.postDelayed({
             mSquareSrl.autoRefresh()
         }, 500)
+
     }
 }

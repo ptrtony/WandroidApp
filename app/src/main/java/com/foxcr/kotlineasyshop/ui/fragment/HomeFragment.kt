@@ -142,7 +142,12 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
         }
         page++
         if (page > homeArticleResp.pageCount) {
+            if (mHomeArticleAdapter.footerLayoutCount <= 0)
+                mHomeArticleAdapter.addFooterView(footerView())
             mHomeSmartRefresh.setEnableLoadMore(false)
+        } else {
+            if (mHomeArticleAdapter.footerLayoutCount > 0)
+                mHomeArticleAdapter.removeAllFooterView()
         }
     }
 
@@ -283,6 +288,7 @@ class HomeFragment : BaseMvpLazyFragment<HomePresenter>(), OnLoadMoreListener, H
     override fun onError(errorMsg: String) {
         super.onError(errorMsg)
         mHomeSmartRefresh.finishRefresh()
+
     }
 
 }

@@ -28,9 +28,9 @@ class SearchAdapter constructor(articleDatas: MutableList<SearchArticleResp.Data
         R.layout.item_home_article,
         articleDatas
     ) {
-    private var mTagData : MutableList<SearchArticleResp.DatasBean.TagsBean> = mutableListOf()
-    private val mTagAdapter:SearchTagAdapter by lazy {
-        SearchTagAdapter(mContext,mTagData)
+    private var mTagData: MutableList<SearchArticleResp.DatasBean.TagsBean> = mutableListOf()
+    private val mTagAdapter: SearchTagAdapter by lazy {
+        SearchTagAdapter(mContext, mTagData)
     }
 
     class ArticleListViewHolder constructor(view: View) : BaseViewHolder(view) {
@@ -39,9 +39,9 @@ class SearchAdapter constructor(articleDatas: MutableList<SearchArticleResp.Data
         val mCategoryTv: TextView = view.findViewById(R.id.mCategoryTv)
         val mTimeTv: TextView = view.findViewById(R.id.mTimeTv)
         val mLikeIv: ImageView = view.findViewById(R.id.mLikeIv)
-        val mTagFlowL:TagFlowLayout = view.findViewById(R.id.mTagFlowL)
+        val mTagFlowL: TagFlowLayout = view.findViewById(R.id.mTagFlowL)
         @SuppressLint("SetTextI18n")
-        fun dataBinding(mContext: Context, item: SearchArticleResp.DatasBean){
+        fun dataBinding(mContext: Context, item: SearchArticleResp.DatasBean) {
             mTitleTv.text = item.title
             if (item.author.isNotEmpty()) {
                 val authorHtml = StringBuilder()
@@ -73,13 +73,20 @@ class SearchAdapter constructor(articleDatas: MutableList<SearchArticleResp.Data
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun convert(helper: ArticleListViewHolder, item: SearchArticleResp.DatasBean) {
 
-        helper.dataBinding(mContext,item)
+        helper.dataBinding(mContext, item)
         helper.mTagFlowL.adapter = mTagAdapter
         mTagData.clear()
         mTagData.addAll(item.tags)
         mTagAdapter.setNewData(mTagData)
         helper.mLikeIv.setOnClickListener {
-            if (SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()||SPUtil.getString(BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty()){
+            if (SPUtil.getString(
+                    BaseConstant.LOGINUSERNAME,
+                    ""
+                ).isNullOrEmpty() || SPUtil.getString(
+                    BaseConstant.LOGINUSERPASSWORD,
+                    ""
+                ).isNullOrEmpty()
+            ) {
                 ARouter.getInstance().build("/userCenter/login").greenChannel().navigation()
                 return@setOnClickListener
             }
@@ -93,11 +100,11 @@ class SearchAdapter constructor(articleDatas: MutableList<SearchArticleResp.Data
 
                 } else {
                     helper.mLikeIv.setImageResource(R.mipmap.icon_like)
-                    if (item.link.isNullOrEmpty()) {
-                        onLikeInNetClick(helper.mLikeIv,item.id)
-                    }else{
-                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
-                    }
+//                    if (item.link.isNullOrEmpty()) {
+                    onLikeInNetClick(helper.mLikeIv, item.id)
+//                    }else{
+//                        onLikeOutNetClick(helper.mLikeIv,item.title,item.author,item.link)
+//                    }
                 }
                 item.collect = !item.collect
             }
