@@ -25,6 +25,7 @@ import com.foxcr.base.common.BaseConstant.Companion.ISNIGHT
 import com.foxcr.base.common.EasyNavigationCallback
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ui.activity.BaseMvpActivity
+import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.SPUtil
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.HeaderBar
@@ -91,6 +92,9 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
         mOftenNetTv = navHeaderView.findViewById(R.id.mOftenNetTv)
         mMoonTv = navHeaderView.findViewById(R.id.mMoonTv)
         mQuitTv = navHeaderView.findViewById(R.id.mQuitTv)
+
+        setDayOrNightMode()
+
         mOriginCodeTv.setOnClickListener {
             ARouter.getInstance()
                 .build("/easyshop/web")
@@ -243,6 +247,24 @@ class MainActivity : BaseMvpActivity<MainPresenter>(), MainView,
             mPresenter.getUserInfoCoinData()
         }
 
+    }
+
+    /**
+     * 设置夜间还是日间模式的文字和icon
+     */
+    private fun setDayOrNightMode() {
+        if (SPUtil.getBoolean(ISNIGHT)) {
+            mMoonTv.text = "夜间模式"
+            val moonIcon = resources.getDrawable(R.mipmap.icon_moon)
+            moonIcon.setBounds(0, 0, moonIcon.intrinsicWidth, moonIcon.intrinsicHeight)
+            mMoonTv.setCompoundDrawables(moonIcon, null, null, null)
+        } else {
+            mMoonTv.text = "日间模式"
+            val sunIcon = resources.getDrawable(R.mipmap.icon_sun)
+            sunIcon.setBounds(0, 0, sunIcon.intrinsicWidth, sunIcon.intrinsicHeight)
+            mMoonTv.setCompoundDrawables(sunIcon, null, null, null)
+        }
+        mMoonTv.compoundDrawablePadding = DisplayUtils.dp2px(5f)
     }
 
     override fun initActivityComponent() {

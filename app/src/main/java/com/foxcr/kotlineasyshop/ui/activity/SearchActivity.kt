@@ -6,6 +6,8 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.hideKeyboard
 import com.foxcr.base.ui.activity.BaseMvpActivity
@@ -92,6 +94,12 @@ class SearchActivity : BaseMvpActivity<SearchPresenter>(), SearchView, OnLoadMor
         }
 
         mSearchAdapter.setOnLikeClickListener(this)
+        mSearchAdapter.setOnItemClickListener { adapter, view, position ->
+            ARouter.getInstance()
+                .build("/easyshop/web")
+                .withString("url",mSearchData[position].link)
+                .navigation()
+        }
     }
 
     override fun onSearchResult(searchArticleResp: SearchArticleResp) {

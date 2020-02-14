@@ -143,11 +143,11 @@ class HomeArticleAdapter constructor(data:List<HomeArticleResp.DatasBean>) : Bas
 
                         } else {
                             mLikeIv.setImageResource(R.mipmap.icon_like)
-                            if (item.link.isNullOrEmpty()) {
+//                            if (item.link.isNullOrEmpty()) {
                                 onLikeInNetClick(mLikeIv,item.id)
-                            }else{
-                                onLikeOutNetClick(mLikeIv,item.title,item.author,item.link)
-                            }
+//                            }else{
+//                                onLikeOutNetClick(mLikeIv,item.title,item.author,item.link)
+//                            }
                         }
                         item.collect = !item.collect
                     }

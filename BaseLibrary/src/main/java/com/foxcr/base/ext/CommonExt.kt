@@ -1,12 +1,10 @@
 package com.foxcr.base.ext
-import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import com.foxcr.base.common.DefaultTextWatcher
-import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.data.protocal.BaseResp
 import com.foxcr.base.presenter.view.BaseView
 import com.foxcr.base.rx.BaseException
