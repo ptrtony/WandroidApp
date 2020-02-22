@@ -10,7 +10,7 @@ import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.WxArticleAdapter
 import com.foxcr.kotlineasyshop.data.protocal.WxArticleListResp
@@ -22,7 +22,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import kotlinx.android.synthetic.main.item_home_article_or_project.*
 
 class WxArticleFragment : BaseMvpLazyFragment<WxArticleListPresenter>(), WxArticleListView,
     OnRefreshListener,

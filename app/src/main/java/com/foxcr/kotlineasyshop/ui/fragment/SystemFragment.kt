@@ -11,7 +11,7 @@ import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.CategorySystemOneAdapter
 import com.foxcr.kotlineasyshop.adapter.CategorySystemTwoAdapter

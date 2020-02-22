@@ -9,10 +9,9 @@ import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.ProjectAdapter
-import com.foxcr.kotlineasyshop.data.protocal.HomeArticleProjectListResp
 import com.foxcr.kotlineasyshop.data.protocal.HomeArticleResp
 import com.foxcr.kotlineasyshop.injection.component.DaggerProjectComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule

@@ -12,7 +12,7 @@ import com.foxcr.base.injection.module.ActivityModule
 import com.foxcr.base.injection.module.LifecycleProvideModule
 import com.trello.rxlifecycle3.components.support.RxFragment
 
-open abstract class BaseFragment : RxFragment(){
+open abstract class  BaseFragment : RxFragment(){
     lateinit var activityComponent: ActivityComponent
     override fun onCreateView(
         inflater: LayoutInflater,

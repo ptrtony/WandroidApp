@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.foxcr.base.common.BaseConstant
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.ext.hideKeyboard
 import com.foxcr.base.ui.activity.BaseMvpActivity
@@ -15,7 +14,7 @@ import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.HeaderBar
 import com.foxcr.base.widgets.OnLikeClickListener
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.SearchAdapter

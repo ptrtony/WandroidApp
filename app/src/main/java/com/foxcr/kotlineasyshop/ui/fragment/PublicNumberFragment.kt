@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.foxcr.base.ext.hideKeyboard
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.base.widgets.recyclerview.CenterLayoutManager
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.WxArticleChapterAdapter

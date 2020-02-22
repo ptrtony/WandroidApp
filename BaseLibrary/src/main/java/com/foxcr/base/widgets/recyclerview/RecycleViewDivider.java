@@ -1,4 +1,4 @@
-package com.foxcr.base.widgets;
+package com.foxcr.base.widgets.recyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;

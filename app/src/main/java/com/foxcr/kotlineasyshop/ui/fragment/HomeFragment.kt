@@ -3,7 +3,6 @@ package com.foxcr.kotlineasyshop.ui.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
@@ -13,10 +12,7 @@ import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.utils.GlideUtils
 import com.foxcr.base.utils.ToastUtils
 import com.foxcr.base.widgets.OnLikeClickListener
-import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener
-import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWBLOGTYPE
-import com.foxcr.base.widgets.OnRefreshOrLoadMoreListener.Companion.NEWPROJECT
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.base.widgets.slideview.SlidingPlayViewWithDot
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.ArticleEnum
@@ -31,8 +27,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.item_home_article_project.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

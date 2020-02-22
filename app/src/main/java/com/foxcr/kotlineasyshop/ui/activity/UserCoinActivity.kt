@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.HeaderBar
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.UserCoinAdapter
@@ -31,7 +31,7 @@ class UserCoinActivity : BaseMvpActivity<UserCoinPresenter>(), UserCoinView, OnR
     private lateinit var mCoinHeaderBar: HeaderBar
     private lateinit var mCoinSrl: SmartRefreshLayout
     private lateinit var mCoinRl: RecyclerView
-    private var page = 1
+    private var page = 0
     override fun initActivityComponent() {
         DaggerUserCoinComponent.builder().activityComponent(activityComponent)
             .homeModule(HomeModule()).build().inject(this)
@@ -75,11 +75,11 @@ class UserCoinActivity : BaseMvpActivity<UserCoinPresenter>(), UserCoinView, OnR
     }
 
     override fun onUserCoinListResult(lgCoinListResp: LgCoinListResp) {
-        if (page == 1 && lgCoinListResp.datas.size <= 0) {
+        if (page == 0 && lgCoinListResp.datas.size <= 0) {
             mUserCoinAdapter.emptyView = emptyView()
         }
 
-        if (page == 1) {
+        if (page == 0) {
             mCoinListData.clear()
             mCoinListData.addAll(lgCoinListResp.datas)
             mUserCoinAdapter.setNewData(mCoinListData)
@@ -108,7 +108,7 @@ class UserCoinActivity : BaseMvpActivity<UserCoinPresenter>(), UserCoinView, OnR
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
+        page = 0
         mCoinSrl.setEnableLoadMore(true)
         mPresenter.getUserCoinListData(page)
     }

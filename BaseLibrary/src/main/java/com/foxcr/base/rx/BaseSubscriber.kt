@@ -1,6 +1,5 @@
 package com.foxcr.base.rx
 
-import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.data.protocal.BaseNoneResponseResult
 import com.foxcr.base.data.protocal.BaseResp
 import io.reactivex.Observable

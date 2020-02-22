@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.foxcr.base.ui.activity.BaseMvpActivity
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.HeaderBar
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.base.widgets.statusbar.StatusBarUtils
 import com.foxcr.kotlineasyshop.R
 import com.foxcr.kotlineasyshop.adapter.CoinRankAdapter

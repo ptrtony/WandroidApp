@@ -9,7 +9,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.foxcr.base.ui.fragment.BaseMvpLazyFragment
 import com.foxcr.base.utils.DisplayUtils
 import com.foxcr.base.widgets.LogUtils
-import com.foxcr.base.widgets.RecycleViewDivider
+import com.foxcr.base.widgets.recyclerview.RecycleViewDivider
 import com.foxcr.base.widgets.recyclerview.CenterLayoutManager
 import com.foxcr.base.widgets.sticky.StickyItemDecoration
 import com.foxcr.kotlineasyshop.R
@@ -21,7 +21,6 @@ import com.foxcr.kotlineasyshop.injection.component.DaggerNavigationComponent
 import com.foxcr.kotlineasyshop.injection.module.HomeModule
 import com.foxcr.kotlineasyshop.presenter.NavigationPresenter
 import com.foxcr.kotlineasyshop.presenter.view.NavigationView
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class NavigationFragment : BaseMvpLazyFragment<NavigationPresenter>(), NavigationView,

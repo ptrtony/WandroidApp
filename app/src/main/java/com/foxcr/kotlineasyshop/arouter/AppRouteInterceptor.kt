@@ -12,7 +12,6 @@ import com.foxcr.base.utils.SPUtil
 @Interceptor(priority = 8,name = "appInterceptor")
 class AppRouteInterceptor : IInterceptor{
     override fun process(postcard: Postcard?, callback: InterceptorCallback?) {
-        callback?.onContinue(postcard)
         if (!(SPUtil.getString(BaseConstant.LOGINUSERNAME,"").isNullOrEmpty()
             && SPUtil.getString(BaseConstant.LOGINUSERPASSWORD,"").isNullOrEmpty())){
             callback?.onContinue(postcard)
